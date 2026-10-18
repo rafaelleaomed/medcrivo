@@ -25,17 +25,9 @@ import {
   TrendingTopic,
 } from "@/data/medicalSpecialtiesData";
 
-export interface DoctorProfile {
-  name: string;
-  specialty: string;
-  crm: string;
-  rqe: string;
-  instagram: string;
-  tiktok: string;
-  youtube: string;
-  bookingLink: string;
-  interests: string[];
-}
+import { DEFAULT_BRAND, EMPTY_PROFILE, councilLabel, type DoctorProfile } from "@/lib/profile";
+
+export type { DoctorProfile } from "@/lib/profile";
 
 interface WelcomeBoardProps {
   isOpen: boolean;
@@ -50,9 +42,12 @@ export function WelcomeBoard({
   onSave,
   initialProfile,
 }: WelcomeBoardProps) {
-  const [name, setName] = useState(initialProfile?.name || "Lucas Carvalho");
-  const [crm, setCrm] = useState(initialProfile?.crm || "CRM/SP 198420");
-  const [rqe, setRqe] = useState(initialProfile?.rqe || "89412");
+  const [name, setName] = useState(initialProfile?.name || "");
+  const [crm, setCrm] = useState(initialProfile?.crm || "");
+  const [rqe, setRqe] = useState(initialProfile?.rqe || "");
+  const [profession, setProfession] = useState<DoctorProfile["profession"]>(initialProfile?.profession || "medico");
+  const [brandPrimary, setBrandPrimary] = useState(initialProfile?.brand?.primary || DEFAULT_BRAND.primary);
+  const [brandAccent, setBrandAccent] = useState(initialProfile?.brand?.accent || DEFAULT_BRAND.accent);
 
   // Especialidade e Seleção Inteligente
   const findInitialSpecialty = () => {
@@ -72,10 +67,10 @@ export function WelcomeBoard({
   const [isCustomSpecialty, setIsCustomSpecialty] = useState(false);
 
   // Redes Sociais
-  const [instagram, setInstagram] = useState(initialProfile?.instagram || "@dr.lucascarvalho");
-  const [tiktok, setTiktok] = useState(initialProfile?.tiktok || "@drlucas.saude");
-  const [youtube, setYoutube] = useState(initialProfile?.youtube || "youtube.com/@drlucascarvalho");
-  const [bookingLink, setBookingLink] = useState(initialProfile?.bookingLink || "https://wa.me/5511999998888");
+  const [instagram, setInstagram] = useState(initialProfile?.instagram || "");
+  const [tiktok, setTiktok] = useState(initialProfile?.tiktok || "");
+  const [youtube, setYoutube] = useState(initialProfile?.youtube || "");
+  const [bookingLink, setBookingLink] = useState(initialProfile?.bookingLink || "");
 
   // Temas Selecionados pelo Usuário
   const [interests, setInterests] = useState<string[]>(
@@ -145,7 +140,10 @@ export function WelcomeBoard({
   const handleSave = () => {
     const finalSpecialty = isCustomSpecialty ? customSpecialtyName : selectedSpecialty.name;
     const profile: DoctorProfile = {
+      ...EMPTY_PROFILE,
+      ...initialProfile,
       name,
+      profession,
       specialty: finalSpecialty,
       crm,
       rqe,
@@ -154,11 +152,9 @@ export function WelcomeBoard({
       youtube,
       bookingLink,
       interests,
+      brand: { ...DEFAULT_BRAND, ...initialProfile?.brand, primary: brandPrimary, accent: brandAccent },
+      onboarded: true,
     };
-    if (typeof window !== "undefined") {
-      localStorage.setItem("cuidaai_profile", JSON.stringify(profile));
-      localStorage.setItem("cuidaai_onboarded", "true");
-    }
     onSave(profile);
     onClose();
   };
@@ -205,6 +201,32 @@ export function WelcomeBoard({
                 <ShieldCheck className="w-4 h-4" /> 1. Dados Profissionais (CFM 2.336/2023)
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    Profissão
+                  </label>
+                  <select
+                    value={profession}
+                    onChange={(e) => setProfession(e.target.value as DoctorProfile["profession"])}
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 focus:outline-none focus:border-teal-500 font-medium"
+                  >
+                    <option value="medico">Médico(a) — regras CFM</option>
+                    <option value="dentista">Cirurgião(ã)-dentista — regras CFO</option>
+                  </select>
+                </div>
+                <div>
+                  <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Cores da marca nos slides</span>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
+                      <input type="color" value={brandPrimary} onChange={(e) => setBrandPrimary(e.target.value)} aria-label="Cor principal" className="h-8 w-10 rounded border border-slate-200 dark:border-slate-700 bg-transparent" />
+                      Principal
+                    </label>
+                    <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
+                      <input type="color" value={brandAccent} onChange={(e) => setBrandAccent(e.target.value)} aria-label="Cor de destaque" className="h-8 w-10 rounded border border-slate-200 dark:border-slate-700 bg-transparent" />
+                      Destaque
+                    </label>
+                  </div>
+                </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     Nome Completo
@@ -255,13 +277,13 @@ export function WelcomeBoard({
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    CRM com UF
+                    {councilLabel({ profession })} com UF
                   </label>
                   <input
                     type="text"
                     value={crm}
                     onChange={(e) => setCrm(e.target.value)}
-                    placeholder="CRM/SP 000000"
+                    placeholder={`${councilLabel({ profession })}/SP 000000`}
                     className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 focus:outline-none focus:border-teal-500"
                   />
                 </div>

@@ -10,7 +10,7 @@ interface ExtractedLinkData {
   suggestedCitation: {
     journal: string;
     year: number;
-    doi: string;
+    doi?: string;
     takeaway: string;
   };
 }
@@ -157,7 +157,7 @@ export async function POST(req: NextRequest) {
     const suggestedCitation = {
       journal: journalName,
       year: currentYear,
-      doi: `10.1016/${domain.replace(/[^a-z0-9]/gi, "").slice(0, 8)}.${currentYear}`,
+      // Sem DOI: não temos como verificá-lo a partir da página.
       takeaway: description || `Dados clínicos e achados reportados por ${domain} sobre ${clinicalTopic}.`,
     };
 

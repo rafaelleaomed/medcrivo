@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const script = await VturbVideoScriptEngine.generateScript({
       specialty: specialty || "Medicina Clínica",
       topic: topic || "Saúde Integrativa",
-      scientificTakeaway: evidence[0]?.takeaway || "Estudo clínico evidenciando desfecho positivo.",
+      scientificTakeaway: evidence[0]?.takeaway || "",
       doctorName: doctorName || "Médico",
       crm: crm || "CRM/SP 000000",
     });
@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       audit,
       evidence,
       script,
-      viralityScore: Math.floor(Math.random() * 15) + 85, // Simula o score de viralidade (85-99)
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

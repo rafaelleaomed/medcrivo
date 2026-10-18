@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { FloatingHeader } from "@/components/FloatingHeader";
 import { LandingHome } from "@/components/LandingHome";
 import { WelcomeBoard, DoctorProfile } from "@/components/WelcomeBoard";
@@ -19,6 +20,35 @@ import { ScientificEvidence } from "@/lib/consensus";
 import { CarouselSlide } from "@/lib/carouselEngine";
 
 import { MEDICAL_SPECIALTIES, getSpecialtyById } from "@/data/medicalSpecialtiesData";
+import { EMPTY_PROFILE } from "@/lib/profile";
+import type { PostDraft } from "@/lib/content/schema";
+import { PostStudio, GenerationProgress, type JobProgress } from "@/components/PostStudio";
+
+const POLL_INTERVAL_MS = 1500;
+const POLL_TIMEOUT_MS = 5 * 60 * 1000;
+
+const TEMPLATE_LABELS: Record<string, string> = {
+  capa_noticia: "Capa / Gancho",
+  conteudo: "Conteúdo",
+  passo: "Passo a passo",
+  frase: "Reflexão",
+  lista: "Checklist",
+  cta: "Conclusão & CTA",
+};
+
+/** Converte o rascunho novo para o formato dos layouts clássicos do CarouselStudio. */
+function toLegacySlides(draft: PostDraft): CarouselSlide[] {
+  return draft.slides.map((s) => ({
+    number: s.number,
+    type: TEMPLATE_LABELS[s.template] ?? s.template,
+    badge: s.kicker,
+    headline: s.headline,
+    subtext: s.body,
+    bullets: s.items.length ? s.items : undefined,
+    imageUrl: s.imageUrl,
+    imagePrompt: s.imagePrompt || undefined,
+  }));
+}
 
 // Helper para calcular pautas dinâmicas baseadas nos interesses e especialidade do médico
 function getTrendingTopicsForInterests(interests: string[], specialtyName?: string) {
@@ -68,41 +98,46 @@ export default function CuidaAIStudioPage() {
   };
 
   // 2. PERFIL DO MÉDICO & WELCOME BOARD
-  const [doctorProfile, setDoctorProfile] = useState<DoctorProfile>({
-    name: "Lucas Carvalho",
-    specialty: "Cardiologia & Longevidade",
-    crm: "CRM/SP 198420",
-    rqe: "89412",
-    instagram: "@dr.lucascarvalho",
-    tiktok: "@drlucas.saude",
-    youtube: "youtube.com/@drlucascarvalho",
-    bookingLink: "https://wa.me/5511999998888",
-    interests: ["Saúde Cardiovascular", "Longevidade Saudável", "Esteatose Hepática & Metabolismo"],
-  });
-
+  const router = useRouter();
+  const [doctorProfile, setDoctorProfile] = useState<DoctorProfile>(EMPTY_PROFILE);
+  const [storeMode, setStoreMode] = useState<"supabase" | "local" | null>(null);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState<boolean>(false);
 
-  // Carrega perfil persistido no localStorage ou abre o Welcome Board na 1ª visita
+  // Perfil vem do servidor (Supabase ou armazenamento local de desenvolvimento).
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedProfile = localStorage.getItem("cuidaai_profile");
-      const isOnboarded = localStorage.getItem("cuidaai_onboarded");
-
-      if (savedProfile) {
-        try {
-          const parsed = JSON.parse(savedProfile);
-          setDoctorProfile(parsed);
-        } catch (e) {
-          console.error("Erro ao carregar perfil:", e);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/profile");
+        if (res.status === 401) {
+          router.replace("/login");
+          return;
         }
+        const data = await res.json();
+        if (cancelled) return;
+        setStoreMode(data.mode ?? null);
+        if (data.profile) setDoctorProfile(data.profile);
+        if (!data.profile?.onboarded) setIsWelcomeOpen(true);
+      } catch (e) {
+        console.error("Erro ao carregar perfil:", e);
       }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
-      // Se for a primeira vez que o médico entra, abre o Welcome Board automaticamente
-      if (!isOnboarded) {
-        setIsWelcomeOpen(true);
-      }
-    }
-  }, []);
+  const saveProfile = async (profile: DoctorProfile) => {
+    setDoctorProfile(profile);
+    const res = await fetch("/api/profile", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(profile),
+    });
+    const data = await res.json().catch(() => null);
+    if (data?.success && data.profile) setDoctorProfile(data.profile);
+    else console.warn("Perfil não foi salvo:", data?.error ?? res.status);
+  };
 
   // 3. ESTADO DE NAVEGAÇÃO: INICIA NA PÁGINA INICIAL ("home")
   const [activeTab, setActiveTab] = useState<
@@ -168,16 +203,76 @@ export default function CuidaAIStudioPage() {
   });
 
   const [carouselSlides, setCarouselSlides] = useState<CarouselSlide[] | null>(null);
+  const [postDraft, setPostDraft] = useState<PostDraft | null>(null);
+  const [jobProgress, setJobProgress] = useState<JobProgress | null>(null);
+
+  /** Cria o job de carrossel e acompanha até concluir. */
+  const runCarouselJob = async (activeTopic: string, sourceContext?: string) => {
+    setJobProgress({ status: "queued", progress: 0, step: "Enviando pedido", error: null });
+    const res = await fetch("/api/jobs/carousel", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ topic: activeTopic, sourceContext, tone: doctorProfile.tone }),
+    });
+    const created = await res.json().catch(() => null);
+    if (!res.ok || !created?.jobId) {
+      setJobProgress({ status: "failed", progress: 0, step: "Falhou", error: created?.error ?? `HTTP ${res.status}` });
+      return;
+    }
+
+    const startedAt = Date.now();
+    while (Date.now() - startedAt < POLL_TIMEOUT_MS) {
+      await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
+      const poll = await fetch(`/api/jobs/${created.jobId}`).then((r) => r.json()).catch(() => null);
+      if (!poll?.success) continue;
+      setJobProgress(poll.job);
+      if (poll.job.status === "failed") return;
+      if (poll.job.status === "done" && poll.post) {
+        const draft: PostDraft = poll.post.draft;
+        setPostDraft(draft);
+        setCarouselSlides(toLegacySlides(draft));
+        setAudit({
+          isCompliant: draft.audit.isApproved,
+          score: draft.audit.score,
+          issues: draft.audit.infractions.map((i) => i.reason),
+          detectedTerms: draft.audit.infractions.map((i) => i.detectedText),
+          suggestions: draft.audit.infractions.map((i) => i.suggestion),
+          infractions: draft.audit.infractions,
+          sanitizedText: draft.audit.sanitizedText,
+          timestamp: new Date().toISOString(),
+        });
+        setEvidence(
+          draft.evidence.map((p) => ({
+            title: p.title,
+            journal: p.journal,
+            year: p.year,
+            doi: p.doi,
+            takeaway: p.takeaway,
+            evidenceLevel: p.studyType,
+            authors: p.authors,
+            url: p.url,
+            citationAbnt: p.citationAbnt,
+          })),
+        );
+        setPostTitle(draft.slides[0]?.headline ?? draft.topic);
+        setPostHook(draft.slides[0]?.body ?? "");
+        setJobProgress(null);
+        return;
+      }
+    }
+    setJobProgress({ status: "failed", progress: 0, step: "Falhou", error: "Tempo esgotado aguardando a geração." });
+  };
 
   // Função disparada ao clicar no botão Gerar Conteúdo (com suporte a temas ou links de notícias)
   const handleGenerate = async () => {
     setIsLoading(true);
     setVariationSeed((prev) => prev + 1);
+    setActiveTab("carousel");
     try {
       let activeTopic = topic.trim();
-      let extractedCitation: any = null;
+      let sourceContext: string | undefined;
 
-      // 1. Detecção e Extração Automática de Artigo ou Notícia via Link
+      // 1. Link de notícia/artigo: extrai título e resumo para servir de contexto
       if (activeTopic.startsWith("http://") || activeTopic.startsWith("https://")) {
         try {
           const extractRes = await fetch("/api/extract-link", {
@@ -187,8 +282,9 @@ export default function CuidaAIStudioPage() {
           });
           const extractData = await extractRes.json();
           if (extractData.success && extractData.data) {
-            activeTopic = extractData.data.clinicalTopic || extractData.data.title;
-            extractedCitation = extractData.data.suggestedCitation;
+            const d = extractData.data;
+            sourceContext = [d.title, d.description, `Fonte: ${d.url}`].filter(Boolean).join("\n");
+            activeTopic = d.clinicalTopic || d.title;
             setTopic(activeTopic);
           }
         } catch (linkErr) {
@@ -196,8 +292,8 @@ export default function CuidaAIStudioPage() {
         }
       }
 
-      // 2. Dispara a geração de conteúdo clínico completo
-      const res = await fetch("/api/generate", {
+      // 2. Roteiro de vídeo em paralelo (não bloqueia o carrossel)
+      const scriptPromise = fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -206,55 +302,16 @@ export default function CuidaAIStudioPage() {
           doctorName: doctorProfile.name,
           crm: doctorProfile.crm,
         }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        if (data.audit) setAudit(data.audit);
-        if (extractedCitation) {
-          setEvidence([
-            {
-              title: extractedCitation.takeaway || activeTopic,
-              journal: extractedCitation.journal,
-              year: extractedCitation.year,
-              doi: extractedCitation.doi,
-              takeaway: extractedCitation.takeaway,
-              evidenceLevel: "Notícia Indexada / Relato Clínico",
-            },
-            ...(data.evidence || []),
-          ]);
-        } else if (data.evidence) {
-          setEvidence(data.evidence);
-        }
-        if (data.script) setVideoScript(data.script);
-        if (data.viralityScore) setViralityScore(data.viralityScore);
-        if (data.script?.title) setPostTitle(data.script.title);
-        if (data.script?.hook3s?.speech) setPostHook(data.script.hook3s.speech);
-      }
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.success && data.script) setVideoScript(data.script);
+        })
+        .catch((e) => console.warn("Roteiro de vídeo indisponível:", e));
 
-      // 3. Dispara a geração de carrossel de IA contextual
-      try {
-        const carouselRes = await fetch("/api/generate-carousel", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            topic: activeTopic,
-            specialty: doctorProfile.specialty,
-            doctorName: doctorProfile.name,
-            crm: doctorProfile.crm,
-            rqe: doctorProfile.rqe,
-            tone: "didatico",
-            goal: "saves",
-          }),
-        });
-        const carouselData = await carouselRes.json();
-        if (carouselData.success && carouselData.slides) {
-          setCarouselSlides(carouselData.slides);
-        }
-      } catch (carouselErr) {
-        console.warn("Falha na geração do carrossel por IA, usando heurística resiliente:", carouselErr);
-      }
-    } catch (e) {
-      console.warn("Usando heurística local inteligente:", e);
+      // 3. Carrossel pelo job assíncrono (roteiro IA -> Crivo -> evidências -> imagens)
+      await runCarouselJob(activeTopic, sourceContext);
+      await scriptPromise;
     } finally {
       setIsLoading(false);
     }
@@ -279,7 +336,7 @@ export default function CuidaAIStudioPage() {
         onClose={() => setIsWelcomeOpen(false)}
         initialProfile={doctorProfile}
         onSave={(newProfile) => {
-          setDoctorProfile(newProfile);
+          void saveProfile(newProfile);
         }}
       />
 
@@ -348,6 +405,21 @@ export default function CuidaAIStudioPage() {
         )}
 
         {/* ESTÚDIO DE CARROSSEL 4:5 */}
+        {activeTab === "carousel" && storeMode === "local" && (
+          <p className="mb-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 px-3 py-2 text-xs text-amber-900 dark:text-amber-200">
+            Modo local: dados salvos só nesta máquina (Supabase não configurado).
+          </p>
+        )}
+        {activeTab === "carousel" && jobProgress && (
+          <div className="mb-4">
+            <GenerationProgress job={jobProgress} />
+          </div>
+        )}
+        {activeTab === "carousel" && postDraft && (
+          <div className="mb-8">
+            <PostStudio draft={postDraft} profile={doctorProfile} />
+          </div>
+        )}
         {activeTab === "carousel" && (
           <CarouselStudio
             topic={topic}
