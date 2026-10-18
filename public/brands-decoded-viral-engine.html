@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máquina de Viralização Inteligente | Brands Decoded Clone Engine</title>
+  <!-- Google Fonts: Barlow Condensed & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            barlow: ['"Barlow Condensed"', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brandYellow: '#FFE600',
+            brandDark: '#0A0A0A',
+            brandCard: '#121212',
+            brandBorder: '#262626'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .font-barlow-condensed {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    /* Estilização para o slide em proporção 4:5 */
+    .slide-aspect-ratio {
+      aspect-ratio: 4 / 5;
+    }
+  </style>
+</head>
+<body class="bg-[#050505] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-[#FFE600] selection:text-black">
+
+  <!-- Header Superior -->
+  <header class="border-b border-brandBorder bg-brandDark/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="w-3 h-3 rounded-full bg-brandYellow animate-pulse"></span>
+      <div>
+        <h1 class="text-sm font-bold tracking-wider uppercase text-white font-barlow-condensed text-lg">MÁQUINA DE VIRALIZAÇÃO INTELIGENTE</h1>
+        <p class="text-xs text-slate-400">Clone do Sistema Brands Decoded &bull; Proporção 1080&times;1350 (4:5) &bull; 9 Slides</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="copyMasterPrompt()" class="text-xs bg-[#1A1A1A] hover:bg-[#252525] border border-brandBorder text-brandYellow font-semibold px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+        <span id="promptBtnText">Copiar Prompt Mestre p/ Claude</span>
+      </button>
+      <button onclick="downloadAllSlides()" class="text-xs bg-brandYellow hover:bg-[#ebd300] text-black font-bold px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-brandYellow/10">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Baixar Todos os 9 PNGs (1080x1350)
+      </button>
+    </div>
+  </header>
+
+  <!-- Painel de Customização Rápida -->
+  <div class="bg-brandDark border-b border-brandBorder px-6 py-4">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center gap-4 text-xs">
+      <span class="text-slate-400 font-semibold uppercase tracking-wider">Pauta Selecionada:</span>
+      <select id="pautaSelector" onchange="changePauta(this.value)" class="bg-[#181818] border border-brandBorder text-white rounded-md px-3 py-1.5 focus:outline-none focus:border-brandYellow">
+        <option value="esteatose">Saúde: Esteatose Hepática e Risco Cardíaco Silencioso</option>
+        <option value="nike">Marketing: Como a Nike Venceu sem Gastar em Publicidade Tradicional</option>
+        <option value="ozempic">Medicina: Ozempic e a Ilusão da Perda de Peso sem Músculo</option>
+        <option value="apple">Branding: A Psicologia Secreta das Embalagens da Apple</option>
+      </select>
+
+      <span class="text-slate-400 ml-4 font-semibold uppercase tracking-wider">Handle / Autor:</span>
+      <input type="text" id="handleInput" value="@brandsdecoded" oninput="updateHandle(this.value)" class="bg-[#181818] border border-brandBorder text-brandYellow rounded-md px-3 py-1.5 w-40 focus:outline-none focus:border-brandYellow font-mono">
+
+      <span class="text-slate-500 ml-auto">Algoritmo IG: Calibrado com 1.700 Posts</span>
+    </div>
+  </div>
+
+  <!-- Área Principal -->
+  <main class="max-w-6xl mx-auto px-6 py-8 flex-1 flex flex-col items-center">
+
+    <!-- Navegação de Slides -->
+    <div class="flex items-center justify-between w-full max-w-[480px] mb-4">
+      <button onclick="prevSlide()" class="p-2 rounded-lg bg-brandCard border border-brandBorder hover:border-brandYellow text-white transition-all disabled:opacity-30" id="btnPrev">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+      <div class="flex items-center gap-1.5" id="dotsContainer"></div>
+      <button onclick="nextSlide()" class="p-2 rounded-lg bg-brandCard border border-brandBorder hover:border-brandYellow text-white transition-all disabled:opacity-30" id="btnNext">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+
+    <!-- O Card 4:5 que Representa o Slide de 1080x1350px -->
+    <div class="w-full max-w-[480px] slide-aspect-ratio bg-[#0A0A0A] border border-[#222222] rounded-2xl shadow-2xl relative p-8 flex flex-col justify-between overflow-hidden" id="slidePreviewCard">
+      <!-- Elemento de Fundo / Grid Sutil -->
+      <div class="absolute inset-0 bg-[radial-gradient(#1c1c1c_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
+
+      <!-- Topo: Categoria + Contador -->
+      <div class="relative z-10 flex items-center justify-between">
+        <span id="slideBadge" class="text-[11px] font-bold tracking-widest uppercase px-3 py-1 bg-brandYellow/15 border border-brandYellow/40 text-brandYellow rounded-full font-barlow-condensed">
+          [ ESTUDO DE CASO ]
+        </span>
+        <span id="slideCounter" class="text-xs font-mono font-bold tracking-widest text-slate-400">
+          01/09
+        </span>
+      </div>
+
+      <!-- Meio: Conteúdo do Slide -->
+      <div class="relative z-10 flex-1 flex flex-col justify-center my-6" id="slideBody">
+        <h2 id="slideHeadline" class="text-3xl font-black font-barlow-condensed leading-[1.08] text-white uppercase tracking-tight mb-4">
+          O ERRO SILENCIOSO QUE A GORDURA NO FÍGADO ESCONDE DO SEU CORAÇÃO
+        </h2>
+        <p id="slideSubtext" class="text-sm text-slate-300 leading-relaxed font-normal">
+          Esteatose hepática não é um achado estético: entenda por que exames normais de rotina escondem o maior risco cardiovascular.
+        </p>
+        <!-- Elemento de Conteúdo Extra (Bullets ou Quotes) -->
+        <div id="slideExtra" class="mt-5 space-y-2.5"></div>
+      </div>
+
+      <!-- Rodapé: Assinatura + Indicador de Arraste -->
+      <div class="relative z-10 pt-4 border-t border-[#1C1C1C] flex items-center justify-between text-xs text-slate-400">
+        <span id="slideAuthor" class="font-mono text-slate-400 font-semibold tracking-wider">@brandsdecoded</span>
+        <span id="slideActionIndicator" class="flex items-center gap-1.5 text-brandYellow font-barlow-condensed font-bold tracking-wider text-sm">
+          ARRASTE PARA O LADO &rarr;
+        </span>
+      </div>
+    </div>
+
+    <!-- Botões de Ação do Slide -->
+    <div class="flex items-center gap-4 mt-6">
+      <button onclick="downloadCurrentSlide()" class="px-5 py-2.5 bg-[#161616] hover:bg-[#202020] border border-brandBorder hover:border-brandYellow text-white text-xs font-semibold rounded-lg flex items-center gap-2 transition-all">
+        <svg class="w-4 h-4 text-brandYellow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Baixar Slide Atual (PNG 1080&times;1350)
+      </button>
+      <button onclick="copySlideText()" class="px-5 py-2.5 bg-[#161616] hover:bg-[#202020] border border-brandBorder text-slate-300 text-xs font-semibold rounded-lg flex items-center gap-2 transition-all">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+        <span id="copyTextFeedback">Copiar Texto do Slide</span>
+      </button>
+    </div>
+
+    <!-- Legenda Pronta com Análise Estratégica -->
+    <div class="w-full max-w-2xl mt-12 bg-brandCard border border-brandBorder rounded-xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-white font-barlow-condensed flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brandYellow"></span>
+          Legenda Estratégica de Alto Salvamento
+        </h3>
+        <button onclick="copyCaption()" class="text-xs text-brandYellow hover:underline font-semibold" id="btnCopyCaption">
+          Copiar Legenda
+        </button>
+      </div>
+      <p id="captionContainer" class="text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-line bg-[#080808] p-4 rounded-lg border border-[#1c1c1c]"></p>
+    </div>
+
+  </main>
+
+  <!-- Canvas Oculto para Renderização em Resolução Real (1080x1350) -->
+  <canvas id="exportCanvas" width="1080" height="1350" class="hidden"></canvas>
+
+  <script>
+    // Pautas Virais Decodificadas (Estrutura de 9 Slides)
+    const DATASETS = {
+      esteatose: {
+        category: "SAÚDE & METABOLISMO",
+        slides: [
+          {
+            type: "hook",
+            headline: "O ERRO SILENCIOSO QUE A GORDURA NO FÍGADO ESCONDE DO SEU CORAÇÃO",
+            subtext: "Esteatose hepática não é achado estético ou 'normal da idade': entenda por que o novo consenso médico alerta para risco vascular severo.",
+            bullets: [],
+            action: "ARRASTE PARA O LADO &rarr;"
+          },
+          {
+            type: "myth",
+            headline: "90% DOS PACIENTES OUVEM QUE 'GRAU 1 NÃO PRECISA DE TRATAMENTO'",
+            subtext: "Esse é o maior erro da medicina preventiva moderna.",
+            bullets: [
+              "O parênquima do fígado não tem terminações nervosas de dor.",
+              "Enquanto você espera sintomas, o órgão descarrega citocinas inflamatórias nas artérias.",
+              "Grau 1 é a única janela onde a reversibilidade é de quase 100%."
+            ],
+            action: "CONTINUE LENDO &rarr;"
+          },
+          {
+            type: "mechanism",
+            headline: "O MECANISMO REAL: COMO O FÍGADO MACHUCA O SISTEMA CIRCULATÓRIO",
+            subtext: "Não é apenas acúmulo de gordura. O fígado esteatótico vira uma usina inflamatória que danifica o endotélio das artérias coronárias.",
+            bullets: [
+              "Liberação de lipoproteínas altamente aterogênicas no sangue.",
+              "Resistência à insulina tecidual que desgasta vasos capilares.",
+              "Risco 64% superior de infarto subclínico nos próximos 5 anos."
+            ],
+            action: "AS 4 REGRAS &rarr;"
+          },
+          {
+            type: "lesson1",
+            headline: "REGRA 01: EXAMES DE ENZIMAS NORMAIS NÃO SIGNIFICAM FÍGADO LIMPO",
+            subtext: "TGO e TGP normais no exame de sangue NÃO descartam esteatose inflamatória.",
+            bullets: [
+              "Mais de 40% das pessoas com esteatose grau 2 têm enzimas aparentemente perfeitas.",
+              "A ultrassonografia e a elastografia hepática revelam o que a bioquímica esconde.",
+              "Sempre investigue a resistência insulínica (HOMA-IR) e a ferritina."
+            ],
+            action: "REGRA 02 &rarr;"
+          },
+          {
+            type: "lesson2",
+            headline: "REGRA 02: A FARSA DOS CHÁS E PROTOCOLOS DE 'DETOX HEPÁTICO'",
+            subtext: "Chás milagrosos de internet não mobilizam triglicerídeos acumulados nos hepatócitos.",
+            bullets: [
+              "Pior: alguns compostos concentrados causam toxicidade hepática induzida por drogas (DILI).",
+              "O fígado é o seu próprio órgão de detox, ele não precisa de sucos milagrosos.",
+              "Ele precisa de corte na sobrecarga de frutose concentrada e carboidratos simples."
+            ],
+            action: "REGRA 03 &rarr;"
+          },
+          {
+            type: "lesson3",
+            headline: "REGRA 03: O TREINO DE FORÇA REVERTE MAIS GORDURA QUE O CARDIO ISOLADO",
+            subtext: "Músculo é um órgão endócrino e esponja metabólica de glicose.",
+            bullets: [
+              "Construir massa magra esvazia os depósitos de glicogênio e obriga o fígado a oxidar lípides.",
+              "Apenas 3 sessões de musculação por semana reduzem a esteatose mesmo sem grande perda de peso na balança.",
+              "Músculo protege o fígado."
+            ],
+            action: "REGRA 04 &rarr;"
+          },
+          {
+            type: "lesson4",
+            headline: "REGRA 04: A JANELA CRÍTICA DOS PRIMEIROS 6 MESES",
+            subtext: "Se você descobriu esteatose nos seus últimos exames, este é o momento de agir.",
+            bullets: [
+              "A cada ano com gordura inflamatória ativa, o risco de fibrose aumenta.",
+              "Com intervenção precisa em estilo de vida e sensibilidade insulínica, o fígado se regenera completamente.",
+              "Não adie a sua saúde vascular para quando já houver sintomas."
+            ],
+            action: "A CONCLUSÃO &rarr;"
+          },
+          {
+            type: "synthesis",
+            headline: "A GRANDE LIÇÃO QUE A MAIORIA SÓ APRENDE TARDE DEMAIS:",
+            subtext: "A saúde do seu coração não começa no peito. Ela começa no seu metabolismo silencioso. Cuidar do fígado é a forma mais barata e eficiente de evitar um evento coronariano.",
+            bullets: [],
+            action: "SALVE ESTE POST &rarr;"
+          },
+          {
+            type: "cta",
+            headline: "SALVE ESTE POST PARA CONSULTAR NO SEU PRÓXIMO CHECK-UP",
+            subtext: "O Instagram não vai te mostrar esse conteúdo de novo se você não salvar agora.",
+            bullets: [
+              "Clique no ícone da bandeirinha abaixo para salvar na sua pasta de saúde.",
+              "Envie no aviãozinho para alguém da sua família que fez exames recentes.",
+              "Deixe sua dúvida nos comentários que vou responder com base em evidências."
+            ],
+            action: "SALVE E COMPARTILHE &hearts;"
+          }
+        ],
+        caption: `Você fez exame de sangue, o TGO e TGP vieram normais, e você achou que estava tudo perfeito?\n\nCuidado. A esteatose hepática (gordura no fígado) é uma das condições mais silenciosas e subestimadas do consultório. A grande maioria das pessoas com grau 1 não sente absolutamente nada — até que o risco cardiovascular dispara.\n\nNeste carrossel, decodifiquei os 4 pilares científicos que todo paciente deveria saber antes que a esteatose evolua para fibrose.\n\nSalve este post para revisar antes do seu próximo check-up e compartilhe com quem precisa saber disso.\n\n#medicina #saude #esteatosehepatica #metabolismo #cardiologia #longevidade`
+      },
+      nike: {
+        category: "ESTUDO DE CASO & BRANDING",
+        slides: [
+          {
+            type: "hook",
+            headline: "COMO A NIKE DOMINOU O MUNDO QUASE SEM FALAR DE TÊNIS OU PRODUTO",
+            subtext: "A estratégia contracorrente de marketing que construiu uma das marcas mais valiosas da história.",
+            bullets: [],
+            action: "ARRASTE PARA O LADO &rarr;"
+          },
+          {
+            type: "myth",
+            headline: "AMADORES VENDEM AS CARACTERÍSTICAS TÉCNICAS. GÊNIOS VENDEM IDENTIDADE.",
+            subtext: "A maioria das marcas passa 90% do tempo falando de amortecimento, costura e tecido.",
+            bullets: [
+              "A Nike quase nunca menciona o solado de borracha nos seus maiores anúncios.",
+              "Eles nunca dizem por que o tênis deles é 10% melhor que o da Reebok.",
+              "Eles honram grandes atletas e o espírito humano."
+            ],
+            action: "CONTINUE LENDO &rarr;"
+          },
+          {
+            type: "mechanism",
+            headline: "O MECANISMO DE CONEXÃO LIMÍMBICA: A VENDA PELO SUBCONSCIENTE",
+            subtext: "Steve Jobs explicou isso em 1997: a melhor publicidade do planeta é aquela que celebra valores fundamentais.",
+            bullets: [
+              "O cérebro esquece especificações em 3 segundos.",
+              "Mas o cérebro ancora emoções e pertencimento por décadas.",
+              "Quando você compra Nike, você não está comprando calçado. Está comprando a sua própria determinação."
+            ],
+            action: "AS 4 LIÇÕES &rarr;"
+          },
+          {
+            type: "lesson1",
+            headline: "LIÇÃO 01: O CLIENTE É O HERÓI, A SUA MARCA É APENAS O GUIA",
+            subtext: "Marcas fracas tentam ser o Batman. Marcas bilionárias aceitam ser o Alfred.",
+            bullets: [
+              "A Nike nunca diz 'somos incríveis'.",
+              "A Nike diz: 'você é incrível, você consegue superar seus limites'.",
+              "Coloque os holofotes na transformação do seu público, nunca em si mesmo."
+            ],
+            action: "LIÇÃO 02 &rarr;"
+          },
+          {
+            type: "lesson2",
+            headline: "LIÇÃO 02: O PODER DE ESCOLHER UM INIMIGO CLARO",
+            subtext: "Grandes marcas unem tribos ao redor de uma luta comum.",
+            bullets: [
+              "O inimigo da Nike não é a Adidas.",
+              "O inimigo da Nike é a preguiça, a hesitação, a desculpa para não treinar.",
+              "Quando você define o inimigo comum do seu cliente, a lealdade vira inabalável."
+            ],
+            action: "LIÇÃO 03 &rarr;"
+          },
+          {
+            type: "lesson3",
+            headline: "LIÇÃO 03: SIMPLICIDADE RADICAL NOS SLOGANS",
+            subtext: "'Just Do It' tem apenas 3 palavras e sobrevive há décadas.",
+            bullets: [
+              "Se a sua mensagem precisa de parágrafos complexos para ser explicada, ela é fraca.",
+              "Clareza sempre bate sofisticação.",
+              "Reduza a proposta de valor do seu negócio a um único verbo de comando visceral."
+            ],
+            action: "LIÇÃO 04 &rarr;"
+          },
+          {
+            type: "lesson4",
+            headline: "LIÇÃO 04: COERÊNCIA VISUAL OBSESSIVA",
+            subtext: "Você reconhece um post ou anúncio da Nike em meio segundo sem ver o logo.",
+            bullets: [
+              "Tipografia condensada e imponente.",
+              "Fotografia crua, com suor, movimento e sombras dramáticas.",
+              "A consistência visual gera familiaridade, e a familiaridade gera confiança de compra."
+            ],
+            action: "A SÍNTESE &rarr;"
+          },
+          {
+            type: "synthesis",
+            headline: "O PRODUTO É A MOEDA DE TROCA. A MARCA É O MOTIVO PELO QUAL PAGAM 10X MAIS.",
+            subtext: "Commodities competem por preço. Marcas com narrativa dominam mercados e criam monopólios emocionais.",
+            bullets: [],
+            action: "SALVE ESTE POST &rarr;"
+          },
+          {
+            type: "cta",
+            headline: "GOSTOU DESTE ESTUDO DE CASO? SALVE PARA REVER NA SUA EMPRESA",
+            subtext: "Conteúdos profundos de branding assim não aparecem duas vezes no seu feed.",
+            bullets: [
+              "Clique na bandeirinha para salvar este carrossel.",
+              "Compartilhe com seu sócio ou equipe de marketing.",
+              "Qual marca você quer ver decodificada no próximo carrossel?"
+            ],
+            action: "SALVE E COMPARTILHE &hearts;"
+          }
+        ],
+        caption: `Por que você paga R$ 900 num par de tênis que custa R$ 60 para ser fabricado no Vietnã?\n\nA resposta não está na borracha. Está na psicologia do branding mais bem executado do último século.\n\nNeste carrossel, decodifiquei os 4 mecanismos que a Nike utilizou para transformar calçados em um símbolo universal de triunfo pessoal.\n\nSalve para aplicar no posicionamento do seu negócio e compartilhe com quem empreende.\n\n#marketing #branding #nike #negocios #estrategia #copywriting`
+      }
+    };
+
+    let currentDatasetKey = "esteatose";
+    let currentSlideIndex = 0;
+    let currentHandle = "@brandsdecoded";
+
+    function updateHandle(val) {
+      currentHandle = val || "@brandsdecoded";
+      document.getElementById("slideAuthor").innerText = currentHandle;
+    }
+
+    function changePauta(key) {
+      if (DATASETS[key]) {
+        currentDatasetKey = key;
+        currentSlideIndex = 0;
+        renderSlide();
+      } else {
+        alert("Pauta personalizada pronta para ser gerada via Claude!");
+      }
+    }
+
+    function renderDots() {
+      const dots = document.getElementById("dotsContainer");
+      dots.innerHTML = "";
+      const total = DATASETS[currentDatasetKey].slides.length;
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement("button");
+        dot.className = `w-2 h-2 rounded-full transition-all ${i === currentSlideIndex ? 'w-6 bg-brandYellow' : 'bg-[#2A2A2A] hover:bg-slate-500'}`;
+        dot.onclick = () => { currentSlideIndex = i; renderSlide(); };
+        dots.appendChild(dot);
+      }
+    }
+
+    function renderSlide() {
+      const data = DATASETS[currentDatasetKey];
+      const slide = data.slides[currentSlideIndex];
+      const total = data.slides.length;
+
+      document.getElementById("slideBadge").innerText = `[ ${data.category} ]`;
+      document.getElementById("slideCounter").innerText = `${String(currentSlideIndex + 1).padStart(2, '0')}/${String(total).padStart(2, '0')}`;
+      document.getElementById("slideHeadline").innerText = slide.headline;
+      document.getElementById("slideSubtext").innerText = slide.subtext;
+      document.getElementById("slideAuthor").innerText = currentHandle;
+      document.getElementById("slideActionIndicator").innerHTML = slide.action;
+
+      const extra = document.getElementById("slideExtra");
+      extra.innerHTML = "";
+      if (slide.bullets && slide.bullets.length > 0) {
+        slide.bullets.forEach((b, idx) => {
+          const item = document.createElement("div");
+          item.className = "flex items-start gap-2.5 bg-[#141414] border border-[#222222] p-2.5 rounded-lg";
+          item.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-brandYellow mt-1.5 shrink-0"></span><span class="text-xs text-slate-200 leading-snug">${b}</span>`;
+          extra.appendChild(item);
+        });
+      }
+
+      document.getElementById("btnPrev").disabled = currentSlideIndex === 0;
+      document.getElementById("btnNext").disabled = currentSlideIndex === total - 1;
+
+      document.getElementById("captionContainer").innerText = data.caption;
+      renderDots();
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < DATASETS[currentDatasetKey].slides.length - 1) {
+        currentSlideIndex++;
+        renderSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        renderSlide();
+      }
+    }
+
+    // Renderizador HTML5 Canvas para Resolução Real 1080x1350px
+    function drawSlideToCanvas(slideObj, category, slideNum, totalSlides, handle) {
+      const canvas = document.getElementById("exportCanvas");
+      const ctx = canvas.getContext("2d");
+      const width = 1080;
+      const height = 1350;
+
+      // 1. Fundo Dark
+      ctx.fillStyle = "#0A0A0A";
+      ctx.fillRect(0, 0, width, height);
+
+      // 2. Borda sutil
+      ctx.strokeStyle = "#202020";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(20, 20, width - 40, height - 40);
+
+      // 3. Grid de pontos sutis
+      ctx.fillStyle = "rgba(255, 255, 255, 0.03)";
+      for (let x = 60; x < width - 60; x += 40) {
+        for (let y = 60; y < height - 60; y += 40) {
+          ctx.beginPath();
+          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // 4. Header do Slide (Badge + Contador)
+      // Badge Retangular
+      ctx.fillStyle = "rgba(255, 230, 0, 0.12)";
+      ctx.fillRect(80, 80, 360, 50);
+      ctx.strokeStyle = "rgba(255, 230, 0, 0.5)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(80, 80, 360, 50);
+
+      ctx.fillStyle = "#FFE600";
+      ctx.font = "bold 24px 'Barlow Condensed', sans-serif";
+      ctx.fillText(`[ ${category} ]`, 105, 114);
+
+      // Contador 01/09
+      ctx.fillStyle = "#888888";
+      ctx.font = "bold 32px monospace";
+      ctx.textAlign = "right";
+      ctx.fillText(`${String(slideNum).padStart(2, '0')}/${String(totalSlides).padStart(2, '0')}`, width - 80, 114);
+      ctx.textAlign = "left";
+
+      // 5. Headline Principal em Barlow Condensed
+      ctx.fillStyle = "#FFFFFF";
+      ctx.font = "900 58px 'Barlow Condensed', sans-serif";
+      
+      const words = slideObj.headline.split(" ");
+      let line = "";
+      let y = 280;
+      const lineHeight = 66;
+      const maxWidth = width - 160;
+
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          ctx.fillText(line, 80, y);
+          line = words[n] + " ";
+          y += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 80, y);
+
+      // Linha divisória amarela fina
+      y += 30;
+      ctx.fillStyle = "#FFE600";
+      ctx.fillRect(80, y, 120, 6);
+      y += 50;
+
+      // 6. Subtítulo Explicativo (Inter / Sans)
+      ctx.fillStyle = "#D1D5DB";
+      ctx.font = "400 32px 'Inter', sans-serif";
+      const subWords = slideObj.subtext.split(" ");
+      let subLine = "";
+      const subLineHeight = 46;
+
+      for (let n = 0; n < subWords.length; n++) {
+        const testLine = subLine + subWords[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && n > 0) {
+          ctx.fillText(subLine, 80, y);
+          subLine = subWords[n] + " ";
+          y += subLineHeight;
+        } else {
+          subLine = testLine;
+        }
+      }
+      ctx.fillText(subLine, 80, y);
+      y += 60;
+
+      // 7. Cards de Bullets se existirem
+      if (slideObj.bullets && slideObj.bullets.length > 0) {
+        slideObj.bullets.forEach((b) => {
+          // Card de fundo
+          ctx.fillStyle = "#141414";
+          ctx.fillRect(80, y, maxWidth, 95);
+          ctx.strokeStyle = "#242424";
+          ctx.lineWidth = 2;
+          ctx.strokeRect(80, y, maxWidth, 95);
+
+          // Ponto de destaque amarelo
+          ctx.fillStyle = "#FFE600";
+          ctx.beginPath();
+          ctx.arc(115, y + 47, 7, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Texto do bullet
+          ctx.fillStyle = "#E5E7EB";
+          ctx.font = "500 24px 'Inter', sans-serif";
+          ctx.fillText(b.substring(0, 75) + (b.length > 75 ? "..." : ""), 145, y + 55);
+          y += 115;
+        });
+      }
+
+      // 8. Rodapé (Handle + CTA / Indicador)
+      ctx.fillStyle = "#1E1E1E";
+      ctx.fillRect(80, height - 140, maxWidth, 2);
+
+      ctx.fillStyle = "#777777";
+      ctx.font = "600 28px monospace";
+      ctx.fillText(handle, 80, height - 80);
+
+      ctx.fillStyle = "#FFE600";
+      ctx.font = "bold 32px 'Barlow Condensed', sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText(slideObj.action.replace('&rarr;', '→').replace('&hearts;', '♥'), width - 80, height - 80);
+      ctx.textAlign = "left";
+
+      return canvas;
+    }
+
+    function downloadCurrentSlide() {
+      const data = DATASETS[currentDatasetKey];
+      const slide = data.slides[currentSlideIndex];
+      const canvas = drawSlideToCanvas(slide, data.category, currentSlideIndex + 1, data.slides.length, currentHandle);
+
+      const link = document.createElement("a");
+      link.download = `brands-decoded-slide-${String(currentSlideIndex + 1).padStart(2, '0')}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+
+    function downloadAllSlides() {
+      const data = DATASETS[currentDatasetKey];
+      alert(`Iniciando download dos ${data.slides.length} slides renderizados em PNG (1080x1350px)!`);
+
+      data.slides.forEach((slide, index) => {
+        setTimeout(() => {
+          const canvas = drawSlideToCanvas(slide, data.category, index + 1, data.slides.length, currentHandle);
+          const link = document.createElement("a");
+          link.download = `brands-decoded-slide-${String(index + 1).padStart(2, '0')}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        }, index * 350);
+      });
+    }
+
+    function copySlideText() {
+      const slide = DATASETS[currentDatasetKey].slides[currentSlideIndex];
+      const text = `${slide.headline}\n\n${slide.subtext}\n\n${slide.bullets.map(b => '• ' + b).join('\n')}`;
+      navigator.clipboard.writeText(text);
+      const feedback = document.getElementById("copyTextFeedback");
+      feedback.innerText = "Copiado com Sucesso!";
+      setTimeout(() => feedback.innerText = "Copiar Texto do Slide", 2000);
+    }
+
+    function copyCaption() {
+      const caption = DATASETS[currentDatasetKey].caption;
+      navigator.clipboard.writeText(caption);
+      const btn = document.getElementById("btnCopyCaption");
+      btn.innerText = "Copiado!";
+      setTimeout(() => btn.innerText = "Copiar Legenda", 2000);
+    }
+
+    function copyMasterPrompt() {
+      const prompt = `Você é o Claude operando como a MÁQUINA DE VIRALIZAÇÃO INTELIGENTE (calibrada com a engenharia reversa de 1.700 posts da Brands Decoded).
+
+SUA MISSÃO:
+Receber qualquer nicho ou pauta e gerar um carrossel de 9 slides com retenção extrema no formato 1080x1350px (proporção 4:5 vertical), renderizado em HTML5 Canvas interativo com a tipografia Barlow Condensed e botão para download de 9 PNGs em alta resolução.
+
+ESTRUTURA OBRIGATÓRIA DOS 9 SLIDES:
+Slide 01: [CAPA] Tag de categoria + Headline visceral em Barlow Condensed (com palavras em destaque amarelo neon #FFE600) + Subtítulo de gap de curiosidade + "ARRASTE PARA O LADO →".
+Slide 02: [O MITO / TENSÃO] O choque de realidade confrontando o erro comum que 90% do nicho comete.
+Slide 03: [O MECANISMO REAL] A revelação do mecanismo de bastidor que a ciência/mercado comprova.
+Slide 04: [REGRA 01] O primeiro pilar denso e acionável.
+Slide 05: [REGRA 02] O erro grave de execução e o contraponto prático.
+Slide 06: [REGRA 03] A evidência com dados e estratégia de alavancagem.
+Slide 07: [REGRA 04] O plano de ação de 3 passos executáveis.
+Slide 08: [A GRANDE SÍNTESE] A frase de impacto que muda a perspectiva do leitor.
+Slide 09: [CTA DE RETENÇÃO] Chamada explícita para SALVAR (máximo peso no algoritmo) e COMPARTILHAR.
+
+Gere agora o carrossel completo para a seguinte pauta: [INSIRA SUA PAUTA AQUI]`;
+
+      navigator.clipboard.writeText(prompt);
+      const btn = document.getElementById("promptBtnText");
+      btn.innerText = "Copiado para Área de Transferência!";
+      setTimeout(() => btn.innerText = "Copiar Prompt Mestre p/ Claude", 2500);
+    }
+
+    // Inicialização
+    window.addEventListener("DOMContentLoaded", () => {
+      renderSlide();
+    });
+  </script>
+</body>
+</html>

@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  allowedDevOrigins: [
+    "nasty-pandas-shop.loca.lt",
+    "*.loca.lt",
+    "localhost:3000",
+    "127.0.0.1:3000",
+    "192.168.1.63:3000",
+  ],
   turbopack: {
     rules: {
       "*.css": {
