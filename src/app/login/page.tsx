@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { BRAND } from "@/config/brand";
+import { BrandMark } from "@/components/BrandMark";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { LoginForm } from "./LoginForm";
 
@@ -32,10 +33,11 @@ export default function LoginPage({ searchParams }: { searchParams: LoginSearchP
   const configured = isSupabaseConfigured();
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 bg-slate-50 dark:bg-[#090D15]">
-      <div className="w-full max-w-sm rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0E1420] p-6 shadow-sm">
-        <h1 className="text-xl font-bold text-slate-900 dark:text-white">{BRAND.product}</h1>
-        <p className="mt-1 text-sm text-slate-500">Entre ou crie sua conta para gerar conteúdo médico revisado pelo {BRAND.auditorName}.</p>
+    <main className="min-h-screen flex items-center justify-center px-4 bg-[#F5F2E9] dark:bg-[#0C1F1C]">
+      <div className="w-full max-w-sm rounded-2xl border border-[#E2DDD0] dark:border-[#23463F] bg-white dark:bg-[#132D29] p-6 shadow-sm">
+        <h1 className="text-2xl"><BrandMark size={34} /></h1>
+        <p className="mt-2 font-serif text-[#16796F] dark:text-[#D6EF72]">{BRAND.tagline}</p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Entre ou crie sua conta para gerar conteúdo de saúde revisado pelo {BRAND.auditorName}.</p>
 
         {!configured ? (
           <div className="mt-6 rounded-xl bg-amber-50 dark:bg-amber-950/40 p-4 text-sm text-amber-900 dark:text-amber-200">

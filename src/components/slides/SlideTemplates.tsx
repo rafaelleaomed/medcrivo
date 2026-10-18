@@ -48,7 +48,7 @@ function Highlighted({ text, words, color, italic }: { text: string; words: stri
 
 const CONDENSED = "var(--font-barlow-condensed), 'Arial Narrow', sans-serif";
 const SANS = "var(--font-inter), system-ui, sans-serif";
-const SERIF = "var(--font-playfair), Georgia, serif";
+const SERIF = "var(--font-source-serif), Georgia, serif";
 
 interface SlideProps {
   slide: PostSlide;

@@ -66,7 +66,7 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
+    <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="flex items-center gap-3">
@@ -94,7 +94,7 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
       {/* Seção Principal: Gauge Radial + 4 Pilares de Retenção */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
         {/* Velocímetro Radial Circular SVG com Paleta Elegante Humana */}
-        <div className="flex flex-col items-center justify-center bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 relative overflow-hidden transition-colors duration-300">
+        <div className="flex flex-col items-center justify-center bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 relative overflow-hidden transition-colors duration-300">
           <div className="relative w-36 h-36 flex items-center justify-center">
             <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 128 128">
               {/* Círculo de fundo */}
@@ -121,8 +121,8 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
               />
               <defs>
                 <linearGradient id="viralityGradientHuman" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0D9488" />
-                  <stop offset="70%" stopColor="#14B8A6" />
+                  <stop offset="0%" stopColor="#16796F" />
+                  <stop offset="70%" stopColor="#3FA595" />
                   <stop offset="100%" stopColor="#D97706" />
                 </linearGradient>
               </defs>
@@ -147,7 +147,7 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
         </div>
 
         {/* 4 Pilares de Retenção & Conversão (ViralityAI Breakdown) */}
-        <div className="md:col-span-2 bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between gap-3 transition-colors duration-300">
+        <div className="md:col-span-2 bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between gap-3 transition-colors duration-300">
           <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-teal-600 dark:text-teal-400 icon-hover-effect" />
             Desdobramento dos 4 Fatores do Algoritmo
@@ -210,7 +210,7 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
       </div>
 
       {/* Matriz de Ganchos Médicos (Hook Matrix com Hover Suave) */}
-      <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 transition-colors duration-300">
+      <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 transition-colors duration-300">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-bold text-slate-900 dark:text-slate-200 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-amber-500 icon-hover-effect" />
@@ -246,7 +246,7 @@ export function ViralityRadar({ score = 94, onSelectHook }: ViralityRadarProps) 
                 "{h.title}"
               </p>
 
-              <p className="text-[11px] text-slate-600 dark:text-slate-300 italic line-clamp-2 bg-slate-50 dark:bg-[#090D15] p-2 rounded-lg border border-slate-200 dark:border-slate-800">
+              <p className="text-[11px] text-slate-600 dark:text-slate-300 italic line-clamp-2 bg-slate-50 dark:bg-[#0C1F1C] p-2 rounded-lg border border-slate-200 dark:border-slate-800">
                 "{h.speech}"
               </p>
 

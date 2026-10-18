@@ -78,7 +78,7 @@ export function DashboardOverview({
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* 1. WELCOME BANNER COM STATUS MÉDICO EXECUTIVO */}
-      <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-teal-500 animate-pulse" />
@@ -95,13 +95,13 @@ export function DashboardOverview({
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 text-center">
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 text-center">
             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Meta Mensal</span>
             <p className="text-lg font-black text-slate-900 dark:text-white font-mono">18/30</p>
             <span className="text-[10px] text-teal-600 dark:text-teal-400 font-bold">60% concluído</span>
           </div>
 
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 text-center">
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 text-center">
             <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Auditoria CFM</span>
             <p className="text-lg font-black text-teal-600 dark:text-teal-400 font-mono">100%</p>
             <span className="text-[10px] text-slate-500 dark:text-slate-400">Risco Zero</span>
@@ -112,7 +112,7 @@ export function DashboardOverview({
       {/* 2. 4 CARDS DE MÉTRICAS EXECUTIVAS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* KPI 1 */}
-        <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Score de Viralidade</span>
             <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400">
@@ -129,7 +129,7 @@ export function DashboardOverview({
         </div>
 
         {/* KPI 2 */}
-        <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Blindagem Ética</span>
             <div className="w-8 h-8 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-600 dark:text-teal-400">
@@ -145,7 +145,7 @@ export function DashboardOverview({
         </div>
 
         {/* KPI 3 */}
-        <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Alcance Educativo</span>
             <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300">
@@ -162,7 +162,7 @@ export function DashboardOverview({
         </div>
 
         {/* KPI 4 */}
-        <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
+        <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Evidência Indexada</span>
             <div className="w-8 h-8 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-600 dark:text-teal-400">
@@ -179,7 +179,7 @@ export function DashboardOverview({
       </div>
 
       {/* 3. ATALHOS DE CRIAÇÃO RÁPIDA (HUB DE PRODUÇÃO) */}
-      <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 space-y-4">
+      <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400 icon-hover-effect" />
@@ -192,7 +192,7 @@ export function DashboardOverview({
           {/* Card 1: Carrossel */}
           <div
             onClick={() => onNavigateTab("carousel")}
-            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
+            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
           >
             <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-400 flex items-center justify-center mb-3">
               <Layers className="w-5 h-5 icon-hover-effect" />
@@ -212,7 +212,7 @@ export function DashboardOverview({
           {/* Card 2: Vídeo */}
           <div
             onClick={() => onNavigateTab("vturb")}
-            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
+            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
           >
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 flex items-center justify-center mb-3">
               <Film className="w-5 h-5 icon-hover-effect" />
@@ -232,7 +232,7 @@ export function DashboardOverview({
           {/* Card 3: Grade do Instagram */}
           <div
             onClick={() => onNavigateTab("feed")}
-            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
+            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center mb-3">
               <Grid className="w-5 h-5 icon-hover-effect" />
@@ -252,7 +252,7 @@ export function DashboardOverview({
           {/* Card 4: Radar de Tendências */}
           <div
             onClick={() => onNavigateTab("virality")}
-            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
+            className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 cursor-pointer transition-all hover:-translate-y-1 shadow-sm"
           >
             <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-700 dark:text-teal-400 flex items-center justify-center mb-3">
               <Zap className="w-5 h-5 icon-hover-effect" />
@@ -272,7 +272,7 @@ export function DashboardOverview({
       </div>
 
       {/* 4. FILA DE CONTEÚDOS RECENTES NA ESTEIRA */}
-      <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 space-y-4">
+      <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-7 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
@@ -290,7 +290,7 @@ export function DashboardOverview({
             <div
               key={post.id}
               onClick={post.action}
-              className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 cursor-pointer transition-all hover:-translate-y-0.5"
+              className="group p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 cursor-pointer transition-all hover:-translate-y-0.5"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">

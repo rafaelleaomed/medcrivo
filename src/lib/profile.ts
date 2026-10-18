@@ -2,13 +2,13 @@ import { z } from "zod";
 
 /** Identidade visual aplicada aos templates de slide. */
 export const BrandKitSchema = z.object({
-  primary: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#0F172A"),
-  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#FACC15"),
-  background: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#FFFFFF"),
+  primary: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#123C36"),
+  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#D6EF72"),
+  background: z.string().regex(/^#[0-9a-fA-F]{6}$/).default("#F5F2E9"),
 });
 export type BrandKit = z.infer<typeof BrandKitSchema>;
 
-export const DEFAULT_BRAND: BrandKit = { primary: "#0F172A", accent: "#FACC15", background: "#FFFFFF" };
+export const DEFAULT_BRAND: BrandKit = { primary: "#123C36", accent: "#D6EF72", background: "#F5F2E9" };
 
 export const DoctorProfileSchema = z.object({
   name: z.string().max(120).default(""),

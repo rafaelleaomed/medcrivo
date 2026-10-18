@@ -48,7 +48,7 @@ export function HeroProfile({
   return (
     <section className="max-w-5xl mx-auto px-4 w-full pt-4 pb-2">
       {/* Bento Container Principal de Perfil (Ruixen UI Minimal Style) */}
-      <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 relative overflow-hidden">
+      <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 relative overflow-hidden">
         {/* Glow sutil orgânico (não robotizado) */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-3xl pointer-events-none -z-0" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-slate-500/5 dark:bg-slate-700/10 rounded-full blur-3xl pointer-events-none -z-0" />
@@ -58,11 +58,11 @@ export function HeroProfile({
           <div className="flex items-center gap-5">
             <div className="relative group cursor-pointer">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-[2.5px] bg-gradient-to-tr from-teal-500 via-emerald-600 to-slate-700 shadow-md transition-transform duration-300 group-hover:scale-105">
-                <div className="w-full h-full rounded-full bg-slate-100 dark:bg-[#090D15] border-2 border-white dark:border-[#101622] flex items-center justify-center text-slate-800 dark:text-white font-bold text-2xl overflow-hidden">
+                <div className="w-full h-full rounded-full bg-slate-100 dark:bg-[#0C1F1C] border-2 border-white dark:border-[#132D29] flex items-center justify-center text-slate-800 dark:text-white font-bold text-2xl overflow-hidden">
                   <span className="text-teal-600 dark:text-teal-400 font-serif">Dr</span>
                 </div>
               </div>
-              <div className="absolute -bottom-1 -right-1 bg-teal-600 dark:bg-teal-500 text-white dark:text-slate-950 p-1 rounded-full border-2 border-white dark:border-[#101622] shadow-sm">
+              <div className="absolute -bottom-1 -right-1 bg-teal-600 dark:bg-teal-500 text-white dark:text-slate-950 p-1 rounded-full border-2 border-white dark:border-[#132D29] shadow-sm">
                 <CheckCircle2 className="w-4 h-4 icon-hover-effect" />
               </div>
             </div>
@@ -105,7 +105,7 @@ export function HeroProfile({
 
           {/* Quick Edit Metadados Médicos (Clean Minimalist Cards) */}
           <div className="flex flex-wrap md:flex-col items-start md:items-end gap-2 text-xs w-full md:w-auto">
-            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
+            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
               <span className="text-slate-400">Médico:</span>
               <input
                 type="text"
@@ -114,7 +114,7 @@ export function HeroProfile({
                 className="bg-transparent text-slate-900 dark:text-white font-bold w-28 focus:outline-none"
               />
             </div>
-            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
+            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
               <span className="text-slate-400">CRM:</span>
               <input
                 type="text"
@@ -123,7 +123,7 @@ export function HeroProfile({
                 className="bg-transparent text-teal-700 dark:text-teal-400 font-bold w-24 focus:outline-none"
               />
             </div>
-            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
+            <div className="flex items-center gap-2 bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 px-3 py-1.5 rounded-xl font-mono text-[11px] text-slate-700 dark:text-slate-300">
               <span className="text-slate-400">RQE:</span>
               <input
                 type="text"
@@ -149,7 +149,7 @@ export function HeroProfile({
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Digite um tema clínico ou cole o link de uma notícia/artigo (https://...)"
-                className={`w-full bg-slate-50 dark:bg-[#090D15] border rounded-2xl pl-10 pr-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 transition-colors shadow-inner ${
+                className={`w-full bg-slate-50 dark:bg-[#0C1F1C] border rounded-2xl pl-10 pr-4 py-3 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 transition-colors shadow-inner ${
                   isUrl
                     ? "border-teal-500/80 ring-2 ring-teal-500/20"
                     : "border-slate-200 dark:border-slate-800 focus:border-teal-500"
@@ -193,7 +193,7 @@ export function HeroProfile({
                   setTopic(t.name);
                   onGenerate();
                 }}
-                className="group px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 text-[11px] text-slate-700 dark:text-slate-300 hover:text-teal-700 dark:hover:text-white shrink-0 flex items-center gap-1.5 transition-all cursor-pointer hover:-translate-y-0.5"
+                className="group px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 hover:border-teal-500/50 text-[11px] text-slate-700 dark:text-slate-300 hover:text-teal-700 dark:hover:text-white shrink-0 flex items-center gap-1.5 transition-all cursor-pointer hover:-translate-y-0.5"
               >
                 <span>{t.name}</span>
                 <span className="text-[10px] font-mono text-teal-600 dark:text-teal-400 font-bold">

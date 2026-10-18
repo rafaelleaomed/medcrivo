@@ -1,5 +1,5 @@
 /**
- * CuidaAI Studio - Integração Científica com a Consensus AI API
+ * MedCrivo Studio - Integração Científica com a Consensus AI API
  * Consulta mais de 400 milhões de artigos científicos revisados por pares.
  * Prioridade: Meta-análises e Randomized Controlled Trials (RCTs).
  */

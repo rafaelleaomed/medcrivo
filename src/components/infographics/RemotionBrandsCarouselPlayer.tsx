@@ -232,8 +232,8 @@ export const MEDICAL_AI_SLIDES: ViralSlideData[] = [
     ],
     highlightBox: {
       type: "neon",
-      title: "CUIDAAI // CLINICAL INTELLIGENCE",
-      text: "CuidaAI Studio • Automação Médica com Blindagem CFM & Inteligência Viral",
+      title: "MEDCRIVO // ÉTICA TAMBÉM NO DIGITAL",
+      text: "MedCrivo Studio • Conteúdo de saúde com IA, revisado pelo Crivo",
     },
     footerNote: "09 / 09",
   },
@@ -653,7 +653,7 @@ export const RemotionBrandsSlide: React.FC<RemotionBrandsSlideProps> = ({
             textTransform: "uppercase",
           }}
         >
-          {slide.footerNote || "EDITORIAL VIRAL // CUIDAAI"}
+          {slide.footerNote || "EDITORIAL // MEDCRIVO"}
         </div>
       </div>
     </AbsoluteFill>

@@ -75,7 +75,7 @@ export function VturbVideoDirector({
   const activeTeleprompterText = `${selectedFormula.speech} [PAUSA]\n\nNa maioria das vezes que recebo pessoas no consultório com essa queixa, vejo o mesmo equívoco repetido.\n\nEstudos clínicos recentes demonstram que as intervenções individualizadas alteram profundamente o curso da condição.\n\nO mecanismo biológico não responde a tratamentos genéricos: ele exige precisão diagnóstica.\n\n[PAUSA]\n\nSe você quer investigar sua saúde com base na ciência médica, toque no link da minha bio e agende sua consulta particular.`;
 
   return (
-    <div className="bg-white/95 dark:bg-[#101622]/95 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-6">
+    <div className="bg-white/95 dark:bg-[#132D29]/95 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800/80 pb-5">
         <div className="flex items-center gap-3">
@@ -180,7 +180,7 @@ export function VturbVideoDirector({
       {/* ROTEIRO ESTRUTURADO POR LINHA DO TEMPO (VTURB PACING) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Bloco 1: Gancho 0 a 3s */}
-        <div className="bg-slate-50 dark:bg-[#090D15] border border-teal-500/40 rounded-2xl p-4 flex flex-col justify-between gap-3 relative overflow-hidden transition-colors duration-300">
+        <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-teal-500/40 rounded-2xl p-4 flex flex-col justify-between gap-3 relative overflow-hidden transition-colors duration-300">
           <div className="flex items-center justify-between text-xs">
             <span className="px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950/80 border border-teal-500/40 text-teal-700 dark:text-teal-300 font-bold font-mono">
               00:00 - 00:03 (GANCHO)
@@ -210,7 +210,7 @@ export function VturbVideoDirector({
         </div>
 
         {/* Bloco 2: Retenção 4 a 45s */}
-        <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
+        <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
           <div className="flex items-center justify-between text-xs">
             <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold font-mono">
               00:04 - 00:45 (MECANISMO)
@@ -239,7 +239,7 @@ export function VturbVideoDirector({
         </div>
 
         {/* Bloco 3: CTA Ético 46 a 60s */}
-        <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
+        <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
           <div className="flex items-center justify-between text-xs">
             <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold font-mono">
               00:46 - 00:60 (CTA ÉTICO)
@@ -335,7 +335,7 @@ export function VturbVideoDirector({
           {/* Área de Texto Contínuo do Teleprompter */}
           <div className="w-full max-w-3xl my-auto py-8 text-center flex flex-col items-center justify-center">
             <div
-              className={`w-full bg-[#090D15] border border-slate-800/80 rounded-3xl p-8 max-h-[60vh] overflow-y-auto space-y-6 shadow-2xl transition-transform ${
+              className={`w-full bg-[#0C1F1C] border border-slate-800/80 rounded-3xl p-8 max-h-[60vh] overflow-y-auto space-y-6 shadow-2xl transition-transform ${
                 isMirrored ? "-scale-x-100" : ""
               }`}
             >

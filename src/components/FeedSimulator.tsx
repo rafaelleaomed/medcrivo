@@ -129,7 +129,7 @@ export function FeedSimulator({
   ];
 
   return (
-    <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
+    <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
       {/* Top Banner do Simulador */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="flex items-center gap-3">
@@ -158,16 +158,16 @@ export function FeedSimulator({
       </div>
 
       {/* Mockup do Perfil do Instagram (Tema Claro/Escuro Refinado) */}
-      <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 transition-colors duration-300">
+      <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200/90 dark:border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 transition-colors duration-300">
         <div className="flex items-center gap-4">
           {/* Avatar com Story ring */}
           <div className="relative group cursor-pointer">
             <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-full p-[2.5px] bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 shadow-sm transition-transform duration-300 group-hover:scale-105">
-              <div className="w-full h-full rounded-full bg-white dark:bg-slate-900 border-2 border-slate-50 dark:border-[#090D15] flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold text-xl overflow-hidden">
+              <div className="w-full h-full rounded-full bg-white dark:bg-slate-900 border-2 border-slate-50 dark:border-[#0C1F1C] flex items-center justify-center text-slate-800 dark:text-slate-200 font-bold text-xl overflow-hidden">
                 <span className="text-teal-600 dark:text-teal-400 font-serif">Dr</span>
               </div>
             </div>
-            <div className="absolute -bottom-1 -right-1 bg-teal-600 dark:bg-teal-500 text-white dark:text-slate-950 p-1 rounded-full border-2 border-slate-50 dark:border-[#090D15]">
+            <div className="absolute -bottom-1 -right-1 bg-teal-600 dark:bg-teal-500 text-white dark:text-slate-950 p-1 rounded-full border-2 border-slate-50 dark:border-[#0C1F1C]">
               <CheckCircle2 className="w-3.5 h-3.5 icon-hover-effect" />
             </div>
           </div>
@@ -307,7 +307,7 @@ export function FeedSimulator({
       </div>
 
       {/* Detalhe do Post Selecionado com Barra de Ações Rápidas */}
-      <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 transition-colors duration-300">
+      <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 transition-colors duration-300">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-600 dark:text-teal-400">
             <Award className="w-5 h-5 icon-hover-effect" />

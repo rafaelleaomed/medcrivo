@@ -95,12 +95,12 @@ export function LandingHome({
   return (
     <div className="space-y-8 py-2">
       {/* 1. HERO DE BOAS-VINDAS MÉDICO */}
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#101622]/80 backdrop-blur-xl p-6 sm:p-8 shadow-sm">
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-[#132D29]/80 backdrop-blur-xl p-6 sm:p-8 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800/80 text-teal-800 dark:text-teal-300 text-xs font-semibold">
               <Stethoscope className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
-              <span>Painel Inicial • CuidaAI Studio</span>
+              <span>Painel Inicial • MedCrivo Studio</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -189,7 +189,7 @@ export function LandingHome({
               <motion.div
                 key={feat.id}
                 whileHover={{ y: -3 }}
-                className="p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/70 dark:bg-[#101622]/70 hover:bg-white dark:hover:bg-[#101622] transition-all shadow-sm hover:shadow-md flex flex-col justify-between group"
+                className="p-5 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/70 dark:bg-[#132D29]/70 hover:bg-white dark:hover:bg-[#132D29] transition-all shadow-sm hover:shadow-md flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -228,7 +228,7 @@ export function LandingHome({
       </section>
 
       {/* 3. PAUTAS EM ALTA PERSONALIZADAS PELOS SEUS INTERESSES */}
-      <section className="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-[#101622]/70 backdrop-blur-xl space-y-4">
+      <section className="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-[#132D29]/70 backdrop-blur-xl space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">

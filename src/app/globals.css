@@ -1,34 +1,57 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
+/* Escala "teal" do Tailwind remapeada para a família Teal / Verde-pinho da MedCrivo (brand book).
+   600 = Teal #16796F; 900 = Verde-pinho #123C36. Assim todas as classes teal-* do app seguem a marca. */
+@theme {
+  --color-teal-50: #EEF6F3;
+  --color-teal-100: #D6ECE5;
+  --color-teal-200: #AEDBCF;
+  --color-teal-300: #7CC3B4;
+  --color-teal-400: #4FAE9D;
+  --color-teal-500: #1E8E80;
+  --color-teal-600: #16796F;
+  --color-teal-700: #12655C;
+  --color-teal-800: #0F4F48;
+  --color-teal-900: #123C36;
+  --color-teal-950: #0B2622;
+  --color-lima: #D6EF72;
+  --color-marfim: #F5F2E9;
+  --color-pinho: #123C36;
+  --color-tinta: #172A27;
+  --font-serif: var(--font-source-serif), Georgia, serif;
+}
+
 :root {
-  /* LIGHT MODE: Editorial Clínico Humano & Sofisticado */
-  --bg-main: #F8FAFC;
+  /* LIGHT MODE: Marfim + Tinta (MedCrivo) */
+  --bg-main: #F5F2E9;
   --bg-card: #FFFFFF;
-  --bg-card-subtle: #F1F5F9;
-  --border-subtle: #E2E8F0;
-  --border-focus: #0D9488;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --clinical-teal: #0D9488;
-  --clinical-teal-subtle: #CCFBF1;
-  --clinical-navy: #1E293B;
+  --bg-card-subtle: #EEEADF;
+  --border-subtle: #E2DDD0;
+  --border-focus: #16796F;
+  --text-main: #172A27;
+  --text-muted: #5B6F6A;
+  --clinical-teal: #16796F;
+  --clinical-teal-subtle: #D6ECE5;
+  --clinical-navy: #123C36;
   --accent-amber: #D97706;
+  --accent-lima: #D6EF72;
 }
 
 .dark, [data-theme="dark"] {
-  /* DARK MODE: Deep Obsidian Médico & Contraste Calmo */
-  --bg-main: #090D15;
-  --bg-card: #101622;
-  --bg-card-subtle: #171E2E;
-  --border-subtle: #1F2839;
-  --border-focus: #14B8A6;
-  --text-main: #F8FAFC;
-  --text-muted: #94A3B8;
-  --clinical-teal: #14B8A6;
-  --clinical-teal-subtle: rgba(20, 184, 166, 0.12);
-  --clinical-navy: #334155;
+  /* DARK MODE: Verde-pinho profundo (MedCrivo) */
+  --bg-main: #0C1F1C;
+  --bg-card: #132D29;
+  --bg-card-subtle: #183A34;
+  --border-subtle: #23463F;
+  --border-focus: #4FAE9D;
+  --text-main: #F5F2E9;
+  --text-muted: #9DB5AE;
+  --clinical-teal: #4FAE9D;
+  --clinical-teal-subtle: rgba(79, 174, 157, 0.14);
+  --clinical-navy: #23463F;
   --accent-amber: #F59E0B;
+  --accent-lima: #D6EF72;
 }
 
 html, body {
@@ -53,7 +76,7 @@ button:hover .icon-hover-effect,
 }
 
 .icon-glow-teal {
-  filter: drop-shadow(0 2px 8px rgba(13, 148, 136, 0.35));
+  filter: drop-shadow(0 2px 8px rgba(22, 121, 111, 0.35));
 }
 
 /* Glassmorphism Refinado e Discreto (Sem aspecto neon/IA) */

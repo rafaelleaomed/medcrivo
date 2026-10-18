@@ -78,7 +78,7 @@ function getTrendingTopicsForInterests(interests: string[], specialtyName?: stri
   return results.slice(0, 6);
 }
 
-export default function CuidaAIStudioPage() {
+export default function MedCrivoStudioPage() {
   // 1. TEMA PADRÃO: INICIA SEMPRE NO MODO CLARO
   const [theme, setTheme] = useState<"light" | "dark">("light");
 

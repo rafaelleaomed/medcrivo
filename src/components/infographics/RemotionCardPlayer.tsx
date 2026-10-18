@@ -127,7 +127,7 @@ const RemotionSlideContent: React.FC<RemotionSlideProps> = ({
               style={{
                 fontSize: "10px",
                 fontWeight: 700,
-                color: "#0D9488",
+                color: "#16796F",
                 textTransform: "uppercase",
                 marginBottom: "8px",
               }}
@@ -210,7 +210,7 @@ const RemotionSlideContent: React.FC<RemotionSlideProps> = ({
         }}
       >
         <span>CFM nº 2.336/2023 • Informativo</span>
-        <span style={{ color: "#0D9488", fontWeight: "bold" }}>CuidaAI Studio</span>
+        <span style={{ color: "#16796F", fontWeight: "bold" }}>MedCrivo Studio</span>
       </div>
     </AbsoluteFill>
   );

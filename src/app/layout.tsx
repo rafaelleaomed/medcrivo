@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans, Barlow_Condensed, Playfair_Display } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Plus_Jakarta_Sans, Barlow_Condensed, Playfair_Display, Source_Serif_4 } from "next/font/google";
 import { BRAND } from "@/config/brand";
 import "./globals.css";
 
@@ -19,6 +19,12 @@ const barlowCondensed = Barlow_Condensed({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -26,8 +32,15 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: `${BRAND.product} | Conteúdo médico com IA revisado pelo ${BRAND.auditorName}`,
-  description: "Plataforma de alta performance para médicos gerarem carrosséis científicos, roteiros educativos de alta retenção e posts com conformidade CFM 2.336/2023.",
+  title: `${BRAND.product} · ${BRAND.tagline}`,
+  description: `${BRAND.tagline} ${BRAND.support} Para médicos e dentistas.`,
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: BRAND.colors.marfim },
+    { media: "(prefers-color-scheme: dark)", color: BRAND.colors.pinho },
+  ],
 };
 
 export default function RootLayout({
@@ -36,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${plusJakarta.variable} ${barlowCondensed.variable} ${playfair.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-[#090D15] text-slate-900 dark:text-slate-100 selection:bg-teal-500/20 selection:text-teal-700 dark:selection:text-teal-300 transition-colors duration-300">
+    <html lang="pt-BR" className={`${inter.variable} ${plusJakarta.variable} ${barlowCondensed.variable} ${playfair.variable} ${sourceSerif.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-[#F5F2E9] dark:bg-[#0C1F1C] text-slate-900 dark:text-slate-100 selection:bg-[#D6EF72]/60 selection:text-[#123C36] transition-colors duration-300">
         {children}
       </body>
     </html>

@@ -13,7 +13,7 @@ export function ScientificEvidenceCard({ evidence, topic }: ScientificEvidenceCa
   const primary = evidence && evidence.length > 0 ? evidence[0] : null;
 
   return (
-    <div className="bg-white/90 dark:bg-[#101622]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
+    <div className="bg-white/90 dark:bg-[#132D29]/90 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-6 backdrop-blur-xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-5">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
         <div className="flex items-center gap-3">
@@ -40,7 +40,7 @@ export function ScientificEvidenceCard({ evidence, topic }: ScientificEvidenceCa
 
       {/* Card do Estudo Principal */}
       {primary ? (
-        <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col gap-4 transition-colors duration-300">
+        <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col gap-4 transition-colors duration-300">
           <div className="flex items-start justify-between gap-4">
             <div>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950/80 text-teal-700 dark:text-teal-300 border border-teal-500/30 uppercase tracking-wider">

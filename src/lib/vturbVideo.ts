@@ -1,5 +1,5 @@
 /**
- * CuidaAI Studio - Subagente de Roteirização de Vídeos (Vturb + YouTube Agent Skill + Humanizer)
+ * MedCrivo Studio - Subagente de Roteirização de Vídeos (Vturb + YouTube Agent Skill + Humanizer)
  * Responsável por criar ganchos de alta retenção (3s), loops de curiosidade e roteiros autênticos sem cara de IA.
  * Embasado na engenharia de retenção do canal oficial da Vturb e nas 21 fórmulas de ganchos do YouTube.
  */

@@ -90,7 +90,7 @@ export function ComplianceInspector({
   };
 
   return (
-    <div className="bg-white/95 dark:bg-[#101622]/95 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-6">
+    <div className="bg-white/95 dark:bg-[#132D29]/95 border border-slate-200/90 dark:border-slate-800/90 rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-xl shadow-slate-900/5 dark:shadow-2xl transition-colors duration-300 flex flex-col gap-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800/80 pb-5">
         <div className="flex items-center gap-3">
@@ -277,7 +277,7 @@ export function ComplianceInspector({
             </div>
 
             {/* Coluna da Direita: Parecer de Conformidade em Tempo Real */}
-            <div className="lg:col-span-5 flex flex-col justify-between gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800">
+            <div className="lg:col-span-5 flex flex-col justify-between gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -350,7 +350,7 @@ export function ComplianceInspector({
       {subTab === "normas" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Bloco 1: Checklist das Resoluções do CFM */}
-          <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
+          <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
             <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
               <FileText className="w-4 h-4 text-teal-600 dark:text-teal-400 icon-hover-effect" />
               Checklist Normativo Obrigatório (CFM 2.336/2023)
@@ -390,7 +390,7 @@ export function ComplianceInspector({
           </div>
 
           {/* Bloco 2: Regras da LGPD de Saúde */}
-          <div className="bg-slate-50 dark:bg-[#090D15] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
+          <div className="bg-slate-50 dark:bg-[#0C1F1C] border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col justify-between gap-3 transition-colors duration-300">
             <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-2">
               <Lock className="w-4 h-4 text-teal-600 dark:text-teal-400 icon-hover-effect" />
               Diretrizes LGPD (Lei 13.709/2018, Art. 5º e 11)

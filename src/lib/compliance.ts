@@ -1,5 +1,5 @@
 /**
- * CuidaAI Studio - Motor de Conformidade Ética Médica e LGPD
+ * MedCrivo Studio - Motor de Conformidade Ética Médica e LGPD
  * Baseado nas Resoluções CFM nº 2.336/2023, CFM nº 2.380/2024 e Lei Geral de Proteção de Dados (Lei 13.709/2018).
  * Padrão Ponytail: Engenharia enxuta, determinística, rápida e auditável.
  */

@@ -1,5 +1,6 @@
 "use client";
 
+import { BrandMark } from "./BrandMark";
 import React, { useRef, useState } from "react";
 import {
   AnimatePresence,
@@ -19,7 +20,6 @@ import {
   Send,
   Sun,
   Moon,
-  Stethoscope,
   Settings,
 } from "lucide-react";
 
@@ -73,17 +73,13 @@ export function FloatingHeader({
         <motion.div
           onMouseMove={(e) => mouseX.set(e.clientX)}
           onMouseLeave={() => mouseX.set(Number.POSITIVE_INFINITY)}
-          className="flex items-center gap-2 px-3 py-2 rounded-full border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#101622]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.6)] transition-colors duration-300"
+          className="flex items-center gap-2 px-3 py-2 rounded-full border border-slate-200/90 dark:border-slate-800/90 bg-white/90 dark:bg-[#132D29]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.6)] transition-colors duration-300"
         >
           {/* Brand / Mini Perfil Médico */}
           <div className="flex items-center gap-2 pl-1.5 pr-2 group cursor-pointer select-none">
-            <div className="w-8 h-8 rounded-full bg-teal-600 dark:bg-teal-500 flex items-center justify-center text-white dark:text-slate-950 font-black text-sm shadow-md transition-transform duration-300 group-hover:scale-110">
-              <Stethoscope className="w-4 h-4 text-white dark:text-slate-950" />
-            </div>
+            
             <div className="flex flex-col">
-              <span className="text-xs font-bold text-slate-900 dark:text-white tracking-tight leading-none">
-                CuidaAI <span className="text-teal-600 dark:text-teal-400">Studio</span>
-              </span>
+              <BrandMark size={26} className="text-xs" />
               <span className="text-[9px] text-slate-500 dark:text-slate-400 font-mono leading-tight mt-0.5">
                 Dr. {doctorName.split(" ")[0]}
               </span>
@@ -157,16 +153,12 @@ export function FloatingHeader({
           Visível apenas em telas menores que md (< 768px)
          ======================================================== */}
       <header className="flex md:hidden sticky top-2 z-50 w-full px-3 mx-auto">
-        <div className="w-full flex items-center justify-between px-3 py-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#101622]/95 backdrop-blur-2xl shadow-md transition-colors duration-300">
+        <div className="w-full flex items-center justify-between px-3 py-2 rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#132D29]/95 backdrop-blur-2xl shadow-md transition-colors duration-300">
           {/* Identidade Médica */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-teal-600 dark:bg-teal-500 flex items-center justify-center text-white dark:text-slate-950 font-black text-sm shadow-sm shrink-0">
-              <Stethoscope className="w-4 h-4 text-white dark:text-slate-950" />
-            </div>
+            
             <div className="flex flex-col leading-tight">
-              <span className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">
-                CuidaAI <span className="text-teal-600 dark:text-teal-400">Studio</span>
-              </span>
+              <BrandMark size={26} className="text-xs" />
               <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                 Dr. {doctorName.split(" ")[0]} • {crm.split(" ")[1] || crm}
               </span>
@@ -230,7 +222,7 @@ export function FloatingHeader({
             if (e.touches[0]) touchX.set(e.touches[0].clientX);
           }}
           onTouchEnd={() => touchX.set(Number.POSITIVE_INFINITY)}
-          className="w-full flex items-center justify-around py-1.5 px-2 rounded-full border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#101622]/95 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.35)] transition-colors duration-300"
+          className="w-full flex items-center justify-around py-1.5 px-2 rounded-full border border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#132D29]/95 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.35)] transition-colors duration-300"
         >
           {navItems.map((item) => (
             <MobileDockIcon
