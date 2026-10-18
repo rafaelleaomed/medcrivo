@@ -49,6 +49,7 @@ create table public.generation_jobs (
   updated_at timestamptz not null default now()
 );
 create index generation_jobs_user_created_idx on public.generation_jobs (user_id, created_at desc);
+create index generation_jobs_post_id_idx on public.generation_jobs (post_id);
 
 create table public.ai_usage_events (
   id bigint generated always as identity primary key,
@@ -60,6 +61,7 @@ create table public.ai_usage_events (
   created_at timestamptz not null default now()
 );
 create index ai_usage_events_user_created_idx on public.ai_usage_events (user_id, created_at desc);
+create index ai_usage_events_job_id_idx on public.ai_usage_events (job_id);
 
 -- updated_at automático (SECURITY INVOKER: só toca a linha que o próprio usuário já pode alterar)
 create function public.touch_updated_at() returns trigger
@@ -114,7 +116,8 @@ create policy "dono lê o próprio uso de IA" on public.ai_usage_events for sele
 create policy "dono registra o próprio uso de IA" on public.ai_usage_events for insert
   to authenticated with check ((select auth.uid()) = user_id);
 
--- Acesso pela Data API (RLS acima restringe as linhas)
+-- Acesso pela Data API (RLS acima restringe as linhas). Visitantes anônimos não acessam nada.
+revoke all on public.doctor_profiles, public.posts, public.generation_jobs, public.ai_usage_events from anon;
 grant select, insert, update on public.doctor_profiles to authenticated;
 grant select, insert, update, delete on public.posts to authenticated;
 grant select, insert, update on public.generation_jobs to authenticated;
