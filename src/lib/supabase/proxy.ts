@@ -2,8 +2,9 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "./config";
 
-/** Só o estúdio exige login; o site (landing, Crivo grátis, checklist, planos, termos) é público. */
+/** Só o estúdio e o onboarding exigem login; o site (landing, Crivo grátis, checklist, planos, termos) é público. */
 const PROTECTED_PREFIX = "/app";
+const PROTECTED_PREFIXES = [PROTECTED_PREFIX, "/onboarding"];
 
 export async function updateSession(request: NextRequest) {
   const env = getSupabaseEnv();
@@ -31,7 +32,7 @@ export async function updateSession(request: NextRequest) {
   const isAuthenticated = Boolean(data?.claims?.sub);
 
   const { pathname } = request.nextUrl;
-  const isProtected = pathname === PROTECTED_PREFIX || pathname.startsWith(`${PROTECTED_PREFIX}/`);
+  const isProtected = PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
   // APIs respondem 401 sozinhas; o estúdio redireciona para o login.
   if (!isAuthenticated && isProtected) {
