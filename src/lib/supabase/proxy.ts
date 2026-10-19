@@ -2,7 +2,8 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "./config";
 
-const PUBLIC_PATHS = ["/login", "/auth"];
+/** Só o estúdio exige login; o site (landing, Crivo grátis, checklist, planos, termos) é público. */
+const PROTECTED_PREFIX = "/app";
 
 export async function updateSession(request: NextRequest) {
   const env = getSupabaseEnv();
@@ -30,15 +31,22 @@ export async function updateSession(request: NextRequest) {
   const isAuthenticated = Boolean(data?.claims?.sub);
 
   const { pathname } = request.nextUrl;
-  const isPublic = PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-  const isApi = pathname.startsWith("/api/");
+  const isProtected = pathname === PROTECTED_PREFIX || pathname.startsWith(`${PROTECTED_PREFIX}/`);
 
-  // APIs respondem 401 sozinhas; páginas privadas redirecionam para o login.
-  if (!isAuthenticated && !isPublic && !isApi) {
+  // APIs respondem 401 sozinhas; o estúdio redireciona para o login.
+  if (!isAuthenticated && isProtected) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
     loginUrl.search = "";
     return NextResponse.redirect(loginUrl);
+  }
+
+  // Quem já entrou e abre o login vai direto para o estúdio.
+  if (isAuthenticated && pathname === "/login") {
+    const appUrl = request.nextUrl.clone();
+    appUrl.pathname = PROTECTED_PREFIX;
+    appUrl.search = "";
+    return NextResponse.redirect(appUrl);
   }
 
   return supabaseResponse;

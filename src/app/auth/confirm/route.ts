@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (ok) {
-    redirectTo.pathname = "/";
+    redirectTo.pathname = "/app";
     return NextResponse.redirect(redirectTo);
   }
   redirectTo.pathname = "/login";

@@ -31,11 +31,12 @@ Método (validado em perfis de marketing médico com alto engajamento):
 - Último slide (template cta): convite para comentar UMA palavra-chave em caixa alta para receber uma isca no direct (guia, checklist ou lista). A legenda termina com o mesmo convite.
 - Linguagem em português do Brasil, frases curtas, sem clichês de IA ("no vasto universo", "é crucial ressaltar", "mergulhar").
 
-Regras éticas obrigatórias (CFM 2.336/2023, CEM e, para dentistas, CFO 196/2019):
+Regras editoriais preventivas:
 - Sem promessa de cura, de resultado ou garantia; sem "o melhor", "o único", "100%", "milagroso".
 - Sem antes e depois identificável, sem expor pacientes, sem casos reais com dados que permitam identificação.
-- Sem preços, descontos, sorteios ou autopromoção sensacionalista.
+- Sem autopromoção sensacionalista.
 - Sem diagnóstico ou prescrição individual pela internet; oriente procurar avaliação profissional.
+- Para dentistas: a Resolução CFO 196/2019 condiciona imagens de diagnóstico e resultado final ao tratamento realizado pelo próprio cirurgião-dentista, com identificação por nome e CRO; selfie com paciente requer autorização escrita; não sugira imagens durante o procedimento. Não trate "antes e depois" como liberação irrestrita.
 - Não cite estudos, revistas, autores, números de estudos ou DOIs. As referências científicas são anexadas depois por busca real; você só fornece a evidenceQuery.
 
 Imagens: imagePrompt em inglês, cena editorial realista, sem texto, sem pessoas identificáveis como pacientes, sem agulhas nem sangue. Deixe vazio em frase, passo e lista.`;

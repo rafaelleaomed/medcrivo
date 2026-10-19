@@ -6,10 +6,11 @@ import { VturbVideoScriptEngine } from "@/lib/vturbVideo";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { topic, specialty, doctorName, crm, postText } = body;
+    const { topic, specialty, doctorName, crm, profession, postText } = body;
 
-    // 1. Auditoria de Compliance Ético CFM 2.336/2023 & LGPD
+    // 1. Triagem ética por profissão (CFM/CFO) e regras gerais de privacidade
     const audit = HealthcareComplianceEngine.audit(postText || topic, {
+      profession: profession === "dentista" ? "dentista" : "medico",
       doctorName,
       crm,
       hasRqe: true,

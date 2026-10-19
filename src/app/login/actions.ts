@@ -24,7 +24,7 @@ export async function login(formData: FormData) {
   if (error) redirect("/login?erro=credenciais");
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/app");
 }
 
 export async function signup(formData: FormData) {

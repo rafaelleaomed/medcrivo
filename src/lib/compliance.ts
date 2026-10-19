@@ -1,6 +1,6 @@
 /**
- * MedCrivo Studio - Motor de Conformidade Ética Médica e LGPD
- * Baseado nas Resoluções CFM nº 2.336/2023, CFM nº 2.380/2024 e Lei Geral de Proteção de Dados (Lei 13.709/2018).
+ * MedCrivo Studio - Motor de Conformidade Ética para médicos, dentistas e LGPD
+ * Baseado nas referências oficiais exibidas em cada achado; é uma triagem automatizada, não um parecer jurídico.
  * Padrão Ponytail: Engenharia enxuta, determinística, rápida e auditável.
  */
 
@@ -13,11 +13,13 @@ export interface ComplianceRule {
     | 'exame_diagnostico_metadados'
     | 'sensacionalismo'
     | 'comercio_e_precos'
-    | 'especialidade_rqe';
+    | 'especialidade_rqe'
+    | 'imagem_odontologica';
   severity: 'CRITICAL' | 'WARNING' | 'INFO';
   pattern: RegExp;
   reason: string;
   legalReference: string;
+  sourceUrl?: string;
   suggestionFn: (match: string) => string;
 }
 
@@ -31,6 +33,7 @@ export interface AuditResult {
     detectedText: string;
     reason: string;
     legalReference: string;
+    sourceUrl?: string;
     suggestion: string;
   }[];
   sanitizedText: string;
@@ -47,8 +50,67 @@ export interface ComplianceAuditResult {
   sanitizedText?: string;
 }
 
+export const GENERAL_HEALTH_RULES: ComplianceRule[] = [
+  {
+    id: 'LGPD-001-PII-PACIENTE',
+    category: 'lgpd_dados_sensiveis',
+    severity: 'CRITICAL',
+    // Documentos: sem distinção de maiúsculas.
+    pattern: /(CPF[:\s]*\d{3}\.\d{3}\.\d{3}-\d{2}|RG[:\s]*\d+|prontu[aá]rio[:\s]*\d+)/gi,
+    reason: 'O texto expõe dados que podem identificar um paciente e exige revisão de privacidade antes da publicação.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => 'paciente em acompanhamento clínico',
+  },
+  {
+    id: 'LGPD-001-PII-PACIENTE',
+    category: 'lgpd_dados_sensiveis',
+    severity: 'CRITICAL',
+    // Nome próprio depois de "paciente": sensível a maiúsculas (sem a flag i), senão "paciente sem autorização" vira nome.
+    pattern: /[Pp]aciente[:\s]+[A-ZÀ-Ý][a-zà-ÿ]+(?:\s+(?:d[aeo]s?\s+)?[A-ZÀ-Ý][a-zà-ÿ]+)+/g,
+    reason: 'O texto expõe dados que podem identificar um paciente e exige revisão de privacidade antes da publicação.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => 'paciente em acompanhamento clínico',
+  },
+  {
+    id: 'LGPD-002-METADADOS-EXAMES',
+    category: 'exame_diagnostico_metadados',
+    severity: 'CRITICAL',
+    pattern: /(laudo\s+n[uú]mero|data\s+do\s+exame[:\s]*\d{2}\/\d{2}\/\d{4})/gi,
+    reason: 'Exames não devem expor metadados institucionais ou datas que possam contribuir para reidentificar o paciente.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => '[DADO INSTITUCIONAL HIGIENIZADO]',
+  },
+  {
+    id: 'LGPD-002-METADADOS-EXAMES',
+    category: 'exame_diagnostico_metadados',
+    severity: 'CRITICAL',
+    // Instituição nomeada (inicial maiúscula), para não pegar "procure o hospital mais próximo" ou "convênio médico".
+    pattern: /([Hh]ospital\s+(?:d[aeo]s?\s+)?[A-ZÀ-Ý][\wÀ-ÿ]+|[Cc]onv[eê]nio(?::\s*|\s+)[A-ZÀ-Ý][\wÀ-ÿ]+)/g,
+    reason: 'Exames não devem expor metadados institucionais ou datas que possam contribuir para reidentificar o paciente.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => '[DADO INSTITUCIONAL HIGIENIZADO]',
+  },
+  {
+    id: 'LGPD-003-RELATO-TEMPO-REAL',
+    category: 'lgpd_dados_sensiveis',
+    severity: 'CRITICAL',
+    pattern: /(atendi hoje|caso de hoje no plant[aã]o|paciente que chegou hoje|veio ao meu consult[oó]rio hoje|acabei de atender|cirurgia que realizei hoje|operei hoje)/gi,
+    reason: 'Relatos temporalmente situados elevam o risco de reidentificação indireta por cruzamento com data, local e contexto do atendimento.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => 'Em situações clínicas observadas na prática profissional habitual',
+  },
+  {
+    id: 'LGPD-004-EXAME-PRINT-TELA',
+    category: 'exame_diagnostico_metadados',
+    severity: 'CRITICAL',
+    pattern: /(foto da tela|print do sistema|laudo em anexo|foto do exame|veja a tomografia dele|veja a resson[aâ]ncia dele|veja o raio-x dele)/gi,
+    reason: 'Fotos de telas, laudos e exames podem conter dados ou metadados sensíveis; a mídia precisa de revisão e anonimização efetiva.',
+    legalReference: 'LGPD, arts. 5º, II, e 11',
+    suggestionFn: () => 'imagem diagnóstica ilustrativa, revisada e sem dados identificáveis',
+  },
+];
+
 export const CFM_RULES: ComplianceRule[] = [
-  // 1. Promessa de Cura e Resultado Garantido
   {
     id: 'CFM-001-PROMESSA',
     category: 'promessa_resultado',
@@ -68,7 +130,6 @@ export const CFM_RULES: ComplianceRule[] = [
     suggestionFn: () => 'profissional dedicado com atuação na área',
   },
 
-  // 2. Especialidades e RQE (Resolução CFM 2.380/2024)
   {
     id: 'CFM-003-ESPECIALISTA-SEM-RQE',
     category: 'especialidade_rqe',
@@ -79,62 +140,17 @@ export const CFM_RULES: ComplianceRule[] = [
     suggestionFn: (match) => `${match} (NÃO ESPECIALISTA)`,
   },
 
-  // 3. LGPD & Dados Sensíveis de Pacientes (Art. 5º, II da LGPD)
-  {
-    id: 'LGPD-001-PII-PACIENTE',
-    category: 'lgpd_dados_sensiveis',
-    severity: 'CRITICAL',
-    pattern: /(paciente\s+([A-Z][a-z]+\s+[A-Z][a-z]+)|CPF[:\s]*\d{3}\.\d{3}\.\d{3}-\d{2}|RG[:\s]*\d+|prontu[aá]rio[:\s]*\d+)/gi,
-    reason: 'Exposição de dados pessoais identificáveis (PII) de pacientes constitui infração grave à LGPD e ao segredo médico.',
-    legalReference: 'LGPD Art. 5º, II e Código de Ética Médica Art. 73',
-    suggestionFn: () => 'paciente em acompanhamento clínico',
-  },
-
-  // 4. Imagens de Exames Complementares (TC, Ressonância, Raio-X, Biópsias)
-  {
-    id: 'LGPD-002-METADADOS-EXAMES',
-    category: 'exame_diagnostico_metadados',
-    severity: 'CRITICAL',
-    pattern: /(laudo\s+n[uú]mero|hospital\s+[A-Za-z]+|conv[eê]nio[:\s]*[A-Za-z]+|data\s+do\s+exame[:\s]*\d{2}\/\d{2}\/\d{4})/gi,
-    reason: 'Exames como Tomografia e Ressonância não podem conter metadados institucionais ou datas que permitam a reidentificação do paciente.',
-    legalReference: 'LGPD Art. 11 e Parecer Consulta CFM nº 14/2020',
-    suggestionFn: () => '[DADO INSTITUCIONAL HIGIENIZADO]',
-  },
-
-  // 5. Relatos de Consultório Situados no Tempo ("Atendi hoje")
-  {
-    id: 'LGPD-003-RELATO-TEMPO-REAL',
-    category: 'lgpd_dados_sensiveis',
-    severity: 'CRITICAL',
-    pattern: /(atendi hoje|caso de hoje no plant[aã]o|paciente que chegou hoje|veio ao meu consult[oó]rio hoje|acabei de atender|cirurgia que realizei hoje|operei hoje)/gi,
-    reason: 'Relatos fáticos temporalmente situados ("atendi hoje") criam alto risco de reidentificação indireta por cruzamento com prontuário, acompanhantes e data/hora. Infringe o sigilo profissional (Art. 75 do CEM) e a LGPD.',
-    legalReference: 'Código de Ética Médica Art. 75, Resolução CFM nº 2.336/2023 Art. 11 e LGPD Art. 5º, II',
-    suggestionFn: () => 'Em situações clínicas observadas na prática médica habitual',
-  },
-
-  // 6. Prints de Telas de Prontuário ou Laudos Hospitalares
-  {
-    id: 'LGPD-004-EXAME-PRINT-TELA',
-    category: 'exame_diagnostico_metadados',
-    severity: 'CRITICAL',
-    pattern: /(foto da tela|print do sistema|laudo em anexo|foto do exame|veja a tomografia dele|veja a resson[aâ]ncia dele|veja o raio-x dele)/gi,
-    reason: 'Prints ou fotos diretas de telas de prontuário/PACS contêm metadados sensíveis que violam a privacidade do paciente. Devem ser substituídos por imagens didáticas isoladas sem metadados.',
-    legalReference: 'LGPD Art. 11, Parecer CFM nº 14/2020 e Art. 73 do CEM',
-    suggestionFn: () => 'análise ilustrativa da imagem diagnóstica em caráter estritamente educativo',
-  },
-
-  // 7. Chamada de Preço sem contextualização
   {
     id: 'CFM-004-PROMOCAO-PRECO',
     category: 'comercio_e_precos',
     severity: 'WARNING',
-    pattern: /(promo[cç][aã]o|desconto de \d+%|combo de procedimentos|pre[cç]o imperd[ií]vel|black friday)/gi,
+    // "promoção" isolada; ignora "autopromoção" e o termo de saúde pública "promoção da saúde".
+    pattern: /(\bpromo[cç][aã]o\b(?!\s+(?:da|de|à)\s+sa[uú]de)|desconto de \d+%|combo de procedimentos|pre[cç]o imperd[ií]vel|black friday)/gi,
     reason: 'A divulgação de valores de consulta é permitida pela Res. 2.336/2023, mas a mercantilização agressiva e combos promocionais continuam vedados.',
     legalReference: 'Resolução CFM nº 2.336/2023, Art. 9º',
     suggestionFn: () => 'informações sobre valores disponíveis mediante contato ético com a recepção',
   },
 
-  // 8. Atribuição de Método Exclusivo
   {
     id: 'CFM-005-METODO-EXCLUSIVO',
     category: 'sensacionalismo',
@@ -143,18 +159,58 @@ export const CFM_RULES: ComplianceRule[] = [
     reason: 'É proibido anunciar método ou técnica exclusiva não consagrada no meio científico ou atribuir a si exclusividade de procedimento.',
     legalReference: 'Resolução CFM nº 2.336/2023, Art. 11, VII',
     suggestionFn: () => 'abordagem técnica baseada nas diretrizes clínicas da especialidade',
-  }
+  },
+];
+
+const CFO_196_SOURCE = 'https://website.cfo.org.br/resolucao-cfo-196-2019/';
+
+export const CFO_RULES: ComplianceRule[] = [
+  {
+    id: 'CFO-001-IMAGEM-DURANTE-PROCEDIMENTO',
+    category: 'imagem_odontologica',
+    severity: 'CRITICAL',
+    pattern: /(passo\s+a\s+passo\s+(cir[uú]rgico|do\s+procedimento)|(?:foto|imagem|v[ií]deo)s?\s+(?:do\s+)?(?:durante|transcurso)\s+(?:da\s+|do\s+)?(?:cirurgia|procedimento|tratamento))/gi,
+    reason: 'O texto sugere exposição de imagens durante o procedimento. O FAQ oficial do CFO informa que esse tipo de imagem permanece vedado fora de publicações científicas.',
+    legalReference: 'Resolução CFO nº 196/2019 e Código de Ética Odontológica, art. 44, XII (FAQ oficial do CFO)',
+    sourceUrl: CFO_196_SOURCE,
+    suggestionFn: () => 'conteúdo educativo sem imagens do transcurso do procedimento',
+  },
+  {
+    id: 'CFO-002-DIAGNOSTICO-RESULTADO-CONDICIONADO',
+    category: 'imagem_odontologica',
+    severity: 'WARNING',
+    pattern: /(antes\s*(?:e|\/|x)\s*depois|imagens?\s+(?:do\s+)?diagn[oó]stico|imagens?\s+(?:do\s+)?resultado\s+final|resultado\s+final\s+(?:do|de)\s+tratamento)/gi,
+    reason: 'A Resolução CFO nº 196/2019 não libera “antes e depois” de forma indiscriminada: a divulgação é condicionada ao tratamento realizado pelo próprio cirurgião-dentista; clínicas ou outras pessoas jurídicas não estão abrangidas.',
+    legalReference: 'Resolução CFO nº 196/2019 (FAQ oficial do CFO: diagnóstico e resultado final)',
+    sourceUrl: CFO_196_SOURCE,
+    suggestionFn: () => 'confirme autoria do procedimento, autorização escrita do paciente e identificação do profissional com CRO',
+  },
+  {
+    id: 'CFO-003-SELFIE-COM-PACIENTE',
+    category: 'imagem_odontologica',
+    severity: 'WARNING',
+    pattern: /((?:selfie|autorretrato)\s+(?:com|ao\s+lado\s+d[oa])\s+(?:o\s+|a\s+|um\s+|uma\s+)?paciente)/gi,
+    reason: 'Selfie do cirurgião-dentista com paciente requer autorização formal por escrito para o uso da imagem, segundo o esclarecimento oficial do CFO.',
+    legalReference: 'Resolução CFO nº 196/2019 (FAQ oficial do CFO: autorização de uso de imagem)',
+    sourceUrl: CFO_196_SOURCE,
+    suggestionFn: () => 'publique somente após obter e arquivar autorização formal por escrito do paciente',
+  },
 ];
 
 export class HealthcareComplianceEngine {
   /**
-   * Audita o texto completo da legenda, roteiro ou slide médico.
+   * Audita o texto completo da legenda, roteiro ou slide conforme a profissão informada.
    */
-  public static audit(text: string, doctorMetadata?: { hasRqe?: boolean; doctorName?: string; crm?: string }): AuditResult {
+  public static audit(text: string, doctorMetadata?: { profession?: 'medico' | 'dentista'; hasRqe?: boolean; doctorName?: string; crm?: string }): AuditResult {
     const infractions: AuditResult['infractions'] = [];
     let sanitizedText = text;
+    const profession = doctorMetadata?.profession ?? 'medico';
+    const applicableRules = [
+      ...GENERAL_HEALTH_RULES,
+      ...(profession === 'dentista' ? CFO_RULES : CFM_RULES),
+    ];
 
-    for (const rule of CFM_RULES) {
+    for (const rule of applicableRules) {
       const matches = text.match(rule.pattern);
       if (matches) {
         for (const match of matches) {
@@ -165,6 +221,7 @@ export class HealthcareComplianceEngine {
             detectedText: match,
             reason: rule.reason,
             legalReference: rule.legalReference,
+            sourceUrl: rule.sourceUrl,
             suggestion: rule.suggestionFn(match),
           });
 
@@ -174,9 +231,8 @@ export class HealthcareComplianceEngine {
       }
     }
 
-    // Validação de Identificação Obrigatória (Res. CFM 2.336/2023)
-    const hasCrmIdentifier = /(CRM[\/\s]*[A-Z]{2}\s*\d+|M[EÉ]DICO)/i.test(text);
-    if (!hasCrmIdentifier) {
+    const hasCrmIdentifier = /(CRM[\/\s-]*[A-Z]{2}\s*\d+|M[EÉ]DICO)/i.test(text);
+    if (profession === 'medico' && !hasCrmIdentifier) {
       infractions.push({
         ruleId: 'CFM-000-IDENTIFICACAO',
         category: 'identificacao_obrigatoria',
@@ -187,6 +243,27 @@ export class HealthcareComplianceEngine {
         suggestion: doctorMetadata?.crm 
           ? `Dr. ${doctorMetadata.doctorName || 'Nome'} - MÉDICO - ${doctorMetadata.crm}`
           : 'Insira no rodapé: Dr(a). [Nome] - MÉDICO - CRM/UF [Número]',
+      });
+    }
+
+    const hasCfoImageFinding = infractions.some((item) =>
+      ['CFO-002-DIAGNOSTICO-RESULTADO-CONDICIONADO', 'CFO-003-SELFIE-COM-PACIENTE'].includes(item.ruleId),
+    );
+    const hasCroIdentifier = /\bCRO[\/\s-]*[A-Z]{2}\s*\d+\b/i.test(text);
+    const normalizedName = doctorMetadata?.doctorName?.trim().toLocaleLowerCase('pt-BR');
+    const hasProfessionalName = normalizedName ? text.toLocaleLowerCase('pt-BR').includes(normalizedName) : false;
+    if (profession === 'dentista' && hasCfoImageFinding && (!hasCroIdentifier || !hasProfessionalName)) {
+      infractions.push({
+        ruleId: 'CFO-000-IDENTIFICACAO-IMAGEM',
+        category: 'identificacao_obrigatoria',
+        severity: 'WARNING',
+        detectedText: '[Identificação incompleta na divulgação de imagem]',
+        reason: 'Nas imagens de diagnóstico ou resultado final, o CFO informa que devem constar o nome do profissional que realizou o procedimento e sua inscrição no CRO.',
+        legalReference: 'Resolução CFO nº 196/2019 (FAQ oficial do CFO: identificação nas imagens)',
+        sourceUrl: CFO_196_SOURCE,
+        suggestion: doctorMetadata?.crm
+          ? `${doctorMetadata.doctorName || 'Dr(a). [Nome]'} - CIRURGIÃO-DENTISTA - ${doctorMetadata.crm}`
+          : 'Inclua na imagem: Dr(a). [Nome] - CIRURGIÃO-DENTISTA - CRO/UF [Número]',
       });
     }
 
@@ -311,10 +388,10 @@ Data: [DATA] | Assinatura: ___________________________`;
 
     return {
       canPublish,
-      statusText: canPublish ? 'APROVADO PARA PUBLICAÇÃO EDUCATIVA' : 'BLOQUEADO: RISCO ÉTICO OU DE LGPD DETECTADO',
+      statusText: canPublish ? 'SEM BLOQUEIO NA TRIAGEM EDUCATIVA' : 'REVISE ANTES DE PUBLICAR: RISCO ÉTICO OU DE LGPD',
       badgeColor: canPublish ? 'teal' : 'rose',
       riskSummary: canPublish 
-        ? 'O post atende aos critérios da Resolução CFM 2.336/2023 e ao princípio de anonimização da LGPD.'
+        ? 'A triagem não encontrou bloqueio pela Res. CFM 2.336/2023 nem pela anonimização da LGPD. Confira o caso antes de publicar.'
         : 'A postagem viola o sigilo profissional ou expõe dados sensíveis. Ajuste as pendências antes de veicular.',
       checklist,
       sanitizedNarrative,

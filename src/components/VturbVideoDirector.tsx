@@ -92,7 +92,7 @@ export function VturbVideoDirector({
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Estrutura de alta retenção segundo a segundo com 21 fórmulas de ganchos clínicos validados.
+              Estrutura segundo a segundo: gancho, desenvolvimento e CTA ético. Revise a fala antes de gravar.
             </p>
           </div>
         </div>
@@ -116,25 +116,14 @@ export function VturbVideoDirector({
           </div>
           <div>
             <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-              Roteirização Médica Humanizada Ativa
-              <span className="text-[10px] px-2 py-0.5 rounded bg-teal-500/20 text-teal-800 dark:text-teal-300 font-mono font-bold">
-                Sem Clichês de IA
-              </span>
+              Como usar este roteiro
             </div>
             <p className="text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">
-              Este roteiro foi estruturado para retenção ética: quebra de padrão nos 3 primeiros segundos, loops de curiosidade fisiológicos e comunicação clara de consultório.
+              Leia em voz alta e troque o que não soa como você. Números e estudos só entram se você conferiu a fonte.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0 text-[11px] font-mono">
-          <div className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-teal-700 dark:text-teal-300 font-bold">
-            0 Clichês de IA
-          </div>
-          <div className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold">
-            145 palavras/min
-          </div>
-        </div>
       </div>
 
       {/* SELETOR INTERATIVO DAS FÓRMULAS DE GANCHOS (YOUTUBE AGENT SKILL) */}
@@ -142,10 +131,7 @@ export function VturbVideoDirector({
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-amber-500" />
-            Escolha o Gancho de Abertura (21 Fórmulas Validadas):
-          </span>
-          <span className="text-[11px] text-slate-500 font-mono">
-            Hook Score Médio: <strong className="text-teal-600 dark:text-teal-400">96/100</strong>
+            Escolha o gancho de abertura
           </span>
         </div>
 
@@ -162,10 +148,7 @@ export function VturbVideoDirector({
                     : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-700 dark:text-slate-300"
                 }`}
               >
-                <div className="flex items-center justify-between w-full">
-                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-teal-500/10 text-teal-700 dark:text-teal-300">
-                    {formula.hookScore} pts
-                  </span>
+                <div className="flex items-center justify-end w-full min-h-3.5">
                   {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />}
                 </div>
                 <div className="text-xs font-bold leading-tight">
@@ -184,9 +167,6 @@ export function VturbVideoDirector({
           <div className="flex items-center justify-between text-xs">
             <span className="px-2 py-0.5 rounded bg-teal-50 dark:bg-teal-950/80 border border-teal-500/40 text-teal-700 dark:text-teal-300 font-bold font-mono">
               00:00 - 00:03 (GANCHO)
-            </span>
-            <span className="text-teal-700 dark:text-teal-400 font-bold font-mono">
-              Score: {selectedFormula.hookScore}/100
             </span>
           </div>
 
@@ -230,7 +210,7 @@ export function VturbVideoDirector({
 
           <div className="bg-white dark:bg-slate-900/80 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] text-slate-700 dark:text-slate-300">
             <span className="text-teal-700 dark:text-teal-400 font-bold">Evidência: </span>
-            {script.retentionBody?.scientificCitation || "Consensus Medical Index & PubMed (2024)"}
+            {script.retentionBody?.scientificCitation || "Sem referência. Só cite estudos que você conferiu."}
           </div>
 
           <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono mt-auto">
@@ -263,7 +243,7 @@ export function VturbVideoDirector({
           </div>
 
           <div className="flex items-center gap-1.5 text-[10px] text-teal-700 dark:text-teal-400 font-mono mt-auto">
-            <ShieldCheck className="w-3.5 h-3.5 icon-hover-effect" /> Sem promessa de cura • 100% Homologado
+            <ShieldCheck className="w-3.5 h-3.5 icon-hover-effect" /> Revise no Crivo antes de gravar
           </div>
         </div>
       </div>

@@ -44,6 +44,7 @@ export async function runCarouselJob(store: Store, job: JobRecord): Promise<void
 
     await step(60, `Revisando no Crivo (${councilLabel(profile)})`);
     const audit = HealthcareComplianceEngine.audit(publishedText(post, profile), {
+      profession: profile.profession,
       doctorName: profile.name,
       crm: profile.crm,
       hasRqe: Boolean(profile.rqe),

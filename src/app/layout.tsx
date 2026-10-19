@@ -1,22 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans, Barlow_Condensed, Playfair_Display, Source_Serif_4 } from "next/font/google";
+import { Plus_Jakarta_Sans, Barlow_Condensed, Source_Serif_4 } from "next/font/google";
 import { BRAND } from "@/config/brand";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
+// Tipografia da marca (brand book, seção 05): Plus Jakarta (texto e interface), Barlow Condensed (manchetes), Source Serif 4 (frases).
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const barlowCondensed = Barlow_Condensed({
   variable: "--font-barlow-condensed",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["600", "700", "800", "900"],
 });
 
 const sourceSerif = Source_Serif_4({
@@ -25,15 +22,22 @@ const sourceSerif = Source_Serif_4({
   style: ["normal", "italic"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-});
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: `${BRAND.product} · ${BRAND.tagline}`,
-  description: `${BRAND.tagline} ${BRAND.support} Para médicos e dentistas.`,
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${BRAND.name} · ${BRAND.tagline}`,
+    template: `%s · ${BRAND.name}`,
+  },
+  description: `${BRAND.support} Conteúdo de saúde com IA para médicos, revisado pelas normas do CFM antes de publicar.`,
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: BRAND.name,
+    title: `${BRAND.name} · ${BRAND.tagline}`,
+    description: BRAND.support,
+  },
 };
 
 export const viewport: Viewport = {
@@ -49,8 +53,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${plusJakarta.variable} ${barlowCondensed.variable} ${playfair.variable} ${sourceSerif.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#F5F2E9] dark:bg-[#0C1F1C] text-slate-900 dark:text-slate-100 selection:bg-[#D6EF72]/60 selection:text-[#123C36] transition-colors duration-300">
+    <html lang="pt-BR" className={`${plusJakarta.variable} ${barlowCondensed.variable} ${sourceSerif.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col bg-[var(--bg-main)] font-sans text-[var(--text-main)] selection:bg-lima/60 selection:text-pinho transition-colors duration-300">
         {children}
       </body>
     </html>

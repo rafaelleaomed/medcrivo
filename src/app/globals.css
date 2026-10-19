@@ -15,11 +15,40 @@
   --color-teal-800: #0F4F48;
   --color-teal-900: #123C36;
   --color-teal-950: #0B2622;
+  /* Escala "slate" remapeada para um neutro da marca (Marfim -> Tinta, com leve tom verde).
+     Os tons claros servem a fundos e bordas no tema claro; os escuros, a texto no claro e a superfícies no escuro. */
+  --color-slate-50: #F8F6F0;
+  --color-slate-100: #EFECE3;
+  --color-slate-200: #E2DDD0;
+  --color-slate-300: #C7CCC2;
+  --color-slate-400: #8FA19B;
+  --color-slate-500: #5B6F6A;
+  --color-slate-600: #45574F;
+  --color-slate-700: #2F403B;
+  --color-slate-800: #1E3A35;
+  --color-slate-900: #172A27;
+  --color-slate-950: #0C1F1C;
+  /* "emerald" (sucesso) e "blue" alinhados à família Teal da marca. */
+  --color-emerald-50: #EEF6F3;
+  --color-emerald-100: #D6ECE5;
+  --color-emerald-200: #AEDBCF;
+  --color-emerald-300: #7CC3B4;
+  --color-emerald-400: #4FAE9D;
+  --color-emerald-500: #1E8E80;
+  --color-emerald-600: #16796F;
+  --color-emerald-700: #12655C;
+  --color-emerald-800: #0F4F48;
+  --color-emerald-900: #123C36;
+  --color-emerald-950: #0B2622;
+  --color-blue-500: #16796F;
+  --color-blue-600: #12655C;
   --color-lima: #D6EF72;
   --color-marfim: #F5F2E9;
   --color-pinho: #123C36;
   --color-tinta: #172A27;
   --font-serif: var(--font-source-serif), Georgia, serif;
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
 }
 
 :root {

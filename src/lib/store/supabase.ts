@@ -8,6 +8,7 @@ import type { CarouselJobInput, JobPatch, JobRecord, PostRecord, Store } from ".
 interface ProfileRow {
   name: string;
   profession: string;
+  career_stage: string;
   specialty: string;
   council_id: string;
   rqe: string;
@@ -47,6 +48,7 @@ function profileFromRow(row: ProfileRow): DoctorProfile {
   return DoctorProfileSchema.parse({
     name: row.name,
     profession: row.profession,
+    careerStage: row.career_stage,
     specialty: row.specialty,
     crm: row.council_id,
     rqe: row.rqe,
@@ -99,6 +101,7 @@ export function createSupabaseStore(supabase: SupabaseClient, userId: string): S
           user_id: userId,
           name: profile.name,
           profession: profile.profession,
+          career_stage: profile.careerStage,
           specialty: profile.specialty,
           council_id: profile.crm,
           rqe: profile.rqe,

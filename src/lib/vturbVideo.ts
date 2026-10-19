@@ -212,13 +212,14 @@ Responda EXCLUSIVAMENTE em formato JSON com esta estrutura:
         onScreenText: f.onScreenText,
       },
       retentionBody: {
-        speech: `Na maioria das vezes que recebo pessoas no consultório com essa queixa, vejo o mesmo equívoco. Estudos clínicos recentes demonstram que ${params.scientificTakeaway}. O mecanismo não é genético por acaso: ele responde diretamente à inflamação sistêmica crônica. Quando ajustamos isso de forma individualizada, a resposta clínica é completamente diferente.`,
-        mechanismExplanation: "Inflamação subclínica modulando receptores periféricos e resposta vascular.",
-        scientificCitation: "Consensus Medical Index & PubMed (2024)",
+        // Roteiro de reserva (sem IA): não afirma estudo, número nem mecanismo que não foi verificado.
+        speech: `Quando o assunto é ${params.topic}, muita gente tem dúvidas parecidas. [Explique aqui, com as suas palavras, o ponto principal e o que a pessoa pode observar no dia a dia. Se citar um estudo, use uma referência que você conferiu.]`,
+        mechanismExplanation: "",
+        scientificCitation: "",
       },
       conversionCta: {
-        speech: `Se você ou alguém da sua família convive com esse sintoma, agende sua avaliação pelo link da bio. Sua saúde agradece.`,
-        direction: "Apontar para baixo indicando o link do perfil.",
+        speech: `Se você se identificou, não se automedique: converse com o seu médico. Salve este vídeo para consultar depois.`,
+        direction: "Gesto sóbrio, olhando para a câmera.",
       },
       teleprompterFormattedText: `${f.speech} [PAUSA]\n\nNa maioria das vezes que recebo pessoas no consultório com essa queixa, vejo o mesmo equívoco repetido.\n\nEstudos clínicos recentes demonstram que ${params.scientificTakeaway}.\n\nQuando ajustamos isso de forma individualizada, a resposta clínica do organismo é completamente diferente.\n\n[PAUSA]\n\nSe você quer investigar sua condição a fundo, toque no link da minha bio e agende sua consulta médica.`,
       humanizerPassAudit: true,

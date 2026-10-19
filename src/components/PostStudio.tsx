@@ -112,24 +112,35 @@ export function PostStudio({ draft, profile }: { draft: PostDraft; profile: Doct
           <div className={`rounded-2xl border p-4 ${audit.isApproved ? "border-emerald-200 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30" : "border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30"}`}>
             <div className="flex items-center gap-2 text-sm font-bold">
               {audit.isApproved ? <ShieldCheck className="h-4 w-4 text-emerald-600" /> : <ShieldAlert className="h-4 w-4 text-amber-600" />}
-              {BRAND.auditorName}: {audit.score}/100 · {audit.isApproved ? "aprovado" : "revise antes de publicar"}
+              {BRAND.auditorName}: {audit.score}/100 · {audit.isApproved ? "sem bloqueios automáticos" : "revise antes de publicar"}
             </div>
-            {profile.profession === "dentista" && (
-              <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">As regras específicas do CFO ainda não estão no motor; a revisão aplicada usa as regras gerais de publicidade em saúde.</p>
-            )}
+            <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+              Triagem automática por regras gerais e {profile.profession === "dentista" ? "CFO" : "CFM"}; não substitui avaliação profissional nem assegura conformidade jurídica.
+            </p>
             {audit.infractions.length > 0 && (
               <ul className="mt-3 space-y-2 text-sm">
                 {audit.infractions.map((inf, i) => (
                   <li key={i} className="rounded-lg bg-white/70 dark:bg-black/20 p-2">
                     <span className="font-semibold">{inf.severity === "CRITICAL" ? "Crítico" : inf.severity === "WARNING" ? "Atenção" : "Info"}:</span> “{inf.detectedText}” — {inf.reason}
                     <div className="text-xs text-slate-500">
-                      {inf.legalReference} · Sugestão: {inf.suggestion}
+                      {inf.legalReference}
+                      {inf.sourceUrl && (
+                        <> · <a href={inf.sourceUrl} target="_blank" rel="noreferrer" className="font-medium underline">Fonte oficial</a></>
+                      )}
+                      {" · Sugestão: "}{inf.suggestion}
                     </div>
                   </li>
                 ))}
               </ul>
             )}
-            {!profile.crm && <p className="mt-2 text-xs">Cadastre seu {council} no perfil: a identificação é obrigatória em toda peça.</p>}
+            {!profile.crm && (
+              <p className="mt-2 text-xs">
+                Cadastre seu {council} no perfil
+                {profile.profession === "dentista"
+                  ? ": nome e CRO devem acompanhar divulgações com imagens de diagnóstico ou resultado final."
+                  : ": a identificação é obrigatória em toda peça médica."}
+              </p>
+            )}
           </div>
 
           {/* Legenda */}

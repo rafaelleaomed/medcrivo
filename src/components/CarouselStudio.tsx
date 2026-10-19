@@ -209,15 +209,8 @@ export function CarouselStudio({
       doctorName,
       crm,
       rqe,
-      scientificCitation
-        ? {
-            title: `Evidência Clínica Contemporânea sobre ${topic}`,
-            journal: "The Lancet & PubMed Medical Index",
-            year: 2024,
-            doi: "10.1016/S0140-6736(24)00112-X",
-            takeaway: scientificCitation,
-          }
-        : undefined,
+      // Sem referência inventada: só entra citação real vinda do pipeline de evidências.
+      undefined,
       variationSeed
     );
   }, [dynamicSlides, topic, specialty, doctorName, crm, rqe, scientificCitation, variationSeed]);
@@ -634,10 +627,6 @@ export function CarouselStudio({
                     <span className="text-xs font-black text-[#0F1419] tracking-tight">
                       Dr(a). {doctorName}
                     </span>
-                    {/* Selo Azul Verificado do X */}
-                    <svg className="w-3.5 h-3.5 text-[#1D9BF0] fill-current shrink-0" viewBox="0 0 24 24">
-                      <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.79-4-4-4-.495 0-.965.084-1.4.238C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.154-.905-.238-1.4-.238-2.21 0-4 1.79-4 4 4 .495 0 .965.084 1.4.238 1.05 1.273 2.42 2.148 4 2.148 1.58 0 2.95-.875 3.6-2.148.435.154.905.238 1.4.238 2.21 0 4-1.79 4-4 0-.495-.084-.965-.238-1.4 1.273-1.05 2.148-2.42 2.148-4zm-12.87 4.13-3.77-3.77 1.41-1.41 2.36 2.36 6.36-6.36 1.41 1.41-7.77 7.77z"/>
-                    </svg>
                   </div>
                   <span className="text-[10px] text-[#536471] font-normal leading-tight">
                     {doctorHandle} • {crm}
@@ -843,7 +832,7 @@ export function CarouselStudio({
                 Lâmina #{currentSlide.number}: {currentSlide.type}
               </span>
               <span className="text-xs font-mono text-teal-600 dark:text-teal-400 flex items-center gap-1">
-                <Shield className="w-3.5 h-3.5 icon-hover-effect" /> Blindagem CFM OK
+                <Shield className="w-3.5 h-3.5 icon-hover-effect" /> Veja o parecer no Crivo
               </span>
             </div>
 
@@ -882,8 +871,7 @@ export function CarouselStudio({
                     <Sparkles className="w-3 h-3 text-teal-600 dark:text-teal-400" />
                     Prompt da Imagem (FLUX.1 Contextual)
                   </span>
-                  <span className="text-teal-600 dark:text-teal-400 font-mono">100% Gratuito</span>
-                </div>
+                                  </div>
                 <p className="text-slate-600 dark:text-slate-400 italic font-mono leading-relaxed bg-white dark:bg-slate-950 p-2 rounded-lg border border-slate-200/60 dark:border-slate-800/60">
                   {currentSlide.imagePrompt}
                 </p>

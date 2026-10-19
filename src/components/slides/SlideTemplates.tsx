@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- imagens geradas externamente, sem otimização do Next */
 import React, { useEffect, useRef, useState } from "react";
 import type { PostSlide } from "@/lib/content/schema";
-import { councilLabel, type BrandKit, type DoctorProfile } from "@/lib/profile";
+import { identificationLine, showsSpecialty, type BrandKit, type DoctorProfile } from "@/lib/profile";
 
 /** Os slides são desenhados em 1080x1350 (4:5 do Instagram) e escalados para o espaço disponível. */
 export const SLIDE_W = 1080;
@@ -47,7 +47,7 @@ function Highlighted({ text, words, color, italic }: { text: string; words: stri
 }
 
 const CONDENSED = "var(--font-barlow-condensed), 'Arial Narrow', sans-serif";
-const SANS = "var(--font-inter), system-ui, sans-serif";
+const SANS = "var(--font-plus-jakarta), system-ui, sans-serif";
 const SERIF = "var(--font-source-serif), Georgia, serif";
 
 interface SlideProps {
@@ -63,21 +63,17 @@ function TopBar({ profile, color }: { profile: DoctorProfile; color: string }) {
     <div style={{ position: "absolute", top: 36, left: 48, right: 48, display: "flex", justifyContent: "space-between", fontFamily: SANS, fontWeight: 700, fontSize: 22, letterSpacing: 1, textTransform: "uppercase", color, opacity: 0.85 }}>
       <span>{handle}</span>
       <span>{profile.name}</span>
-      <span>{profile.specialty}</span>
+      {/* Especialidade só aparece para quem tem RQE (Res. CFM 2.336/2023). */}
+      <span>{showsSpecialty(profile) ? profile.specialty : ""}</span>
     </div>
   );
 }
 
-/** Rodapé com identificação obrigatória (nome, profissão e registro no conselho) e numeração. */
+/** Rodapé com identificação obrigatória e numeração. */
 function Footer({ profile, n, total, color }: { profile: DoctorProfile; n: number; total: number; color: string }) {
-  const role = profile.profession === "dentista" ? "Cirurgião-dentista" : "Médico";
-  const council = profile.crm || `${councilLabel(profile)} não informado`;
   return (
     <div style={{ position: "absolute", bottom: 34, left: 48, right: 48, display: "flex", justifyContent: "space-between", fontFamily: SANS, fontSize: 22, color, opacity: 0.8 }}>
-      <span>
-        {profile.name || "Seu nome"} · {role} · {council}
-        {profile.rqe ? ` · RQE ${profile.rqe}` : ""}
-      </span>
+      <span>{identificationLine(profile)}</span>
       <span>
         {n}/{total}
       </span>

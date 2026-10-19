@@ -42,7 +42,7 @@ export default function LoginPage({ searchParams }: { searchParams: LoginSearchP
         {!configured ? (
           <div className="mt-6 rounded-xl bg-amber-50 dark:bg-amber-950/40 p-4 text-sm text-amber-900 dark:text-amber-200">
             Autenticação desativada: o app está em <strong>modo local</strong> (Supabase não configurado).{" "}
-            <Link href="/" className="underline font-medium">
+            <Link href="/app" className="underline font-medium">
               Ir para o estúdio
             </Link>
           </div>

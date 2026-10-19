@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Sparkles,
@@ -14,9 +14,6 @@ import {
   Plus,
   ArrowRight,
   ShieldCheck,
-  TrendingUp,
-  Flame,
-  GraduationCap,
   RefreshCw,
 } from "lucide-react";
 import {
@@ -25,7 +22,7 @@ import {
   TrendingTopic,
 } from "@/data/medicalSpecialtiesData";
 
-import { DEFAULT_BRAND, EMPTY_PROFILE, councilLabel, type DoctorProfile } from "@/lib/profile";
+import { CAREER_STAGE_HINTS, CAREER_STAGE_LABELS, DEFAULT_BRAND, EMPTY_PROFILE, councilLabel, type DoctorProfile } from "@/lib/profile";
 
 export type { DoctorProfile } from "@/lib/profile";
 
@@ -45,7 +42,11 @@ export function WelcomeBoard({
   const [name, setName] = useState(initialProfile?.name || "");
   const [crm, setCrm] = useState(initialProfile?.crm || "");
   const [rqe, setRqe] = useState(initialProfile?.rqe || "");
-  const [profession, setProfession] = useState<DoctorProfile["profession"]>(initialProfile?.profession || "medico");
+  // Foco inicial em médicos: a profissão fica a do perfil salvo (padrão "medico") e não aparece no formulário.
+  const profession: DoctorProfile["profession"] = initialProfile?.profession || "medico";
+  const [careerStage, setCareerStage] = useState<DoctorProfile["careerStage"]>(initialProfile?.careerStage || "medico");
+  const isStudent = careerStage === "estudante";
+  const isSpecialist = careerStage === "especialista";
   const [brandPrimary, setBrandPrimary] = useState(initialProfile?.brand?.primary || DEFAULT_BRAND.primary);
   const [brandAccent, setBrandAccent] = useState(initialProfile?.brand?.accent || DEFAULT_BRAND.accent);
 
@@ -144,9 +145,11 @@ export function WelcomeBoard({
       ...initialProfile,
       name,
       profession,
+      careerStage,
       specialty: finalSpecialty,
-      crm,
-      rqe,
+      crm: isStudent ? "" : crm,
+      // RQE só vale para especialista; nos demais perfis não entra no rodapé nem no Crivo.
+      rqe: isSpecialist ? rqe : "",
       instagram,
       tiktok,
       youtube,
@@ -178,10 +181,10 @@ export function WelcomeBoard({
               </div>
               <div>
                 <h2 className="text-base font-bold text-slate-900 dark:text-white leading-tight">
-                  Configuração do Perfil Médico
+                  Seu perfil
                 </h2>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Personalize sua identidade e temas de interesse para sugestão de pautas em alta
+                  A identificação dos posts e as pautas sugeridas vêm daqui
                 </p>
               </div>
             </div>
@@ -198,22 +201,37 @@ export function WelcomeBoard({
             {/* Bloco 1: Identificação Médica */}
             <div>
               <h3 className="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 flex items-center gap-1.5 mb-3">
-                <ShieldCheck className="w-4 h-4" /> 1. Dados Profissionais (CFM 2.336/2023)
+                <ShieldCheck className="w-4 h-4" /> 1. Identificação (Res. CFM 2.336/2023)
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Profissão
-                  </label>
-                  <select
-                    value={profession}
-                    onChange={(e) => setProfession(e.target.value as DoctorProfile["profession"])}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 focus:outline-none focus:border-teal-500 font-medium"
-                  >
-                    <option value="medico">Médico(a) — regras CFM</option>
-                    <option value="dentista">Cirurgião(ã)-dentista — regras CFO</option>
-                  </select>
-                </div>
+                <fieldset className="sm:col-span-2">
+                  <legend className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Situação profissional</legend>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                    {(Object.keys(CAREER_STAGE_LABELS) as DoctorProfile["careerStage"][]).map((stage) => (
+                      <label
+                        key={stage}
+                        className={`flex cursor-pointer flex-col gap-1 rounded-2xl border p-3 text-left transition-colors ${
+                          careerStage === stage
+                            ? "border-teal-600 bg-teal-50 dark:border-lima dark:bg-marfim/10"
+                            : "border-slate-200 hover:border-teal-500 dark:border-slate-800"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2 text-sm font-bold">
+                          <input
+                            type="radio"
+                            name="careerStage"
+                            value={stage}
+                            checked={careerStage === stage}
+                            onChange={() => setCareerStage(stage)}
+                            className="accent-teal-700"
+                          />
+                          {CAREER_STAGE_LABELS[stage]}
+                        </span>
+                        <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">{CAREER_STAGE_HINTS[stage]}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
                 <div>
                   <span className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Cores da marca nos slides</span>
                   <div className="flex items-center gap-3">
@@ -243,7 +261,7 @@ export function WelcomeBoard({
                 {/* SELECT INTELIGENTE DE ESPECIALIDADES */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Especialidade Principal / Perfil
+                    {isSpecialist ? "Especialidade (com RQE)" : "Área de interesse"}
                   </label>
                   <select
                     value={isCustomSpecialty ? "custom" : selectedSpecialty.id}
@@ -275,6 +293,13 @@ export function WelcomeBoard({
                   </div>
                 )}
 
+                {!isSpecialist && (
+                  <p className="sm:col-span-2 -mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                    A área de interesse serve para sugerir pautas. Ela não aparece como especialidade nos posts: anunciar especialidade exige RQE.
+                  </p>
+                )}
+
+                {!isStudent && (
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     {councilLabel({ profession })} com UF
@@ -287,6 +312,8 @@ export function WelcomeBoard({
                     className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 focus:outline-none focus:border-teal-500"
                   />
                 </div>
+                )}
+                {isSpecialist && (
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                     RQE (Registro de Especialidade)
@@ -295,10 +322,11 @@ export function WelcomeBoard({
                     type="text"
                     value={rqe}
                     onChange={(e) => setRqe(e.target.value)}
-                    placeholder="Ex: 89412 (opcional)"
+                    placeholder="Ex: 89412"
                     className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 focus:outline-none focus:border-teal-500"
                   />
                 </div>
+                )}
               </div>
             </div>
 
@@ -393,7 +421,7 @@ export function WelcomeBoard({
                 <div className="flex flex-wrap gap-1.5 p-3 rounded-2xl bg-teal-50/50 dark:bg-teal-950/20 border border-teal-200/70 dark:border-teal-900/40 min-h-[50px] items-center">
                   {interests.length === 0 ? (
                     <span className="text-xs text-slate-400 italic">
-                      Nenhum tema selecionado ainda. Escolha nas sugestões em alta abaixo ou adicione temas próprios.
+                      Nenhum tema selecionado ainda. Escolha nas sugestões abaixo ou adicione temas próprios.
                     </span>
                   ) : (
                     interests.map((topic) => (
@@ -437,18 +465,14 @@ export function WelcomeBoard({
               <div className="pt-2">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-1.5">
-                    <Flame className="w-3.5 h-3.5 text-amber-500" />
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
                     <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                      Pautas em Alta para {selectedSpecialty.name}
+                      Sugestões de temas para {selectedSpecialty.name}
                     </span>
                   </div>
-                  {isValidatingTrends ? (
-                    <span className="text-[10px] font-mono text-teal-600 dark:text-teal-400 flex items-center gap-1">
-                      <RefreshCw className="w-3 h-3 animate-spin" /> Validando TrendsMCP...
-                    </span>
-                  ) : (
-                    <span className="text-[10px] font-mono text-slate-400 flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3 text-teal-500" /> Validado TrendsMCP & REA
+                  {isValidatingTrends && (
+                    <span className="text-[10px] text-teal-600 dark:text-teal-400 flex items-center gap-1">
+                      <RefreshCw className="w-3 h-3 animate-spin" /> Atualizando sugestões…
                     </span>
                   )}
                 </div>
@@ -467,17 +491,8 @@ export function WelcomeBoard({
                             : "bg-slate-50 dark:bg-slate-900/80 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-teal-500/50 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
                       >
-                        {isSelected ? (
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                        ) : (
-                          <span className="text-[10px] opacity-75">{item.badge}</span>
-                        )}
+                        {isSelected ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5 opacity-60" />}
                         <span>{item.title}</span>
-                        {item.growthIndicator && !isSelected && (
-                          <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
-                            {item.growthIndicator}
-                          </span>
-                        )}
                       </button>
                     );
                   })}
