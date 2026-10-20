@@ -27,6 +27,7 @@ import * as React from "react"
  * a picture of your own instead.
  *
  * Self-contained: React is the only import. No CSS file, no images, no fonts.
+ * MedCrivo: textos de acessibilidade traduzidos para português.
  */
 
 export type ArtPreset = "aurora" | "ember" | "dusk" | "glacier" | "verdant"
@@ -103,6 +104,8 @@ export type GlassFolderProps = {
   appear?: boolean
   /** Delay before that entrance, in ms — for staggering a row of folders. */
   appearDelay?: number
+  /** How many files show in the stack (the newest ones). Default 4. */
+  maxVisible?: number
   className?: string
   style?: React.CSSProperties
 }
@@ -463,22 +466,24 @@ function ArtCanvas({
   className?: string
 }) {
   const ref = React.useRef<HTMLCanvasElement>(null)
-  const [ready, setReady] = React.useState(false)
   const recipe = recipeOf(art)
   const key = JSON.stringify(recipe)
   const pw = Math.round(w * density)
   const ph = Math.round(h * density)
+  // "ready" belongs to one painting: a new recipe or size is not ready until it paints
+  const painting = key + "|" + seed + "|" + pw + "|" + ph
+  const [paintedFor, setPaintedFor] = React.useState<string | null>(null)
+  const ready = paintedFor === painting
 
   React.useEffect(() => {
     let live = true
-    setReady(false)
     paint(JSON.parse(key) as ArtRecipe, seed, pw, ph, priority).then((src) => {
       const c = ref.current
       if (!live || !c) return
       c.width = src.width
       c.height = src.height
       c.getContext("2d")?.drawImage(src, 0, 0)
-      setReady(true)
+      setPaintedFor(key + "|" + seed + "|" + pw + "|" + ph)
     })
     return () => {
       live = false
@@ -530,7 +535,7 @@ const SAMPLE_FILES: FolderFile[] = [
 ]
 
 export default function GlassFolder({
-  label = "My Files",
+  label = "Meus arquivos",
   meta,
   tone = "light",
   art = "aurora",
@@ -549,6 +554,7 @@ export default function GlassFolder({
   width = 340,
   appear = true,
   appearDelay = 0,
+  maxVisible = MAX_VISIBLE,
   className,
   style,
 }: GlassFolderProps) {
@@ -561,7 +567,8 @@ export default function GlassFolder({
 
   const [files, setFiles] = React.useState<FolderFile[]>(initialFiles)
   // ids survive re-renders so a newly added file is the only one that animates in
-  const ids = React.useRef<number[]>(initialFiles.map((_, i) => i))
+  // (state, not a ref: React 19 does not allow reading refs during render)
+  const [ids, setIds] = React.useState<number[]>(() => initialFiles.map((_, i) => i))
   const nextId = React.useRef(initialFiles.length)
   const [dropped, setDropped] = React.useState<number | null>(null)
   const [bump, setBump] = React.useState(0)
@@ -676,10 +683,10 @@ export default function GlassFolder({
 
   const addFile = () => {
     const made = onAdd?.(files)
-    const file: FolderFile = made || { name: "Untitled " + (files.length + 1), meta: "Just now" }
+    const file: FolderFile = made || { name: "Sem título " + (files.length + 1), meta: "Agora" }
     const next = [...files, file]
     const id = nextId.current++
-    ids.current = [...ids.current, id]
+    setIds((prev) => [...prev, id])
     setFiles(next)
     setDropped(id)
     setBump((b) => b + 1)
@@ -687,7 +694,7 @@ export default function GlassFolder({
   }
 
   const menuItems: FolderMenuItem[] = [
-    { label: open ? "Close folder" : "Open folder", onSelect: () => setOpen(!open) },
+    { label: open ? "Fechar pasta" : "Abrir pasta", onSelect: () => setOpen(!open) },
     ...menu,
   ]
 
@@ -706,10 +713,10 @@ export default function GlassFolder({
   }
 
   // the newest files sit at the front of the stack, nearest the glass
-  const start = Math.max(0, files.length - MAX_VISIBLE)
+  const start = Math.max(0, files.length - maxVisible)
   const visible = files.slice(start)
   const count = files.length
-  const metaLine = meta ?? count + (count === 1 ? " item" : " items")
+  const metaLine = meta ?? count + (count === 1 ? " item" : " itens")
 
   return (
     <div
@@ -762,7 +769,7 @@ export default function GlassFolder({
               type="button"
               className="gf-hit"
               aria-expanded={open}
-              aria-label={(open ? "Close " : "Open ") + label + ", " + count + (count === 1 ? " item" : " items")}
+              aria-label={(open ? "Fechar " : "Abrir ") + label + ", " + count + (count === 1 ? " item" : " itens")}
               onClick={() => {
                 setMenuOpen(false)
                 setOpen(!open)
@@ -777,9 +784,9 @@ export default function GlassFolder({
           </div>
 
           {/* the contents: after the glass in tab order, beneath it on screen */}
-          <div ref={filesRef} className="gf-files" role="list" aria-label={label + " contents"}>
+          <div ref={filesRef} className="gf-files" role="list" aria-label={"Conteúdo de " + label}>
             {visible.map((file, v) => {
-              const id = ids.current[start + v]
+              const id = ids[start + v]
               const slot = fanSlot(v, visible.length)
               const jitter = rng(hashString(file.name) + id)
               const picture = !!(file.art || file.image)
@@ -846,7 +853,7 @@ export default function GlassFolder({
               ref={keyRef}
               type="button"
               className={"gf-key gf-key--" + action}
-              aria-label={action === "add" ? "Add a file to " + label : "More options for " + label}
+              aria-label={action === "add" ? "Adicionar arquivo em " + label : "Mais opções de " + label}
               aria-haspopup={action === "more" ? "menu" : undefined}
               aria-expanded={action === "more" ? menuOpen : undefined}
               aria-controls={action === "more" ? "gf-menu-" + uid : undefined}
@@ -871,7 +878,7 @@ export default function GlassFolder({
               ref={menuRef}
               id={"gf-menu-" + uid}
               role="menu"
-              aria-label={label + " options"}
+              aria-label={"Opções de " + label}
               className="gf-menu"
               data-open={menuOpen || undefined}
               onKeyDown={onMenuKey}

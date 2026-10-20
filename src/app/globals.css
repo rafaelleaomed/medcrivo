@@ -129,3 +129,57 @@ button:hover .icon-hover-effect,
   font-family: var(--font-barlow-condensed), sans-serif;
 }
 
+
+/* ==========================================================================
+   Grade editorial MedCrivo (estrutura Stencil adaptada à paleta)
+   Células com bordas finas, rótulo mono com marcador quadrado e display.
+   ========================================================================== */
+.mc-grid {
+  display: grid;
+  border-left: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--border-subtle);
+}
+.mc-cell {
+  position: relative;
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.mc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.mc-kicker::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: var(--clinical-teal);
+}
+.dark .mc-kicker::before,
+[data-theme="dark"] .mc-kicker::before {
+  background: var(--accent-lima);
+}
+.mc-display {
+  font-family: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+.mc-accent {
+  color: var(--clinical-teal);
+}
+.dark .mc-accent,
+[data-theme="dark"] .mc-accent {
+  color: var(--accent-lima);
+}
+.mc-dots {
+  background-image: radial-gradient(currentColor 1px, transparent 1.3px);
+  background-size: 18px 18px;
+}
