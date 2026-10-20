@@ -81,6 +81,8 @@ export function OnboardingWizard() {
   const router = useRouter();
   const [profile, setProfile] = useState<DoctorProfile>(EMPTY_PROFILE);
   const [loaded, setLoaded] = useState(false);
+  // Quem já concluiu e volta para revisar continua concluído durante as etapas.
+  const [wasOnboarded, setWasOnboarded] = useState(false);
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -101,7 +103,10 @@ export function OnboardingWizard() {
         return;
       }
       const data = await res?.json().catch(() => null);
-      if (data?.profile) setProfile(data.profile);
+      if (data?.profile) {
+        setProfile(data.profile);
+        setWasOnboarded(Boolean(data.profile.onboarded));
+      }
       const saved = Number(window.localStorage.getItem(STEP_STORAGE_KEY));
       if (!data?.profile?.onboarded && Number.isInteger(saved) && saved > 0 && saved < STEPS.length) setStep(saved);
       setLoaded(true);
@@ -137,7 +142,7 @@ export function OnboardingWizard() {
     setBusy(true);
     try {
       const last = step === STEPS.length - 1;
-      const saved = await save({ ...profile, onboarded: last });
+      const saved = await save({ ...profile, onboarded: last || wasOnboarded });
       setProfile(saved);
       if (last) {
         setDone(true);

@@ -138,6 +138,10 @@ export function Headline({
   );
 }
 
+/**
+ * Cabeçalho de tela na grade editorial (Stencil adaptada): rótulo mono + título em display.
+ * `description` aparece numa linha só (fica oculta no celular): prefira não usar.
+ */
 export function PageHeader({
   kicker,
   title,
@@ -150,17 +154,18 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="max-w-2xl space-y-2">
-        {kicker && <Kicker>{kicker}</Kicker>}
-        <h1 className="text-2xl font-extrabold tracking-tight text-tinta sm:text-3xl dark:text-marfim">{title}</h1>
-        {description && <p className="text-sm leading-relaxed text-[var(--text-muted)]">{description}</p>}
+    <header className="mc-grid -mx-4 grid-cols-1 sm:mx-0 md:grid-cols-12">
+      <div className={cx("mc-cell p-6 sm:p-8", actions ? "md:col-span-8" : "md:col-span-12")}>
+        {kicker && <p className="mc-kicker">{kicker}</p>}
+        <h1 className="mc-display mt-4 text-5xl text-[var(--text-main)] sm:text-6xl">{title}</h1>
+        {description && <p className="mt-3 hidden truncate text-sm text-[var(--text-muted)] sm:block">{description}</p>}
       </div>
-      {actions && <div className="flex shrink-0 flex-wrap gap-2">{actions}</div>}
+      {actions && <div className="mc-cell flex flex-wrap items-end justify-start gap-2 p-6 sm:p-8 md:col-span-4 md:justify-end">{actions}</div>}
     </header>
   );
 }
 
+/** Estado vazio enxuto: ícone, uma frase e, se houver, uma ação. */
 export function EmptyState({
   icon,
   title,
@@ -173,10 +178,10 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-[var(--border-subtle)] bg-white/60 px-6 py-12 text-center dark:bg-[#132D29]/60">
-      {icon && <div className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-50 text-teal-700 dark:bg-marfim/10 dark:text-lima">{icon}</div>}
-      <h2 className="text-base font-bold text-tinta dark:text-marfim">{title}</h2>
-      {children && <div className="max-w-md text-sm leading-relaxed text-[var(--text-muted)]">{children}</div>}
+    <div className="flex flex-col items-center gap-4 border border-dashed border-[var(--border-subtle)] px-6 py-14 text-center">
+      {icon && <div className="grid h-12 w-12 place-items-center bg-pinho text-lima dark:bg-lima dark:text-pinho">{icon}</div>}
+      <h2 className="text-base font-bold text-[var(--text-main)]">{title}</h2>
+      {children && <div className="max-w-sm text-sm text-[var(--text-muted)]">{children}</div>}
       {action}
     </div>
   );

@@ -15,27 +15,22 @@ export function FeedPreview() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        kicker="Feed 3×3"
-        title="Como o post fica na sua grade"
-        description="A capa do post gerado aparece no primeiro espaço, em formato 4:5. Use para conferir contraste e leitura em tamanho pequeno antes de publicar."
-      />
+      <PageHeader kicker="Planejar · Grade 3×3" title="Feed" />
 
       {!postDraft ? (
         <EmptyState
           icon={<Grid3x3 className="h-6 w-6" aria-hidden />}
-          title="Ainda não há post para mostrar"
+          title="Sem post para mostrar"
           action={
             <Link href={STUDIO_ROUTES.carousel} className="text-sm font-semibold text-teal-700 hover:underline dark:text-lima">
               Criar um carrossel
             </Link>
           }
         >
-          Gere um carrossel e volte aqui para ver a capa na grade.
         </EmptyState>
       ) : (
-        <div className="mx-auto max-w-md rounded-3xl border border-[var(--border-subtle)] bg-white p-4 dark:bg-[#132D29]">
-          <p className="mb-3 text-sm font-bold text-tinta dark:text-marfim">{handle}</p>
+        <div className="mx-auto max-w-md border border-[var(--border-subtle)] bg-[var(--bg-card)] p-4">
+          <p className="mc-kicker mb-3">{handle}</p>
           <div className="grid grid-cols-3 gap-1">
             <div className="aspect-[4/5] overflow-hidden">
               <SlideCanvas slide={postDraft.slides[0]} total={postDraft.slides.length} profile={profile} />
