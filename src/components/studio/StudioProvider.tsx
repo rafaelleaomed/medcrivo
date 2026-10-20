@@ -118,7 +118,8 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
         if (cancelled) return;
         setStoreMode(data.mode ?? null);
         if (data.profile) setProfile(data.profile);
-        if (!data.profile?.onboarded) setProfileOpen(true);
+        // Primeiro acesso: wizard de onboarding em tela cheia.
+        if (!data.profile?.onboarded) router.replace("/onboarding");
       } catch (e) {
         console.error("Erro ao carregar perfil:", e);
       }
