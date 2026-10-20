@@ -1,0 +1,154 @@
+import { identificationLine, type DoctorProfile } from "@/lib/profile";
+import { askClaudeStructured, crivo, describeProfessional, EDITORIAL_RULES, summarize, withFallback, type CrivoSummary } from "./ai";
+import {
+  AssistantReplySchema,
+  heuristicReply,
+  MAX_HISTORY,
+  type AssistantTurn,
+  type ChatMessage,
+} from "./assistant";
+import { heuristicIdeas, ideaText, IdeasOutputSchema, type Idea, type IdeasInput } from "./ideas";
+import { heuristicStories, normalizeStories, StoriesOutputSchema, storiesText, type StoriesInput, type StoriesPlan } from "./stories";
+
+/* ---------------------------------- Ideias --------------------------------- */
+
+const IDEAS_SYSTEM = `Você é editor de pautas para profissionais de saúde no Instagram brasileiro.
+Você propõe pautas que educam o paciente e geram autoridade, cada uma com gancho forte e formato indicado.
+
+Método:
+- Pautas distintas entre si: misture mito desfeito, sinal de atenção, erro comum, checklist, passo a passo e "pode e não pode".
+- Gancho = a primeira frase do post ou do vídeo, que faz parar a rolagem sem sensacionalismo.
+- Formato: carrossel para conteúdo de salvar; reels para opinião e explicação rápida; stories para enquete e dúvidas.
+- Fonte "noticia": comente a notícia do contexto, sem acrescentar fatos que não estejam nele. Sem contexto, proponha pautas no formato de notícia sobre temas recorrentes, sem afirmar fatos datados.
+- Fonte "artigo": traduza o artigo do contexto para a linguagem do paciente, sem números que não estejam nele.
+
+${EDITORIAL_RULES}`;
+
+export type IdeaWithCrivo = Idea & { crivo: CrivoSummary };
+
+export async function generateIdeas(input: IdeasInput, profile: DoctorProfile) {
+  const result = await withFallback(
+    "Ideias",
+    async () => {
+      const { data, usage } = await askClaudeStructured({
+        schema: IdeasOutputSchema,
+        system: IDEAS_SYSTEM,
+        messages: [
+          {
+            role: "user",
+            content: [
+              `Fonte: ${input.source}`,
+              `Tema: ${input.theme || "livre, a partir do perfil"}`,
+              input.sourceContext ? `Contexto do link:\n${input.sourceContext}` : null,
+              describeProfessional(profile),
+              profile.interests.length ? `Interesses: ${profile.interests.join("; ")}.` : null,
+              `Quantidade: exatamente ${input.count} pautas.`,
+            ]
+              .filter(Boolean)
+              .join("\n"),
+          },
+        ],
+      });
+      const ideas = data.ideas.filter((i) => i.title.trim()).slice(0, input.count);
+      if (ideas.length === 0) throw new Error("A IA não retornou pautas.");
+      return { data: ideas, usage };
+    },
+    () => heuristicIdeas(input, profile),
+  );
+  const ideas: IdeaWithCrivo[] = result.data.map((idea) => ({
+    ...idea,
+    crivo: summarize(crivo(ideaText(idea), profile, { requireIdentification: false })),
+  }));
+  return { ...result, data: ideas };
+}
+
+/* --------------------------------- Stories --------------------------------- */
+
+const GOAL_BRIEF: Record<StoriesInput["goal"], string> = {
+  educar: "educar: explicar o tema em passos curtos e terminar pedindo para salvar ou compartilhar",
+  engajar: "engajar: usar enquete e quiz e terminar com caixa de perguntas",
+  converter:
+    "converter: terminar com convite para responder UMA palavra-chave no direct e receber um material educativo (nunca preço, promoção ou promessa)",
+};
+
+const STORIES_SYSTEM = `Você é roteirista de stories para profissionais de saúde no Instagram brasileiro.
+Você escreve sequências de 4 a 6 telas 9:16, uma ideia por tela, para quem grava falando para a câmera ou posta texto sobre fundo da marca.
+
+Método:
+- Tela 1 (abertura): gancho que faz o seguidor tocar para avançar.
+- Meio: conteúdo curto e pelo menos uma interação (enquete com 2 opções, quiz com 3 opções ou caixa de perguntas).
+- Última tela: chamada (cta) ou caixa de perguntas, conforme o objetivo.
+- Texto curto: até 18 palavras na tela; o resto é fala, não legenda.
+
+${EDITORIAL_RULES}`;
+
+export type StoriesResult = StoriesPlan & { crivo: CrivoSummary; footer: string };
+
+export async function generateStories(input: StoriesInput, profile: DoctorProfile) {
+  const result = await withFallback(
+    "Stories",
+    async () => {
+      const { data, usage } = await askClaudeStructured({
+        schema: StoriesOutputSchema,
+        system: STORIES_SYSTEM,
+        messages: [
+          {
+            role: "user",
+            content: [
+              `Tema: ${input.topic}`,
+              `Objetivo: ${GOAL_BRIEF[input.goal]}.`,
+              describeProfessional(profile),
+              `Quantidade de telas: exatamente ${input.count}.`,
+            ].join("\n"),
+          },
+        ],
+      });
+      return { data: normalizeStories(data, input.count), usage };
+    },
+    () => heuristicStories(input),
+  );
+  // A identificação vai no rodapé de cada tela; o Crivo avalia a sequência com ela.
+  const footer = identificationLine(profile);
+  const audit = crivo(`${storiesText(result.data)}\n\n${footer}`, profile);
+  const plan: StoriesResult = { ...result.data, crivo: summarize(audit), footer };
+  return { ...result, data: plan };
+}
+
+/* -------------------------------- Assistente ------------------------------- */
+
+const ASSISTANT_SYSTEM = `Você é o assistente do MedCrivo, estúdio de conteúdo para médicos, dentistas e estudantes de medicina no Instagram.
+Você ajuda com pautas, carrosséis, stories, reels, legendas, bio e dúvidas sobre as normas de publicidade do CFM e do CFO.
+
+Como responder:
+- Direto e curto, em português do Brasil. Listas quando ajudarem.
+- Quando o pedido se resolve numa ferramenta do estúdio, preencha action: carrossel (post de slides), stories (sequência), ideias (pautas) ou crivo (revisar um texto). Caso contrário, action = null.
+- Normas: explique o que diz a regra e recomende passar o texto no Crivo. Não dê parecer jurídico.
+- Saúde: conteúdo educativo; não faça diagnóstico nem prescrição para casos individuais.
+- Se não souber, diga que não sabe.
+
+${EDITORIAL_RULES}`;
+
+export async function replyAssistant(history: ChatMessage[], profile: DoctorProfile) {
+  const recent = history.slice(-MAX_HISTORY);
+  // A API exige que a conversa comece pelo usuário.
+  const firstUser = recent.findIndex((m) => m.role === "user");
+  const messages = firstUser > 0 ? recent.slice(firstUser) : recent;
+  const last = messages[messages.length - 1]?.content ?? "";
+  const result = await withFallback(
+    "Assistente",
+    () =>
+      askClaudeStructured({
+        schema: AssistantReplySchema,
+        system: `${ASSISTANT_SYSTEM}\n\n${describeProfessional(profile)}`,
+        messages: messages.map((m) => ({ role: m.role, content: m.content })),
+        maxTokens: 4000,
+      }),
+    () => heuristicReply(last),
+  );
+  const turn: AssistantTurn = {
+    ...result.data,
+    suggestions: result.data.suggestions.slice(0, 3),
+    crivo: summarize(crivo(result.data.reply, profile, { requireIdentification: false })),
+  };
+  return { ...result, data: turn };
+}

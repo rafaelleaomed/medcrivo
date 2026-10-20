@@ -45,9 +45,9 @@ export const STUDIO_TOOLS: StudioTool[] = [
   // Criar
   { id: "carrossel", href: "/app/carrossel", label: "Carrossel", hint: "Tema → post 4:5", icon: Layers, group: "criar", status: "pronto" },
   { id: "video", href: "/app/video", label: "Reels", hint: "Roteiro e teleprompter", icon: Film, group: "criar", status: "pronto" },
-  { id: "stories", href: "/app/stories", label: "Stories", hint: "Sequência do dia", icon: Smartphone, group: "criar", status: "em-construcao" },
-  { id: "ideias", href: "/app/ideias", label: "Ideias", hint: "Pautas, notícias e artigos", icon: Lightbulb, group: "criar", status: "em-construcao" },
-  { id: "assistente", href: "/app/assistente", label: "Assistente", hint: "Converse com a IA", icon: MessageSquareText, group: "criar", status: "em-construcao" },
+  { id: "stories", href: "/app/stories", label: "Stories", hint: "Sequência do dia", icon: Smartphone, group: "criar", status: "pronto" },
+  { id: "ideias", href: "/app/ideias", label: "Ideias", hint: "Pautas, notícias e artigos", icon: Lightbulb, group: "criar", status: "pronto" },
+  { id: "assistente", href: "/app/assistente", label: "Assistente", hint: "Converse com a IA", icon: MessageSquareText, group: "criar", status: "pronto" },
   // Planejar
   { id: "planner", href: "/app/planner", label: "Planner", hint: "Calendário editorial", icon: CalendarDays, group: "planejar", status: "em-construcao" },
   { id: "conteudos", href: "/app/conteudos", label: "Meus conteúdos", hint: "Tudo que você criou", icon: FolderOpen, group: "planejar", status: "em-construcao" },
