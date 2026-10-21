@@ -115,7 +115,7 @@ export const CFM_RULES: ComplianceRule[] = [
     id: 'CFM-001-PROMESSA',
     category: 'promessa_resultado',
     severity: 'CRITICAL',
-    pattern: /(resultado(s)? garantido(s)?|garantia de cura|cura definitiva|100%\s*(eficaz|garantido)|tratamento infal[ií]vel|sem chances de erro)/gi,
+    pattern: /(resultado(s)? garantido(s)?|(?<!sem\s)garantia de (cura|resultados?)|cura (definitiva|garantida|total)|100%\s*(eficaz|garantido|seguro|de cura|de sucesso)|tratamento infal[ií]vel|sem chances? de erro|(?<!n[aã]o\s)(?<!nunca\s)\bgarant(?:e|em|imos|o|ir|indo)\s+(?:a\s+|o\s+|os\s+|as\s+)?(?:cura|resultados?|sucesso|melhora)|\bpromet(?:e|em|emos|o)\s+(?:a\s+)?cura)/gi,
     reason: 'É expressamente vedado ao médico garantir resultados ou prometer cura de qualquer enfermidade.',
     legalReference: 'Resolução CFM nº 2.336/2023, Art. 11, II',
     suggestionFn: () => 'tratamento que auxilia significativamente na evolução clínica individual',
@@ -145,7 +145,7 @@ export const CFM_RULES: ComplianceRule[] = [
     category: 'comercio_e_precos',
     severity: 'WARNING',
     // "promoção" isolada; ignora "autopromoção" e o termo de saúde pública "promoção da saúde".
-    pattern: /(\bpromo[cç][aã]o\b(?!\s+(?:da|de|à)\s+sa[uú]de)|desconto de \d+%|combo de procedimentos|pre[cç]o imperd[ií]vel|black friday)/gi,
+    pattern: /(\bpromo[cç][aã]o\b(?!\s+(?:da|de|à)\s+sa[uú]de)|\bpromo[cç][oõ]es\b|\bdescontos?\b|combo de procedimentos|pre[cç]o imperd[ií]vel|oferta (?:imperd[ií]vel|especial)|pacote promocional|condi[cç][aã]o especial|black friday)/gi,
     reason: 'A divulgação de valores de consulta é permitida pela Res. 2.336/2023, mas a mercantilização agressiva e combos promocionais continuam vedados.',
     legalReference: 'Resolução CFM nº 2.336/2023, Art. 9º',
     suggestionFn: () => 'informações sobre valores disponíveis mediante contato ético com a recepção',

@@ -137,3 +137,41 @@ test("aviso de identificação continua só como WARNING (estudantes não têm C
   assert.equal(finding?.severity, "WARNING");
   assert.equal(result.isApproved, true);
 });
+
+const medico = { profession: "medico", doctorName: "Dra. Ana Lima", crm: "CRM/SP 123456" };
+const ids = (text) => HealthcareComplianceEngine.audit(text, medico).infractions.map((i) => i.ruleId);
+
+test("promessa de resultado: pega 'garante a cura', 'garantimos resultado' e variações", () => {
+  for (const t of [
+    "Esse tratamento garante a cura.",
+    "Garantimos resultado em 30 dias.",
+    "Cura garantida para o seu problema.",
+    "Ele promete cura rápida.",
+    "Tratamento 100% seguro e sem chance de erro.",
+  ]) {
+    assert.ok(ids(t).includes("CFM-001-PROMESSA"), t);
+  }
+});
+
+test("promessa de resultado: não acusa o aviso educativo 'não garante cura'", () => {
+  for (const t of [
+    "O tratamento não garante a cura, mas ajuda a controlar os sintomas.",
+    "Nunca garanta resultado a um paciente.",
+    "Sem garantia de cura: cada caso é individual.",
+  ]) {
+    assert.ok(!ids(t).includes("CFM-001-PROMESSA"), t);
+  }
+});
+
+test("promoção: pega 'desconto' em geral e oferta especial, mas não 'promoção da saúde'", () => {
+  for (const t of ["Agende com desconto hoje!", "Descontos para novos pacientes.", "Oferta especial de check-up.", "Pacote promocional de consultas."]) {
+    assert.ok(ids(t).includes("CFM-004-PROMOCAO-PRECO"), t);
+  }
+  assert.ok(!ids("Campanha de promoção da saúde no consultório.").includes("CFM-004-PROMOCAO-PRECO"));
+});
+
+test("o exemplo do Crivo grátis agora aponta os três problemas", () => {
+  const found = ids("Esse tratamento é 100% eficaz e garante a cura. Agende com desconto hoje!");
+  assert.ok(found.includes("CFM-001-PROMESSA"));
+  assert.ok(found.includes("CFM-004-PROMOCAO-PRECO"));
+});
