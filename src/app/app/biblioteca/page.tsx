@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { ToolPlaceholder } from "@/components/studio/ToolPlaceholder";
+import { LibraryView } from "@/components/tools/biblioteca/LibraryView";
+import { libraryCrivo } from "@/lib/library/crivo";
 
 export const metadata: Metadata = { title: "Biblioteca" };
 
 export default function BibliotecaPage() {
-  return <ToolPlaceholder toolId="biblioteca" />;
+  // Conteúdo estático: o Crivo roda no servidor e a nota vai pronta para a tela.
+  return <LibraryView crivo={libraryCrivo()} />;
 }

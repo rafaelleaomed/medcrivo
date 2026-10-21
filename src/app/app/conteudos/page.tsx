@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ToolPlaceholder } from "@/components/studio/ToolPlaceholder";
+import { PostsView } from "@/components/tools/conteudos/PostsView";
 
 export const metadata: Metadata = { title: "Meus conteúdos" };
 
 export default function ConteudosPage() {
-  return <ToolPlaceholder toolId="conteudos" />;
+  return <PostsView />;
 }

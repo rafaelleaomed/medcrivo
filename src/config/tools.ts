@@ -49,9 +49,9 @@ export const STUDIO_TOOLS: StudioTool[] = [
   { id: "ideias", href: "/app/ideias", label: "Ideias", hint: "Pautas, notícias e artigos", icon: Lightbulb, group: "criar", status: "pronto" },
   { id: "assistente", href: "/app/assistente", label: "Assistente", hint: "Converse com a IA", icon: MessageSquareText, group: "criar", status: "pronto" },
   // Planejar
-  { id: "planner", href: "/app/planner", label: "Planner", hint: "Calendário editorial", icon: CalendarDays, group: "planejar", status: "em-construcao" },
-  { id: "conteudos", href: "/app/conteudos", label: "Meus conteúdos", hint: "Tudo que você criou", icon: FolderOpen, group: "planejar", status: "em-construcao" },
-  { id: "biblioteca", href: "/app/biblioteca", label: "Biblioteca", hint: "Modelos por especialidade", icon: Library, group: "planejar", status: "em-construcao" },
+  { id: "planner", href: "/app/planner", label: "Planner", hint: "Calendário editorial", icon: CalendarDays, group: "planejar", status: "pronto" },
+  { id: "conteudos", href: "/app/conteudos", label: "Meus conteúdos", hint: "Tudo que você criou", icon: FolderOpen, group: "planejar", status: "pronto" },
+  { id: "biblioteca", href: "/app/biblioteca", label: "Biblioteca", hint: "Modelos por especialidade", icon: Library, group: "planejar", status: "pronto" },
   { id: "feed", href: "/app/feed", label: "Feed", hint: "Prévia da grade", icon: Grid, group: "planejar", status: "pronto" },
   // Revisar
   { id: "crivo", href: "/app/crivo", label: "Crivo", hint: "Normas CFM/CFO e LGPD", icon: ShieldCheck, group: "revisar", status: "pronto" },
