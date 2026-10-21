@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse, after } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { getStore, unauthorized } from "@/lib/store";
 import { CarouselJobInputSchema } from "@/lib/store/types";
 import { runCarouselJob } from "@/lib/jobs/carouselPipeline";
@@ -8,6 +9,8 @@ export const maxDuration = 300;
 
 /** Cria um job de carrossel e responde na hora com o id; o cliente acompanha por GET /api/jobs/:id. */
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("job", 5);
+  if (blocked) return blocked;
   const store = await getStore();
   if (!store) return unauthorized();
 

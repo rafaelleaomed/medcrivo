@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 
 interface ExtractedLinkData {
   url: string;
@@ -15,7 +16,19 @@ interface ExtractedLinkData {
   };
 }
 
+function isPrivateHost(host: string): boolean {
+  const h = host.toLowerCase().replace(/^\[|\]$/g, "");
+  if (h === "localhost" || h.endsWith(".localhost") || h.endsWith(".local") || h.endsWith(".internal") || !h.includes(".") && !h.includes(":")) return true;
+  if (h.includes(":")) return h === "::1" || h.startsWith("fc") || h.startsWith("fd") || h.startsWith("fe80") || h.startsWith("::ffff");
+  const m = h.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
+  if (!m) return false;
+  const [a, b] = [Number(m[1]), Number(m[2])];
+  return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || a >= 224;
+}
+
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("extract", 20);
+  if (blocked) return blocked;
   try {
     const { url } = await req.json();
 
@@ -37,6 +50,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Só http(s) em servidores públicos: evita que o servidor seja usado para ler a rede interna.
+    if (!/^https?:$/.test(parsedUrl.protocol) || isPrivateHost(parsedUrl.hostname)) {
+      return NextResponse.json({ success: false, error: "Use um link público começando com https://" }, { status: 400 });
+    }
+
     const domain = parsedUrl.hostname.replace("www.", "");
     let title = "";
     let description = "";
@@ -48,6 +66,7 @@ export async function POST(req: NextRequest) {
 
       const response = await fetch(trimmedUrl, {
         signal: controller.signal,
+        redirect: "error", // não segue redirecionamentos (poderiam apontar para a rede interna)
         headers: {
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",

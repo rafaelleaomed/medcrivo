@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { generateIdeas } from "@/lib/creator/generate";
 import { defaultTheme, IdeasInputSchema, SOURCE_LABELS } from "@/lib/creator/ideas";
 import { badRequest, creatorContext, failure, listOrGet, logUsage } from "@/lib/creator/route";
@@ -10,6 +11,8 @@ export function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("ideas", 10);
+  if (blocked) return blocked;
   const parsed = IdeasInputSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return badRequest(parsed.error);
   const ctx = await creatorContext();

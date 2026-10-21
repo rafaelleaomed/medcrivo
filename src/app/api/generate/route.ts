@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { HealthcareComplianceEngine } from "@/lib/compliance";
 import { ConsensusScientificEngine } from "@/lib/consensus";
 import { VturbVideoScriptEngine } from "@/lib/vturbVideo";
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("generate", 10);
+  if (blocked) return blocked;
   try {
     const body = await req.json();
     const { topic, specialty, doctorName, crm, profession, postText } = body;

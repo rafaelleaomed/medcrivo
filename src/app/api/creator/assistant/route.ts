@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { AssistantInputSchema, conversationTitle, type ConversationPayload, type StoredMessage } from "@/lib/creator/assistant";
 import { replyAssistant } from "@/lib/creator/generate";
 import { badRequest, creatorContext, failure, listOrGet, logUsage, notFound } from "@/lib/creator/route";
@@ -15,6 +16,8 @@ export function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("assistant", 20);
+  if (blocked) return blocked;
   const parsed = AssistantInputSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return badRequest(parsed.error);
   const ctx = await creatorContext();

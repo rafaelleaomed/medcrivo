@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { z } from "zod";
 import { generatePost } from "@/lib/content/generate";
 import type { CarouselSlide } from "@/lib/carouselEngine";
@@ -28,6 +29,8 @@ const TEMPLATE_LABELS: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("carousel", 10);
+  if (blocked) return blocked;
   const parsed = BodySchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ success: false, error: "Tema é obrigatório." }, { status: 400 });

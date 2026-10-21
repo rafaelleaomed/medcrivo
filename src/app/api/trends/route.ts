@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 import { MEDICAL_SPECIALTIES, getSpecialtyById, TrendingTopic } from "@/data/medicalSpecialtiesData";
 
 interface TrendsMCPResponse {
@@ -13,6 +14,8 @@ interface TrendsMCPResponse {
 }
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("trends", 30);
+  if (blocked) return blocked;
   try {
     const { specialtyId, specialtyName, keyword } = await req.json();
 

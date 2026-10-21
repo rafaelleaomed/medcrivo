@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { guardUser } from "@/lib/guard";
 
 export async function POST(req: NextRequest) {
+  const blocked = await guardUser("image", 20);
+  if (blocked) return blocked;
   try {
     const { prompt, seed, width = 1080, height = 1080, topic = "", slideTitle = "" } = await req.json();
 
