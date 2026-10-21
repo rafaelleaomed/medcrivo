@@ -5,10 +5,15 @@ import type { GeneratedSlide, PostDraft, PostSlide } from "@/lib/content/schema"
 import { councilLabel, EMPTY_PROFILE, type DoctorProfile } from "@/lib/profile";
 import type { JobRecord, Store } from "@/lib/store/types";
 
-/** Imagem 4:5 (1080x1350) para os templates que usam foto. */
-function imageUrlFor(prompt: string, seed: number): string {
+/**
+ * Imagem 4:5 (1080x1350) para os templates que usam foto. Opcional: sem SLIDE_IMAGE_PROVIDER=pollinations,
+ * capa e CTA usam o fundo gerado com as cores da marca (o plano gratuito do Pollinations devolve um selo de limite).
+ */
+function imageUrlFor(prompt: string, seed: number): string | undefined {
+  if (process.env.SLIDE_IMAGE_PROVIDER !== "pollinations") return undefined;
   const enriched = `${prompt}, professional editorial photography, soft natural light, photorealistic, no text, no watermark, no syringe, no blood`;
-  return `https://image.pollinations.ai/prompt/${encodeURIComponent(enriched)}?width=1080&height=1350&seed=${seed}&nologo=true&model=flux`;
+  const token = process.env.POLLINATIONS_TOKEN ? `&token=${encodeURIComponent(process.env.POLLINATIONS_TOKEN)}` : "";
+  return `https://image.pollinations.ai/prompt/${encodeURIComponent(enriched)}?width=1080&height=1350&seed=${seed}&nologo=true&model=flux${token}`;
 }
 
 function seedFrom(text: string): number {

@@ -15,7 +15,7 @@ export function Composer() {
   const missingRqe = requiresRqe(profile) && !profile.rqe.trim();
 
   return (
-    <section className="mc-grid -mx-4 grid-cols-1 border-t-0 sm:mx-0">
+    <section className="mc-grid -mx-4 grid-cols-1 sm:mx-0">
       <div className="mc-cell space-y-4 p-5 sm:p-6">
         {/* Identificação que vai no rodapé dos posts */}
         <div className="flex flex-wrap items-center justify-between gap-3">

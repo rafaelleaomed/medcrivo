@@ -94,15 +94,33 @@ function Avatar({ profile, accent }: { profile: DoctorProfile; accent: string })
   );
 }
 
-function PhotoBackground({ url, darken }: { url?: string; darken: string }) {
+/** Foto quando houver; sem foto, fundo gerado com as cores da marca (gradiente + textura de pontos). */
+function PhotoBackground({ url, darken, brand }: { url?: string; darken: string; brand: BrandKit }) {
   return (
     <>
       {url ? (
         <img src={url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
       ) : (
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(160deg,#1e293b,#020617)" }} />
+        <>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `radial-gradient(120% 80% at 85% 10%, ${brand.accent}55 0%, transparent 55%), linear-gradient(160deg, ${brand.primary} 0%, #050f0d 100%)`,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0.14,
+              backgroundImage: `radial-gradient(${brand.accent} 2px, transparent 2.6px)`,
+              backgroundSize: "36px 36px",
+            }}
+          />
+        </>
       )}
-      <div style={{ position: "absolute", inset: 0, background: darken }} />
+      <div style={{ position: "absolute", inset: 0, background: url ? darken : "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.45) 100%)" }} />
     </>
   );
 }
@@ -110,7 +128,7 @@ function PhotoBackground({ url, darken }: { url?: string; darken: string }) {
 function CapaNoticia({ slide, total, profile, brand }: SlideProps) {
   return (
     <>
-      <PhotoBackground url={slide.imageUrl} darken="linear-gradient(180deg, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.85) 62%, #000 100%)" />
+      <PhotoBackground brand={brand} url={slide.imageUrl} darken="linear-gradient(180deg, rgba(0,0,0,0.05) 25%, rgba(0,0,0,0.85) 62%, #000 100%)" />
       <TopBar profile={profile} color="#fff" />
       <div style={{ position: "absolute", left: 64, right: 64, bottom: 150 }}>
         <Avatar profile={profile} accent={brand.accent} />
@@ -209,7 +227,7 @@ function Lista({ slide, total, profile, brand }: SlideProps) {
 function Cta({ slide, total, profile, brand }: SlideProps) {
   return (
     <>
-      <PhotoBackground url={slide.imageUrl} darken="linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.88) 70%)" />
+      <PhotoBackground brand={brand} url={slide.imageUrl} darken="linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.88) 70%)" />
       <TopBar profile={profile} color="#fff" />
       <div style={{ position: "absolute", left: 64, right: 64, bottom: 170 }}>
         <Avatar profile={profile} accent={brand.accent} />
