@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
@@ -6,7 +7,10 @@ import { PostDetail } from "@/components/tools/conteudos/PostDetail";
 
 export const metadata: Metadata = { title: "Post" };
 
-export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
+type Params = Promise<{ id: string }>;
+
+// params e cookies são dados da requisição: com cacheComponents, a leitura fica dentro de <Suspense>.
+async function Post({ params }: { params: Params }) {
   const id = z.uuid().safeParse((await params).id);
   if (!id.success) notFound();
 
@@ -17,4 +21,12 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
   if (!post) notFound();
 
   return <PostDetail post={post} />;
+}
+
+export default function PostPage({ params }: { params: Params }) {
+  return (
+    <Suspense>
+      <Post params={params} />
+    </Suspense>
+  );
 }
