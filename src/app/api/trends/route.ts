@@ -95,11 +95,11 @@ export async function POST(req: NextRequest) {
         description: s.description,
       })),
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Erro ao consultar tendências",
+        error: (error instanceof Error && error.message) || "Erro ao consultar tendências",
         trendingTopics: MEDICAL_SPECIALTIES[0].trendingTopics,
       },
       { status: 500 }

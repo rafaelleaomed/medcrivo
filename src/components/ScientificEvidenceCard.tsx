@@ -71,7 +71,7 @@ export function ScientificEvidenceCard({ evidence, topic }: ScientificEvidenceCa
               <Sparkles className="w-3.5 h-3.5 icon-hover-effect" /> Consensus Takeaway (Conclusão Clínica):
             </span>
             <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed font-sans">
-              "{primary.takeaway}"
+              &quot;{primary.takeaway}&quot;
             </p>
           </div>
 

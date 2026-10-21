@@ -49,7 +49,7 @@ export function VturbVideoDirector({
 
   // Efeito do cronômetro do teleprompter
   useEffect(() => {
-    let interval: any = null;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (isPlaying && seconds < 60) {
       interval = setInterval(() => {
         setSeconds((prev) => {
@@ -175,7 +175,7 @@ export function VturbVideoDirector({
               Fala nos primeiros 3s:
             </span>
             <p className="text-xs font-bold text-slate-900 dark:text-white mt-1 leading-relaxed">
-              "{selectedFormula.speech}"
+              &quot;{selectedFormula.speech}&quot;
             </p>
           </div>
 
@@ -185,7 +185,7 @@ export function VturbVideoDirector({
           </div>
 
           <div className="text-[11px] text-teal-700 dark:text-teal-400 font-mono mt-auto">
-            Texto na tela: <strong>"{selectedFormula.onScreenText}"</strong>
+            Texto na tela: <strong>&quot;{selectedFormula.onScreenText}&quot;</strong>
           </div>
         </div>
 
@@ -232,8 +232,8 @@ export function VturbVideoDirector({
               Chamada para Ação Médica:
             </span>
             <p className="text-xs font-bold text-slate-900 dark:text-white mt-1 leading-relaxed">
-              "{script.conversionCta?.speech ||
-                "Se você ou alguém da sua família convive com esse quadro, agende sua avaliação pelo link da bio."}"
+              &quot;{script.conversionCta?.speech ||
+                "Se você ou alguém da sua família convive com esse quadro, agende sua avaliação pelo link da bio."}&quot;
             </p>
           </div>
 

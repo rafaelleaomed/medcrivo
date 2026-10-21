@@ -348,7 +348,7 @@ export const RemotionBrandsSlide: React.FC<RemotionBrandsSlideProps> = ({
                 letterSpacing: "1px",
               }}
             >
-              // {slide.categoryTag}
+              {"//"} {slide.categoryTag}
             </span>
           )}
         </div>

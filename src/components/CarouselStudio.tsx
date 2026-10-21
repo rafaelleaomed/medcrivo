@@ -70,7 +70,6 @@ export function CarouselStudio({
   doctorName,
   crm,
   rqe,
-  scientificCitation,
   doctorInstagram,
   variationSeed,
   initialSlides,
@@ -87,12 +86,14 @@ export function CarouselStudio({
   const [isAdaptingAI, setIsAdaptingAI] = useState<boolean>(false);
   const [dynamicSlides, setDynamicSlides] = useState<CarouselSlide[] | null>(initialSlides || null);
 
-  // Sincroniza dynamicSlides quando initialSlides mudar
-  React.useEffect(() => {
+  // Sincroniza dynamicSlides quando initialSlides mudar (ajuste durante a renderização, sem effect)
+  const [prevInitialSlides, setPrevInitialSlides] = useState(initialSlides);
+  if (initialSlides !== prevInitialSlides) {
+    setPrevInitialSlides(initialSlides);
     if (initialSlides && initialSlides.length > 0) {
       setDynamicSlides(initialSlides);
     }
-  }, [initialSlides]);
+  }
 
   // Função para adaptar os slides via IA real ao mudar Tom ou Meta
   const adaptCarouselWithAI = async (newTone: "didatico" | "academico" | "consultorio", newGoal: EngagementGoal) => {
@@ -150,6 +151,36 @@ export function CarouselStudio({
     return CAROUSEL_LAYOUT_THEMES.find((t) => t.id === layoutThemeId) || CAROUSEL_LAYOUT_THEMES[0];
   }, [layoutThemeId]);
 
+  // GERAÇÃO DE LÂMINAS: Prioriza a IA dinâmica (dynamicSlides), com fallback local inteligente
+  const baseSlides: CarouselSlide[] = useMemo(() => {
+    if (dynamicSlides && dynamicSlides.length > 0) {
+      return dynamicSlides;
+    }
+    return generateInterlinkedCarouselSlides(
+      topic,
+      specialty,
+      doctorName,
+      crm,
+      rqe,
+      // Sem referência inventada: só entra citação real vinda do pipeline de evidências.
+      undefined,
+      variationSeed
+    );
+  }, [dynamicSlides, topic, specialty, doctorName, crm, rqe, variationSeed]);
+
+  // Aplica sementes personalizadas de imagem quando o usuário clica em regenerar
+  const slides: CarouselSlide[] = useMemo(() => {
+    return baseSlides.map((s) => {
+      if (customImageSeeds[s.number] && s.imagePrompt) {
+        return {
+          ...s,
+          imageUrl: buildImageUrlFromPrompt(s.imagePrompt, customImageSeeds[s.number]),
+        };
+      }
+      return s;
+    });
+  }, [baseSlides, customImageSeeds]);
+
   // Renderizador do elemento visual da lâmina (Infográfico Clínico ou Fotografia)
   const renderVisualElement = (slide: CarouselSlide) => {
     if (visualMode === "infographic") {
@@ -197,36 +228,6 @@ export function CarouselStudio({
 
     return null;
   };
-
-  // GERAÇÃO DE LÂMINAS: Prioriza a IA dinâmica (dynamicSlides), com fallback local inteligente
-  const baseSlides: CarouselSlide[] = useMemo(() => {
-    if (dynamicSlides && dynamicSlides.length > 0) {
-      return dynamicSlides;
-    }
-    return generateInterlinkedCarouselSlides(
-      topic,
-      specialty,
-      doctorName,
-      crm,
-      rqe,
-      // Sem referência inventada: só entra citação real vinda do pipeline de evidências.
-      undefined,
-      variationSeed
-    );
-  }, [dynamicSlides, topic, specialty, doctorName, crm, rqe, scientificCitation, variationSeed]);
-
-  // Aplica sementes personalizadas de imagem quando o usuário clica em regenerar
-  const slides: CarouselSlide[] = useMemo(() => {
-    return baseSlides.map((s) => {
-      if (customImageSeeds[s.number] && s.imagePrompt) {
-        return {
-          ...s,
-          imageUrl: buildImageUrlFromPrompt(s.imagePrompt, customImageSeeds[s.number]),
-        };
-      }
-      return s;
-    });
-  }, [baseSlides, customImageSeeds]);
 
   // Garante índice seguro
   const safeIndex = Math.min(activeSlide, slides.length - 1);
@@ -450,18 +451,18 @@ export function CarouselStudio({
             <span className="text-[10px] text-slate-400 px-1.5 font-medium flex items-center gap-1">
               Meta: {isAdaptingAI && <RefreshCw className="w-2.5 h-2.5 animate-spin text-teal-600" />}
             </span>
-            {[
+            {([
               { id: "saves", label: "Salvar", icon: Bookmark },
               { id: "shares", label: "Compartilhar", icon: Share2 },
               { id: "comments", label: "Comentar", icon: MessageSquare },
               { id: "follows", label: "Seguir", icon: UserPlus },
-            ].map((g) => {
+            ] as const).map((g) => {
               const Icon = g.icon;
               return (
                 <button
                   key={g.id}
                   disabled={isAdaptingAI}
-                  onClick={() => handleGoalChange(g.id as any)}
+                  onClick={() => handleGoalChange(g.id)}
                   className={`px-2 py-1 rounded-lg transition-all text-xs font-semibold flex items-center gap-1 cursor-pointer disabled:opacity-50 ${
                     goal === g.id
                       ? "bg-teal-600 text-white shadow-sm"

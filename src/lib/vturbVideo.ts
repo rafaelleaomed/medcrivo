@@ -14,6 +14,15 @@ export interface HookFormula {
   curiosityLoop: string;
 }
 
+export interface VideoScriptParams {
+  specialty: string;
+  topic: string;
+  scientificTakeaway: string;
+  doctorName: string;
+  crm: string;
+  selectedFormulaId?: string;
+}
+
 export interface VideoScript {
   title: string;
   hookScore: number; // 0 a 100
@@ -103,14 +112,7 @@ export class VturbVideoScriptEngine {
   /**
    * Gera um roteiro médico persuasivo, ético e de alta retenção
    */
-  public static async generateScript(params: {
-    specialty: string;
-    topic: string;
-    scientificTakeaway: string;
-    doctorName: string;
-    crm: string;
-    selectedFormulaId?: string;
-  }): Promise<VideoScript> {
+  public static async generateScript(params: VideoScriptParams): Promise<VideoScript> {
     const selectedFormula = VTURB_HOOK_FORMULAS.find(f => f.id === params.selectedFormulaId) || VTURB_HOOK_FORMULAS[0];
 
     const prompt = `
@@ -193,13 +195,19 @@ Responda EXCLUSIVAMENTE em formato JSON com esta estrutura:
           tone: "Médico Experiente, Empático e Autoral",
         },
       };
-    } catch (err: any) {
-      console.warn("Usando motor heurístico avançado de roteiro Vturb:", err?.message || err);
+    } catch (err: unknown) {
+      console.warn(
+        "Usando motor heurístico avançado de roteiro Vturb:",
+        (err instanceof Error && err.message) || err
+      );
       return this.getLocalFallbackScript(params, selectedFormula);
     }
   }
 
-  public static getLocalFallbackScript(params: any, formula?: HookFormula): VideoScript {
+  public static getLocalFallbackScript(
+    params: Pick<VideoScriptParams, "topic" | "scientificTakeaway">,
+    formula?: HookFormula
+  ): VideoScript {
     const f = formula || VTURB_HOOK_FORMULAS[0];
     return {
       title: `${f.onScreenText}: O detalhe que quase ninguém te conta sobre ${params.topic}`,

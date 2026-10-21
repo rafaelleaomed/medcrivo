@@ -109,7 +109,7 @@ export function MythVsEvidence({
           </span>
         </div>
         <p className="text-[11px] text-rose-950 dark:text-rose-200 font-medium leading-snug">
-          "{myth}"
+          &quot;{myth}&quot;
         </p>
       </div>
 

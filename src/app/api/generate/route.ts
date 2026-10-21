@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
       evidence,
       script,
     });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : undefined;
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

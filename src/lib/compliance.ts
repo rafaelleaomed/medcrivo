@@ -378,7 +378,7 @@ export class HealthcareComplianceEngine {
     }
 
     // Sanitização sugerida da narrativa
-    let sanitizedNarrative = input.caseNarrative
+    const sanitizedNarrative =input.caseNarrative
       .replace(/(atendi hoje|caso de hoje no plant[aã]o|paciente que chegou hoje|veio ao meu consult[oó]rio hoje)/gi, 'Em situações clínicas observadas na prática médica habitual')
       .replace(/(foto da tela|print do sistema|laudo em anexo)/gi, 'imagem diagnóstica ilustrativa');
 

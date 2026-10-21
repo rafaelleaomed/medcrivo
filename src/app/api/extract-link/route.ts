@@ -175,9 +175,12 @@ export async function POST(req: NextRequest) {
       success: true,
       data,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { success: false, error: error.message || "Erro desconhecido ao processar link" },
+      {
+        success: false,
+        error: (error instanceof Error && error.message) || "Erro desconhecido ao processar link",
+      },
       { status: 500 }
     );
   }

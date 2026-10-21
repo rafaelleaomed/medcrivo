@@ -71,9 +71,9 @@ export async function POST(req: NextRequest) {
       enrichedPrompt,
       seed: actualSeed,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { success: false, error: error.message || "Erro ao gerar imagem" },
+      { success: false, error: (error instanceof Error && error.message) || "Erro ao gerar imagem" },
       { status: 500 }
     );
   }
