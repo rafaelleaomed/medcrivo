@@ -8,6 +8,7 @@ import {
   type ChatMessage,
 } from "./assistant";
 import { heuristicIdeas, ideaText, IdeasOutputSchema, type Idea, type IdeasInput } from "./ideas";
+import { heuristicReels, normalizeReels, reelText, ReelsOutputSchema, type ReelOption, type ReelsInput } from "./reels";
 import { heuristicStories, normalizeStories, StoriesOutputSchema, storiesText, type StoriesInput, type StoriesPlan } from "./stories";
 
 /* ---------------------------------- Ideias --------------------------------- */
@@ -112,6 +113,67 @@ export async function generateStories(input: StoriesInput, profile: DoctorProfil
   const audit = crivo(`${storiesText(result.data)}\n\n${footer}`, profile);
   const plan: StoriesResult = { ...result.data, crivo: summarize(audit), footer };
   return { ...result, data: plan };
+}
+
+/* ---------------------------------- Roteiros ------------------------------- */
+
+const REELS_SYSTEM = `Você é roteirista de Reels e TikTok para profissionais de saúde no Instagram brasileiro.
+Você escreve 3 roteiros alternativos para o mesmo tema, cada um com um ângulo diferente.
+
+Método:
+- Gancho: a primeira frase, até 14 palavras, que faz parar a rolagem sem sensacionalismo e sem número.
+- Desenvolvimento: 3 a 5 blocos curtos; uma ideia por bloco; fala em frases curtas, como quem conversa.
+- Texto na tela: até 8 palavras, só quando ajuda.
+- Chamada final: salvar, compartilhar ou perguntar, conforme o objetivo (nunca preço, promoção ou promessa).
+- Os 3 ângulos devem ser diferentes (mito, erro comum, sinal de atenção, passo a passo, pergunta).
+- Se houver contexto de link ou PDF, use só o que está nele.
+
+${EDITORIAL_RULES}`;
+
+const REELS_GOAL_BRIEF: Record<ReelsInput["goal"], string> = {
+  educar: "educar: explicar o tema em passos curtos e pedir para salvar ou compartilhar",
+  engajar: "engajar: provocar uma resposta e pedir que comentem a dúvida",
+  converter: "converter: convidar a comentar UMA palavra-chave para receber um material educativo no direct",
+};
+
+export type ReelOptionWithCrivo = ReelOption & { crivo: CrivoSummary };
+
+export async function generateReels(input: ReelsInput, profile: DoctorProfile) {
+  const result = await withFallback(
+    "Roteiros",
+    async () => {
+      const { data, usage } = await askClaudeStructured({
+        schema: ReelsOutputSchema,
+        system: REELS_SYSTEM,
+        messages: [
+          {
+            role: "user",
+            content: [
+              `Tema: ${input.topic}`,
+              `Objetivo: ${REELS_GOAL_BRIEF[input.goal]}.`,
+              `Duração: cerca de ${input.duration} segundos.`,
+              input.mode === "gravar"
+                ? "Formato: o profissional grava falando para a câmera."
+                : "Formato: motion graphics com locução, sem o profissional aparecer.",
+              input.context ? `Contexto (use só o que está aqui):
+${input.context}` : null,
+              describeProfessional(profile),
+            ]
+              .filter(Boolean)
+              .join("\n"),
+          },
+        ],
+      });
+      return { data: normalizeReels(data), usage };
+    },
+    () => heuristicReels(input),
+  );
+  const footer = identificationLine(profile);
+  const options: ReelOptionWithCrivo[] = result.data.options.map((o) => ({
+    ...o,
+    crivo: summarize(crivo(`${reelText(o)}\n\n${footer}`, profile)),
+  }));
+  return { ...result, data: { options, footer } };
 }
 
 /* -------------------------------- Assistente ------------------------------- */

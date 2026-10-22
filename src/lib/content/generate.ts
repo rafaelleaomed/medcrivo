@@ -1,14 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
-import { z } from "zod";
-import { getClaudeClient, getClaudeModel, isClaudeConfigured } from "@/lib/ai/claude";
+import { GeminiApiError } from "@/lib/ai/gemini";
+import { askClaudeStructured, isAiConfigured } from "@/lib/creator/ai";
 import { councilLabel, type DoctorProfile } from "@/lib/profile";
 import type { CarouselJobInput } from "@/lib/store/types";
 import { GeneratedPostSchema, type GeneratedPost, type GeneratedSlide } from "./schema";
 
 export interface GenerationResult {
   post: GeneratedPost;
-  source: "claude" | "heuristica";
+  source: "claude" | "gemini" | "heuristica";
   model?: string;
   usage?: { inputTokens: number; outputTokens: number };
   /** Motivo do uso da heurística, quando a IA não respondeu. */
@@ -86,48 +85,18 @@ export function normalizePost(post: GeneratedPost, slideCount: number): Generate
 }
 
 async function generateWithClaude(input: CarouselJobInput, profile: DoctorProfile): Promise<GenerationResult> {
-  const client = getClaudeClient();
-  const model = getClaudeModel();
-  const request = {
-    model,
-    max_tokens: 16000,
-    cache_control: { type: "ephemeral" as const },
+  // Claude (ou Gemini, quando é o único configurado ou o Claude falha): ver askClaudeStructured.
+  const { data: post, usage } = await askClaudeStructured({
+    schema: GeneratedPostSchema,
     system: SYSTEM_PROMPT,
-    messages: [{ role: "user" as const, content: buildUserPrompt(input, profile) }],
-  };
-
-  let post: GeneratedPost | null = null;
-  let response: Anthropic.Message;
-  try {
-    const parsed = await client.messages.parse({
-      ...request,
-      output_config: { format: zodOutputFormat(GeneratedPostSchema), effort: "medium" },
-    });
-    response = parsed;
-    post = parsed.parsed_output ?? null;
-  } catch (err) {
-    // Proxies que ainda não aceitam saída estruturada respondem 400: repete pedindo JSON no texto.
-    if (!(err instanceof Anthropic.BadRequestError)) throw err;
-    response = await client.messages.create({
-      ...request,
-      system: `${SYSTEM_PROMPT}\n\nResponda somente com um objeto JSON válido (sem markdown) que siga este JSON Schema:\n${JSON.stringify(z.toJSONSchema(GeneratedPostSchema))}`,
-    });
-    const text = response.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("");
-    const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
-    const result = GeneratedPostSchema.safeParse(JSON.parse(json));
-    post = result.success ? result.data : null;
-  }
-
-  if (response.stop_reason === "refusal") {
-    throw new Error("A IA recusou este tema. Reformule o pedido com foco educativo.");
-  }
-  if (!post) throw new Error(`Resposta da IA fora do formato esperado (stop_reason: ${response.stop_reason}).`);
-
+    messages: [{ role: "user", content: buildUserPrompt(input, profile) }],
+    maxTokens: 16000,
+  });
   return {
     post: normalizePost(post, input.slideCount),
-    source: "claude",
-    model: response.model,
-    usage: { inputTokens: response.usage.input_tokens, outputTokens: response.usage.output_tokens },
+    source: usage.model.startsWith("gemini") ? "gemini" : "claude",
+    model: usage.model,
+    usage: { inputTokens: usage.inputTokens, outputTokens: usage.outputTokens },
   };
 }
 
@@ -140,13 +109,13 @@ export function generateHeuristicPost(input: CarouselJobInput, profile: DoctorPr
     {
       template: "capa_noticia",
       kicker: spec.toUpperCase(),
-      headline: `O que pouca gente entende sobre ${short}`,
+      headline: `O que pouca gente entende sobre “${short}”`,
       highlight: ["pouca gente"],
       body: "Um guia direto para entender e saber quando procurar avaliação.",
       items: [],
       imagePrompt: `editorial healthcare scene about ${topic}, modern clinic, soft natural light`,
     },
-    { template: "conteudo", kicker: "ENTENDA", headline: "Por que isso importa", highlight: [], body: `${topic} afeta mais pessoas do que parece e costuma dar sinais discretos no início.`, items: [], imagePrompt: `conceptual medical illustration of ${topic}, clean background` },
+    { template: "conteudo", kicker: "ENTENDA", headline: "Por que isso importa", highlight: [], body: "Este tema afeta mais pessoas do que parece e costuma dar sinais discretos no início.", items: [], imagePrompt: `conceptual medical illustration of ${topic}, clean background` },
     { template: "lista", kicker: "SINAIS DE ATENÇÃO", headline: "Fique atento a", highlight: [], body: "", items: ["Mudanças persistentes no seu corpo", "Sintomas que voltam com frequência", "Histórico familiar relevante", "Piora progressiva sem explicação"], imagePrompt: "" },
     { template: "conteudo", kicker: "MITO", headline: "O erro mais comum", highlight: ["erro"], body: "Esperar o problema ficar evidente para buscar ajuda. Avaliação precoce amplia as opções de cuidado.", items: [], imagePrompt: "calm doctor consultation room, empty chairs, warm light" },
     { template: "passo", kicker: "PASSO 1", headline: "Observe e anote", highlight: [], body: "Registre quando os sintomas aparecem, a intensidade e o que melhora ou piora.", items: [], imagePrompt: "" },
@@ -160,13 +129,13 @@ export function generateHeuristicPost(input: CarouselJobInput, profile: DoctorPr
       framework: "checklist",
       angle: `Guia prático sobre ${topic}`,
       slides,
-      caption: `Salve este post e compartilhe com quem precisa. Comente GUIA que eu te envio o checklist sobre ${short} no direct.`,
+      caption: `Salve este post e compartilhe com quem precisa. Comente GUIA que eu te envio o checklist deste tema no direct.`,
       cta: {
         keyword: "GUIA",
-        promise: `o checklist sobre ${short}`,
+        promise: "o checklist deste tema",
         leadMagnetTitle: `Checklist: ${short}`,
         leadMagnetOutline: ["Sinais de atenção", "Quando procurar avaliação", "Como se preparar para a consulta", "Perguntas para levar ao profissional"],
-        dmMessage: `Oi! Aqui está o checklist sobre ${short}. Qualquer dúvida, agende uma avaliação pelo link da bio.`,
+        dmMessage: `Oi! Aqui está o checklist de “${short}”. Qualquer dúvida, agende uma avaliação pelo link da bio.`,
       },
       evidenceQuery: topic,
     },
@@ -175,7 +144,7 @@ export function generateHeuristicPost(input: CarouselJobInput, profile: DoctorPr
 }
 
 export async function generatePost(input: CarouselJobInput, profile: DoctorProfile): Promise<GenerationResult> {
-  if (!isClaudeConfigured()) {
+  if (!isAiConfigured()) {
     return { post: generateHeuristicPost(input, profile), source: "heuristica", fallbackReason: "Chave da IA não configurada." };
   }
   try {
@@ -183,7 +152,7 @@ export async function generatePost(input: CarouselJobInput, profile: DoctorProfi
   } catch (err) {
     // Recusa é resposta legítima: não mascarar com conteúdo heurístico.
     if (err instanceof Error && err.message.startsWith("A IA recusou")) throw err;
-    const reason = err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof Error ? err.message : "Erro desconhecido";
+    const reason = err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof GeminiApiError ? err.message : err instanceof Error ? err.message : "Erro desconhecido";
     console.warn("Geração com Claude falhou, usando heurística:", reason);
     return { post: generateHeuristicPost(input, profile), source: "heuristica", fallbackReason: reason };
   }

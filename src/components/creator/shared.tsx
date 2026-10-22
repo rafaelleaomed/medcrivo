@@ -108,7 +108,7 @@ export function CrivoFindings({ crivo }: { crivo: CrivoSummary }) {
 
 /** Aviso discreto quando a IA não respondeu e o conteúdo é o rascunho de reserva. */
 export function SourceNote({ generatedBy }: { generatedBy: GeneratedBy }) {
-  if (generatedBy.source === "claude") return null;
+  if (generatedBy.source !== "heuristica") return null;
   return (
     <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)]" title={generatedBy.fallbackReason}>
       Rascunho de reserva · IA indisponível

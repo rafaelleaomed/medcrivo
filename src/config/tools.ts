@@ -9,6 +9,7 @@ import {
   Lightbulb,
   MessageSquareText,
   ShieldCheck,
+  ScrollText,
   Smartphone,
   type LucideIcon,
 } from "lucide-react";
@@ -45,6 +46,7 @@ export const STUDIO_TOOLS: StudioTool[] = [
   // Criar
   { id: "carrossel", href: "/app/carrossel", label: "Carrossel", hint: "Tema → post 4:5", icon: Layers, group: "criar", status: "pronto" },
   { id: "video", href: "/app/video", label: "Reels", hint: "Roteiro e teleprompter", icon: Film, group: "criar", status: "pronto" },
+  { id: "roteiros", href: "/app/roteiros", label: "Roteiros", hint: "3 opções de Reels", icon: ScrollText, group: "criar", status: "pronto" },
   { id: "stories", href: "/app/stories", label: "Stories", hint: "Sequência do dia", icon: Smartphone, group: "criar", status: "pronto" },
   { id: "ideias", href: "/app/ideias", label: "Ideias", hint: "Pautas, notícias e artigos", icon: Lightbulb, group: "criar", status: "pronto" },
   { id: "assistente", href: "/app/assistente", label: "Assistente", hint: "Converse com a IA", icon: MessageSquareText, group: "criar", status: "pronto" },

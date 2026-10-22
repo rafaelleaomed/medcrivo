@@ -2,11 +2,12 @@ import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { getClaudeClient, getClaudeModel, isClaudeConfigured } from "@/lib/ai/claude";
+import { askGeminiStructured, GeminiApiError, GeminiRefusalError, isGeminiConfigured } from "@/lib/ai/gemini";
 import { HealthcareComplianceEngine, type AuditResult } from "@/lib/compliance";
 import { CAREER_STAGE_LABELS, councilLabel, showsSpecialty, type DoctorProfile } from "@/lib/profile";
 
 /** Origem do conteúdo, mostrada na tela para o usuário saber se veio da IA ou do rascunho de reserva. */
-export type GeneratedBy = { source: "claude" | "heuristica"; model?: string; fallbackReason?: string };
+export type GeneratedBy = { source: "claude" | "gemini" | "heuristica"; model?: string; fallbackReason?: string };
 
 export type Usage = { model: string; inputTokens: number; outputTokens: number };
 
@@ -38,7 +39,39 @@ export function describeProfessional(profile: DoctorProfile): string {
  * Pede uma resposta estruturada ao Claude. Proxies sem suporte a saída estruturada respondem 400:
  * nesse caso repete pedindo o JSON no texto e valida com o mesmo schema.
  */
-export async function askClaudeStructured<S extends z.ZodType>(opts: {
+/** Há alguma IA configurada (Claude ou Gemini)? Sem nenhuma, as ferramentas usam o rascunho de reserva. */
+export function isAiConfigured(): boolean {
+  return isClaudeConfigured() || isGeminiConfigured();
+}
+
+type StructuredOpts<S extends z.ZodType> = { schema: S; system: string; messages: Anthropic.MessageParam[]; maxTokens?: number };
+type StructuredResult<S extends z.ZodType> = Promise<{ data: z.infer<S>; usage: Usage }>;
+
+async function viaGemini<S extends z.ZodType>(opts: StructuredOpts<S>): StructuredResult<S> {
+  try {
+    return await askGeminiStructured(opts);
+  } catch (err) {
+    if (err instanceof GeminiRefusalError) throw new RefusalError(err.message);
+    throw err;
+  }
+}
+
+/**
+ * Resposta estruturada da IA. Usa o Claude quando configurado e, se ele falhar (chave recusada, cota, rede),
+ * tenta o Gemini quando houver GEMINI_API_KEY. Só o Gemini configurado: usa direto.
+ */
+export async function askClaudeStructured<S extends z.ZodType>(opts: StructuredOpts<S>): StructuredResult<S> {
+  if (!isClaudeConfigured()) return viaGemini(opts);
+  try {
+    return await askClaudeOnly(opts);
+  } catch (err) {
+    if (err instanceof RefusalError || !isGeminiConfigured()) throw err;
+    console.warn("Claude falhou, tentando o Gemini:", err instanceof Error ? err.message : err);
+    return viaGemini(opts);
+  }
+}
+
+async function askClaudeOnly<S extends z.ZodType>(opts: {
   schema: S;
   system: string;
   messages: Anthropic.MessageParam[];
@@ -93,16 +126,16 @@ export async function withFallback<T>(
   ai: () => Promise<{ data: T; usage: Usage }>,
   heuristic: () => T,
 ): Promise<{ data: T; generatedBy: GeneratedBy; usage?: Usage }> {
-  if (!isClaudeConfigured()) {
+  if (!isAiConfigured()) {
     return { data: heuristic(), generatedBy: { source: "heuristica", fallbackReason: "Chave da IA não configurada." } };
   }
   try {
     const { data, usage } = await ai();
-    return { data, usage, generatedBy: { source: "claude", model: usage.model } };
+    return { data, usage, generatedBy: { source: usage.model.startsWith("gemini") ? "gemini" : "claude", model: usage.model } };
   } catch (err) {
     if (err instanceof RefusalError) throw err;
     const reason =
-      err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof Error ? err.message : "Erro desconhecido";
+      err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof GeminiApiError ? err.message : err instanceof Error ? err.message : "Erro desconhecido";
     console.warn(`${label}: IA falhou, usando heurística:`, reason);
     return { data: heuristic(), generatedBy: { source: "heuristica", fallbackReason: reason } };
   }

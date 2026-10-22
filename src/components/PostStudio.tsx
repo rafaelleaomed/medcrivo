@@ -95,7 +95,7 @@ export function PostStudio({ draft, profile }: { draft: PostDraft; profile: Doct
         </div>
         <div className="mc-cell flex items-center gap-2 p-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:col-span-3 sm:justify-end">
           <Sparkles className="h-3.5 w-3.5" aria-hidden />
-          {draft.generatedBy.source === "claude" ? (draft.generatedBy.model ?? "Claude") : "Sem IA (reserva)"}
+          {draft.generatedBy.source !== "heuristica" ? (draft.generatedBy.model ?? "IA") : "Sem IA (reserva)"}
         </div>
       </header>
 
