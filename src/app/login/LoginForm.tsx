@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 import { login, signup } from "./actions";
 
 type Mode = "entrar" | "criar";
@@ -56,6 +57,13 @@ export function LoginForm({ status }: { status: ReactNode }) {
         <p id="password-hint" className="text-xs text-slate-500">
           Mínimo de 8 caracteres.
         </p>
+        {!isSignup && (
+          <p className="text-right text-xs">
+            <Link href="/esqueci-senha" className="text-teal-700 underline dark:text-lima">
+              Esqueci minha senha
+            </Link>
+          </p>
+        )}
         <button type="submit" className="w-full rounded-lg bg-[#123C36] hover:bg-[#0F4F48] dark:bg-[#D6EF72] dark:hover:bg-[#c7e35f] px-3 py-2 text-sm font-semibold text-white dark:text-[#123C36] transition-colors">
           {isSignup ? "Criar minha conta" : "Entrar"}
         </button>
