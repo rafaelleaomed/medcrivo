@@ -107,3 +107,52 @@ test("assistente: tema e título curtos", () => {
   assert.equal(topicFrom("Faça um post sobre apneia do sono?"), "apneia do sono");
   assert.ok(conversationTitle("a".repeat(100)).length <= 48);
 });
+
+/* ---------------------------------- Gemini ---------------------------------- */
+import { z } from "zod";
+import { askGeminiStructured, GeminiApiError } from "../src/lib/ai/gemini.ts";
+
+async function withFetch(impl, fn) {
+  const original = globalThis.fetch;
+  process.env.GEMINI_API_KEY = "chave-de-teste";
+  globalThis.fetch = impl;
+  try {
+    return await fn();
+  } finally {
+    globalThis.fetch = original;
+    delete process.env.GEMINI_API_KEY;
+  }
+}
+
+const okBody = (text) => ({ candidates: [{ content: { parts: [{ text }] } }], usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 7 } });
+const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
+
+test("gemini: valida a resposta com o schema e devolve o uso", async () => {
+  const schema = z.object({ gancho: z.string() });
+  const out = await withFetch(async () => json(okBody('{"gancho":"oi"}')), () => askGeminiStructured({ schema, system: "s", messages: [{ role: "user", content: "x" }] }));
+  assert.deepEqual(out.data, { gancho: "oi" });
+  assert.equal(out.usage.inputTokens, 5);
+  assert.equal(out.usage.outputTokens, 7);
+});
+
+test("gemini: 400 repete com o schema no prompt; outros erros viram GeminiApiError", async () => {
+  const schema = z.object({ gancho: z.string() });
+  let calls = 0;
+  const out = await withFetch(
+    async () => (++calls === 1 ? json({}, 400) : json(okBody('{"gancho":"ok"}'))),
+    () => askGeminiStructured({ schema, system: "s", messages: [{ role: "user", content: "x" }] }),
+  );
+  assert.equal(calls, 2);
+  assert.equal(out.data.gancho, "ok");
+  await assert.rejects(
+    withFetch(async () => json({}, 429), () => askGeminiStructured({ schema, system: "s", messages: [{ role: "user", content: "x" }] })),
+    (e) => e instanceof GeminiApiError && e.status === 429,
+  );
+});
+
+test("gemini: JSON fora do schema é rejeitado", async () => {
+  const schema = z.object({ gancho: z.string() });
+  await assert.rejects(
+    withFetch(async () => json(okBody('{"outro":1}')), () => askGeminiStructured({ schema, system: "s", messages: [{ role: "user", content: "x" }] })),
+  );
+});

@@ -67,5 +67,5 @@ export interface PostDraft {
   audit: AuditResult;
   /** Apenas referências retornadas pela busca real; lista vazia quando nada foi encontrado. */
   evidence: ScientificPaper[];
-  generatedBy: { source: "claude" | "heuristica"; model?: string };
+  generatedBy: { source: "claude" | "gemini" | "heuristica"; model?: string };
 }
