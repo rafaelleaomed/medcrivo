@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#123C36" rx="12"/>
+  <g transform="translate(15, 10) scale(0.83)">
+    
+  <!-- Haste esquerda do M -->
+  <path d="M26 88 V36 C26 25 36 21 44 29 L60 46 L76 29 C84 21 94 25 94 36 V54 C94 72 80 84 60 84 C46 84 36 75 36 64" 
+        stroke="#F5F2E9" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Arco C de fechamento com fluidez -->
+  <path d="M72 74 C80 69 84 62 84 52" 
+        stroke="#5EEAD4" stroke-width="6" stroke-linecap="round"/>
+  <!-- Centelha de Critério em Lima -->
+  <circle cx="60" cy="46" r="6" fill="#D6EF72" stroke="#123C36" stroke-width="2"/>
+
+  </g>
+  <!-- Wordmark MedCrivo -->
+  <text x="125" y="65" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="38" font-weight="800" fill="#F5F2E9" letter-spacing="-0.8">
+    Med<tspan fill="#5EEAD4">Crivo</tspan>
+  </text>
+  <!-- Slogan Oficial -->
+  <text x="127" y="90" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#C7D2D0" letter-spacing="1.2">
+    SUA VOZ. COM CRITÉRIO.
+  </text>
+</svg>

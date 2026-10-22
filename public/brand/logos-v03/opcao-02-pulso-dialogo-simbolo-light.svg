@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%" fill="none">
+  <!-- Balão de conversa elegante com curvatura nobre -->
+  <path d="M24 60 C24 35 39 22 60 22 C81 22 96 35 96 58 C96 78 81 90 60 90 C51 90 43 87 37 82 L24 88 L28 73 C25 69 24 64 24 60 Z" 
+        stroke="#123C36" stroke-width="8" stroke-linejoin="round" fill="#F5F2E9"/>
+  <!-- Linha de Pulso Vital formando o M -->
+  <path d="M37 62 H46 L53 42 L60 74 L67 48 L74 62 H83" 
+        stroke="#16796F" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Ponto focal da validação clínica -->
+  <circle cx="67" cy="48" r="5" fill="#D6EF72" stroke="#123C36" stroke-width="2"/>
+</svg>

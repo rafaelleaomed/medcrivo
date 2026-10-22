@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#123C36" rx="12"/>
+  <g transform="translate(15, 10) scale(0.83)">
+    
+  <!-- Balão de conversa elegante com curvatura nobre -->
+  <path d="M24 60 C24 35 39 22 60 22 C81 22 96 35 96 58 C96 78 81 90 60 90 C51 90 43 87 37 82 L24 88 L28 73 C25 69 24 64 24 60 Z" 
+        stroke="#F5F2E9" stroke-width="8" stroke-linejoin="round" fill="#172A27"/>
+  <!-- Linha de Pulso Vital formando o M -->
+  <path d="M37 62 H46 L53 42 L60 74 L67 48 L74 62 H83" 
+        stroke="#5EEAD4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Ponto focal da validação clínica -->
+  <circle cx="67" cy="48" r="5" fill="#D6EF72" stroke="#F5F2E9" stroke-width="2"/>
+
+  </g>
+  <!-- Wordmark MedCrivo -->
+  <text x="125" y="65" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="38" font-weight="800" fill="#F5F2E9" letter-spacing="-0.8">
+    Med<tspan fill="#5EEAD4">Crivo</tspan>
+  </text>
+  <!-- Slogan Oficial -->
+  <text x="127" y="90" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#C7D2D0" letter-spacing="1.2">
+    SUA VOZ. COM CRITÉRIO.
+  </text>
+</svg>

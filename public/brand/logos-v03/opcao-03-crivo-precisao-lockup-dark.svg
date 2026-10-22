@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" width="100%" height="100%">
+  <rect width="100%" height="100%" fill="#123C36" rx="12"/>
+  <g transform="translate(15, 10) scale(0.83)">
+    
+  <!-- Arco do Crivo / Lente de Curadoria (C) -->
+  <path d="M92 34 C76 18 46 20 32 36 C18 52 20 78 38 90 C54 100 80 96 92 80" 
+        stroke="#F5F2E9" stroke-width="9" stroke-linecap="round"/>
+  <!-- M geométrico de alta precisão -->
+  <path d="M40 76 V46 L58 64 L76 46 V76" 
+        stroke="#5EEAD4" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Núcleo de Evidência e Critério em Lima -->
+  <circle cx="58" cy="34" r="6.5" fill="#D6EF72" stroke="#F5F2E9" stroke-width="2.5"/>
+  <circle cx="92" cy="34" r="4" fill="#D6EF72"/>
+
+  </g>
+  <!-- Wordmark MedCrivo -->
+  <text x="125" y="65" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="38" font-weight="800" fill="#F5F2E9" letter-spacing="-0.8">
+    Med<tspan fill="#5EEAD4">Crivo</tspan>
+  </text>
+  <!-- Slogan Oficial -->
+  <text x="127" y="90" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" fill="#C7D2D0" letter-spacing="1.2">
+    SUA VOZ. COM CRITÉRIO.
+  </text>
+</svg>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedCrivo — 3 Opções de Logo e Símbolo Vetoriais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine: #123C36;
+      --teal: #16796F;
+      --paper: #F5F2E9;
+      --lime: #D6EF72;
+      --ink: #172A27;
+      --muted: #4A6158;
+      --line: #D8D4C7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+    .wrap {
+      width: min(1280px, 92vw);
+      margin: 0 auto;
+    }
+    header {
+      padding: 36px 0 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--pine);
+      letter-spacing: -0.5px;
+    }
+    .badge {
+      background: var(--lime);
+      color: var(--pine);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      border: 1px solid rgba(18, 60, 54, 0.15);
+    }
+    .intro {
+      padding: 48px 0 32px;
+    }
+    .intro h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(32px, 4.5vw, 54px);
+      font-weight: 800;
+      color: var(--pine);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .intro p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 65ch;
+    }
+    .palette-strip {
+      display: flex;
+      gap: 16px;
+      margin: 28px 0 48px;
+      flex-wrap: wrap;
+    }
+    .swatch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: monospace;
+    }
+    .color-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+    }
+    .card {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(18, 60, 54, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--teal);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .card h2 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--pine);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      min-height: 48px;
+    }
+    .preview-box {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .preview-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 14px;
+      background: rgba(0,0,0,0.03);
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .preview-canvas {
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .preview-canvas.light { background: var(--paper); }
+    .preview-canvas.dark { background: var(--pine); }
+    .symbol-stage {
+      width: 90px;
+      height: 90px;
+    }
+    .lockup-stage {
+      width: 100%;
+      max-width: 380px;
+    }
+    .app-icons-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-around;
+      padding: 16px;
+      background: rgba(0,0,0,0.02);
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+    .app-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .avatar-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--pine);
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .favicon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--pine);
+      padding: 5px;
+    }
+    .rationale {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .rationale strong {
+      color: var(--pine);
+    }
+    footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand-title">MedCrivo</div>
+      <div class="badge">Estudos Vetoriais SVG · Rodada 03</div>
+    </header>
+
+    <section class="intro">
+      <h1>3 Novas Opções de Logo & Símbolo</h1>
+      <p>Desenvolvidos rigorosamente na paleta oficial aprovada (Pinho, Teal, Marfim, Lima e Tinta). Desenhados em vetor puro, testados em fundos claros e escuros, em avatares de rede social e favicons de 32px.</p>
+      
+      <div class="palette-strip">
+        <div class="swatch"><div class="color-circle" style="background:#123C36;"></div>#123C36 Pinho</div>
+        <div class="swatch"><div class="color-circle" style="background:#16796F;"></div>#16796F Teal</div>
+        <div class="swatch"><div class="color-circle" style="background:#F5F2E9;"></div>#F5F2E9 Marfim</div>
+        <div class="swatch"><div class="color-circle" style="background:#D6EF72;"></div>#D6EF72 Lima</div>
+        <div class="swatch"><div class="color-circle" style="background:#172A27;"></div>#172A27 Tinta</div>
+      </div>
+    </section>
+
+    <div class="cards-grid">
+      <!-- OPÇÃO 01 -->
+      <article class="card">
+        <span class="card-num">Opção 01</span>
+        <h2>MC Contínuo Editorial</h2>
+        <p class="card-desc">Monograma fluido unindo M e C em traço contínuo. Acentua a autoria do médico e o dinamismo do fluxo editorial.</p>
+        
+        <div class="preview-box">
+          <div class="preview-label">Aplicação Horizontal (Fundo Marfim)</div>
+          <div class="preview-canvas light">
+            <div class="lockup-stage">
+              <img src="opcao-01-mc-continuo-lockup-light.svg" alt="Lockup Opção 1 Light" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-label">Versão Dark (Fundo Pinho)</div>
+          <div class="preview-canvas dark">
+            <div class="lockup-stage">
+              <img src="opcao-01-mc-continuo-lockup-dark.svg" alt="Lockup Opção 1 Dark" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="app-icons-row">
+          <div class="app-icon-item">
+            <div class="avatar-circle">
+              <img src="opcao-01-mc-continuo-simbolo-dark.svg" alt="Avatar Opção 1" width="100%">
+            </div>
+            <span>Avatar Instagram</span>
+          </div>
+          <div class="app-icon-item">
+            <div class="favicon-box">
+              <img src="opcao-01-mc-continuo-simbolo-dark.svg" alt="Favicon Opção 1" width="100%">
+            </div>
+            <span>Favicon 32px</span>
+          </div>
+        </div>
+
+        <div class="rationale">
+          <strong>Semiótica:</strong> A transição do M para o arco do C simboliza o fluxo do pensamento médico passando pelo crivo. O ponto em Lima no vale central funciona como o "ponto de critério".
+        </div>
+      </article>
+
+      <!-- OPÇÃO 02 -->
+      <article class="card">
+        <span class="card-num">Opção 02</span>
+        <h2>Pulso em Conversa</h2>
+        <p class="card-desc">Fusão harmoniosa entre o balão de diálogo (comunicação social) e a onda de pulso biomédico que forma o M no centro.</p>
+        
+        <div class="preview-box">
+          <div class="preview-label">Aplicação Horizontal (Fundo Marfim)</div>
+          <div class="preview-canvas light">
+            <div class="lockup-stage">
+              <img src="opcao-02-pulso-dialogo-lockup-light.svg" alt="Lockup Opção 2 Light" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-label">Versão Dark (Fundo Pinho)</div>
+          <div class="preview-canvas dark">
+            <div class="lockup-stage">
+              <img src="opcao-02-pulso-dialogo-lockup-dark.svg" alt="Lockup Opção 2 Dark" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="app-icons-row">
+          <div class="app-icon-item">
+            <div class="avatar-circle" style="background:#172A27;">
+              <img src="opcao-02-pulso-dialogo-simbolo-dark.svg" alt="Avatar Opção 2" width="100%">
+            </div>
+            <span>Avatar Instagram</span>
+          </div>
+          <div class="app-icon-item">
+            <div class="favicon-box" style="background:#172A27;">
+              <img src="opcao-02-pulso-dialogo-simbolo-dark.svg" alt="Favicon Opção 2" width="100%">
+            </div>
+            <span>Favicon 32px</span>
+          </div>
+        </div>
+
+        <div class="rationale">
+          <strong>Semiótica:</strong> Comunicação com batimento cardíaco. Elimina a frieza de softwares corporativos e expressa empatia humana amparada pela ciência clínica.
+        </div>
+      </article>
+
+      <!-- OPÇÃO 03 -->
+      <article class="card">
+        <span class="card-num">Opção 03</span>
+        <h2>O Crivo de Precisão</h2>
+        <p class="card-desc">Lente de foco / curadoria (C) combinada com a arquitetura geométrica do M. Transmite rigor e auditoria científica.</p>
+        
+        <div class="preview-box">
+          <div class="preview-label">Aplicação Horizontal (Fundo Marfim)</div>
+          <div class="preview-canvas light">
+            <div class="lockup-stage">
+              <img src="opcao-03-crivo-precisao-lockup-light.svg" alt="Lockup Opção 3 Light" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-label">Versão Dark (Fundo Pinho)</div>
+          <div class="preview-canvas dark">
+            <div class="lockup-stage">
+              <img src="opcao-03-crivo-precisao-lockup-dark.svg" alt="Lockup Opção 3 Dark" width="100%">
+            </div>
+          </div>
+        </div>
+
+        <div class="app-icons-row">
+          <div class="app-icon-item">
+            <div class="avatar-circle">
+              <img src="opcao-03-crivo-precisao-simbolo-dark.svg" alt="Avatar Opção 3" width="100%">
+            </div>
+            <span>Avatar Instagram</span>
+          </div>
+          <div class="app-icon-item">
+            <div class="favicon-box">
+              <img src="opcao-03-crivo-precisao-simbolo-dark.svg" alt="Favicon Opção 3" width="100%">
+            </div>
+            <span>Favicon 32px</span>
+          </div>
+        </div>
+
+        <div class="rationale">
+          <strong>Semiótica:</strong> A lente do crivo separa o ruído da evidência. A ótica de precisão posiciona o MedCrivo como autoridade máxima em validação de conteúdo.
+        </div>
+      </article>
+    </div>
+
+    <footer>
+      <span>MedCrivo · Identidade Visual & Sistema de Marca · Outubro/2026</span>
+      <span>Arquivos SVG prontos para produção e aplicação direta no app.</span>
+    </footer>
+  </div>
+</body>
+</html>
