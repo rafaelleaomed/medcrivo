@@ -156,3 +156,38 @@ test("gemini: JSON fora do schema é rejeitado", async () => {
     withFetch(async () => json(okBody('{"outro":1}')), () => askGeminiStructured({ schema, system: "s", messages: [{ role: "user", content: "x" }] })),
   );
 });
+
+/* ------------------------------- Roteiros (Reels) ------------------------------ */
+import { buildMotionPrompt, editNotes, heuristicReels, normalizeReels, recordingScript, reelText, ReelsInputSchema } from "../src/lib/creator/reels.ts";
+
+test("roteiros: 3 opções com 3 a 5 blocos, sem número nem estudo e sem achado crítico no Crivo", () => {
+  const input = ReelsInputSchema.parse({ topic: "hipertensão" });
+  const { options } = heuristicReels(input);
+  assert.equal(options.length, 3);
+  for (const o of options) {
+    assert.ok(o.beats.length >= 3 && o.beats.length <= 5);
+    assert.ok(!NUMBERS_OR_DOI.test(reelText(o)));
+    assert.equal(hasCritical(reelText(o)), false);
+  }
+  assert.equal(new Set(options.map((o) => o.angle)).size, 3);
+});
+
+test("roteiros: normalização descarta opções sem bloco e limita a 3", () => {
+  const good = heuristicReels(ReelsInputSchema.parse({ topic: "sono" })).options;
+  const plan = normalizeReels({ options: [...good, good[0], { ...good[1], beats: [] }] });
+  assert.equal(plan.options.length, 3);
+  assert.throws(() => normalizeReels({ options: [{ ...good[0], beats: [] }] }));
+});
+
+test("roteiros: roteiro de gravação tem tempos e o prompt de motion leva identificação e regras", () => {
+  const [o] = heuristicReels(ReelsInputSchema.parse({ topic: "sono", duration: 30 })).options;
+  const script = recordingScript(o, 30);
+  assert.match(script, /^\[00:00-00:03\] GANCHO/);
+  assert.match(script, /\[00:26-00:30\] CHAMADA/);
+  assert.ok(editNotes(o, 30).length >= 4);
+  const prompt = buildMotionPrompt(o, { identification: "Ana Lima · Médico · CRM/SP 123456", topic: "sono", duration: 30 });
+  assert.match(prompt, /1080x1920/);
+  assert.match(prompt, /CRM\/SP 123456/);
+  assert.match(prompt, /#123C36/);
+  assert.match(prompt, /não acrescente números/i);
+});
