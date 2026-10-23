@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#000; width:1080px; }
+    .slide {
+      width:1080px;
+      height:1350px;
+      position:relative;
+      overflow:hidden;
+      display:none;
+    }
+    .slide:first-child { display:block; }
+
+    /* ===================== SHARED ===================== */
+    .slide-num {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      position:absolute;
+    }
+    .top-bar {
+      position:absolute;
+      top:0; left:0; right:0;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding:0 48px;
+      z-index:5;
+    }
+    .top-brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:14px;
+      letter-spacing:1px;
+      color:#16796F;
+    }
+    .bottom-bar {
+      position:absolute;
+      bottom:0; left:0; right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 48px;
+      z-index:5;
+    }
+    .bottom-credit {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:13px;
+      letter-spacing:0.3px;
+      color:rgba(245,242,233,0.6);
+    }
+    .badge {
+      display:inline-block;
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      background:#16796F;
+      color:#F5F2E9;
+      padding:5px 14px;
+      border-radius:4px;
+      margin-bottom:16px;
+    }
+    .badge-dark { background:#D6EF72; color:#123C36; }
+    .can-header {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:600;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      margin-bottom:10px;
+    }
+    .can-header.yes { color:#4db8a0; }
+    .can-header.no { color:#e07070; }
+    .can-item {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      line-height:1.5;
+      margin-bottom:8px;
+      padding-left:20px;
+      position:relative;
+    }
+    .can-item::before {
+      position:absolute;
+      left:0;
+      font-weight:700;
+    }
+    .can-item.yes { color:#172A27; }
+    .can-item.yes::before { content:'✓'; color:#16796F; }
+    .can-item.no { color:#8B4040; }
+    .can-item.no::before { content:'✕'; color:#c05050; }
+
+    /* Dark slide helpers */
+    .can-item-dark {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      line-height:1.5;
+      margin-bottom:8px;
+      padding-left:22px;
+      position:relative;
+    }
+    .can-item-dark::before {
+      position:absolute;
+      left:0;
+      font-weight:700;
+    }
+    .can-item-dark.yes { color:rgba(245,242,233,0.85); }
+    .can-item-dark.yes::before { content:'✓'; color:#4db8a0; }
+    .can-item-dark.no { color:rgba(245,242,233,0.65); }
+    .can-item-dark.no::before { content:'✕'; color:#e08080; }
+
+    .highlight-box {
+      border-radius:6px;
+      padding:18px 20px;
+      margin-top:20px;
+    }
+    .highlight-quote {
+      font-family:'Source Serif 4', serif;
+      font-style:italic;
+      font-size:21px;
+      line-height:1.4;
+    }
+
+    /* ===================== SLIDE 01 ===================== */
+    #s1 { background:#123C36; }
+    #s1::after {
+      content:'';
+      position:absolute;
+      inset:16px;
+      border:2px solid #D6EF72;
+      pointer-events:none;
+      z-index:1;
+    }
+    #s1 .lupa-bg {
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-52%);
+      opacity:0.06;
+      z-index:0;
+    }
+    #s1 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+      text-align:center;
+      z-index:2;
+    }
+    #s1 .main-title {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-size:62px;
+      line-height:1.15;
+      margin-bottom:20px;
+    }
+    #s1 .main-title .marfim { color:#F5F2E9; }
+    #s1 .main-title .lima { color:#D6EF72; }
+    #s1 .subtitle {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:19px;
+      color:#16796F;
+      line-height:1.4;
+    }
+
+    /* ===================== SLIDE 02 ===================== */
+    #s2 { background:#F5F2E9; }
+    #s2 .slide-num {
+      font-size:110px;
+      color:rgba(22,121,111,0.08);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s2 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-54%);
+    }
+    #s2 .title {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:30px;
+      color:#123C36;
+      margin-bottom:24px;
+      line-height:1.2;
+    }
+    #s2 .body {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:20px;
+      color:#172A27;
+      line-height:1.7;
+      margin-bottom:28px;
+    }
+    #s2 .alert-box {
+      background:rgba(22,121,111,0.08);
+      border:1px solid #16796F;
+      border-radius:6px;
+      padding:16px 18px;
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:15px;
+      color:#172A27;
+      line-height:1.6;
+      margin-bottom:18px;
+    }
+    #s2 .pill-highlight {
+      display:inline-block;
+      background:#D6EF72;
+      color:#123C36;
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:17px;
+      border-radius:5px;
+      padding:8px 16px;
+    }
+
+    /* ===================== SLIDE 03 ===================== */
+    #s3 { background:#172A27; }
+    #s3 .slide-num {
+      font-size:110px;
+      color:rgba(214,239,114,0.08);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s3 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s3 .title {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-size:38px;
+      color:#F5F2E9;
+      margin-bottom:24px;
+      line-height:1.2;
+    }
+    #s3 .section-title {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:600;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin:16px 0 8px;
+    }
+    #s3 .section-title.yes { color:#4db8a0; }
+    #s3 .section-title.no { color:#e07070; }
+    #s3 .highlight-box {
+      border:1px solid #D6EF72;
+      background:rgba(214,239,114,0.06);
+    }
+    #s3 .highlight-quote { color:#D6EF72; }
+
+    /* ===================== SLIDE 04 ===================== */
+    #s4 { background:#F5F2E9; }
+    #s4 .slide-num {
+      font-size:110px;
+      color:rgba(18,60,54,0.07);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s4 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s4 .title {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:34px;
+      color:#16796F;
+      margin-bottom:24px;
+    }
+    #s4 .section-title.yes { color:#1a5c55; }
+    #s4 .section-title.no { color:#8B4040; }
+    #s4 .highlight-box {
+      border:1px solid #16796F;
+      background:rgba(22,121,111,0.06);
+      margin-top:20px;
+    }
+    #s4 .highlight-quote { color:#123C36; }
+
+    /* ===================== SLIDE 05 ===================== */
+    #s5 { background:#123C36; }
+    #s5 .slide-num {
+      font-size:110px;
+      color:rgba(214,239,114,0.08);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s5 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s5 .never-word {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      font-size:90px;
+      color:#D6EF72;
+      line-height:0.9;
+      margin-bottom:20px;
+      letter-spacing:-1px;
+    }
+    #s5 .cannot-box {
+      background:#172A27;
+      border-radius:8px;
+      padding:20px 22px;
+      margin-top:20px;
+    }
+    #s5 .cannot-item {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      color:#F5F2E9;
+      line-height:1.4;
+      margin-bottom:6px;
+      opacity:0.8;
+    }
+    #s5 .highlight-box {
+      border:1px solid rgba(245,242,233,0.2);
+      background:rgba(245,242,233,0.04);
+      margin-top:20px;
+    }
+    #s5 .highlight-quote { color:#F5F2E9; opacity:0.85; }
+
+    /* ===================== SLIDE 06 ===================== */
+    #s6 { background:#F5F2E9; }
+    #s6 .slide-num {
+      font-size:110px;
+      color:rgba(18,60,54,0.07);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s6 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s6 .title {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:38px;
+      color:#16796F;
+      margin-bottom:22px;
+    }
+    #s6 .two-cols {
+      display:flex;
+      gap:24px;
+      margin-bottom:22px;
+    }
+    #s6 .col { flex:1; }
+    #s6 .col-header {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:600;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:12px;
+      padding-bottom:8px;
+      border-bottom:1px solid;
+    }
+    #s6 .col-header.yes { color:#16796F; border-color:rgba(22,121,111,0.3); }
+    #s6 .col-header.no { color:#8B4040; border-color:rgba(139,64,64,0.3); }
+    #s6 .col-item {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:17px;
+      line-height:1.55;
+      margin-bottom:8px;
+      padding-left:16px;
+      position:relative;
+    }
+    #s6 .col-item.yes { color:#172A27; }
+    #s6 .col-item.yes::before { content:'✓'; position:absolute; left:0; color:#16796F; font-weight:700; }
+    #s6 .col-item.no { color:#6B3030; }
+    #s6 .col-item.no::before { content:'✕'; position:absolute; left:0; color:#c05050; font-weight:700; }
+    #s6 .highlight-box {
+      border:1px solid #16796F;
+      background:rgba(22,121,111,0.07);
+    }
+    #s6 .highlight-quote { color:#123C36; }
+
+    /* ===================== SLIDE 07 ===================== */
+    #s7 { background:#172A27; }
+    #s7 .slide-num {
+      font-size:110px;
+      color:rgba(22,121,111,0.1);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s7 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s7 .title {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-size:38px;
+      color:#F5F2E9;
+      margin-bottom:24px;
+      line-height:1.2;
+    }
+    #s7 .section-title.yes { color:#4db8a0; }
+    #s7 .section-title.no { color:#e07070; }
+    #s7 .highlight-box {
+      border:1px solid #D6EF72;
+      background:rgba(214,239,114,0.06);
+    }
+    #s7 .highlight-quote { color:#F5F2E9; }
+
+    /* ===================== SLIDE 08 ===================== */
+    #s8 { background:#123C36; }
+    #s8::after {
+      content:'';
+      position:absolute;
+      inset:20px;
+      border:3px solid #D6EF72;
+      pointer-events:none;
+      z-index:1;
+    }
+    #s8 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-54%);
+      text-align:center;
+      z-index:2;
+    }
+    #s8 .pre-cta {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:30px;
+      color:#F5F2E9;
+      line-height:1.35;
+      margin-bottom:14px;
+    }
+    #s8 .cta-filter {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-style:italic;
+      font-size:36px;
+      color:#D6EF72;
+      margin-bottom:22px;
+      line-height:1.2;
+    }
+    #s8 .divider {
+      width:100px;
+      height:2px;
+      background:#16796F;
+      margin:0 auto 22px;
+    }
+    #s8 .cta-word {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      font-size:80px;
+      color:#D6EF72;
+      letter-spacing:-1px;
+      line-height:0.9;
+      margin-bottom:14px;
+    }
+    #s8 .post-cta {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:22px;
+      color:rgba(245,242,233,0.8);
+      margin-bottom:22px;
+    }
+    #s8 .disclaimer {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:12px;
+      color:rgba(245,242,233,0.4);
+      line-height:1.5;
+      max-width:680px;
+      margin:0 auto 0;
+    }
+    #s8 .bottom-bar {
+      border-top:1px solid rgba(214,239,114,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 01 — CAPA -->
+  <div class="slide" id="s1">
+    <div class="top-bar">
+      <div class="top-brand">
+        @medcrivo
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3.5"/>
+          <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Lupa watermark -->
+    <div class="lupa-bg">
+      <svg width="340" height="340" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="11" stroke="#F5F2E9" stroke-width="2"/>
+        <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="#F5F2E9" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="center-block">
+      <div class="main-title">
+        <div class="marfim">Pode ou não pode</div>
+        <div class="lima">no Instagram médico?</div>
+      </div>
+      <div class="subtitle">O guia prático da Res. CFM nº 2.336/2023</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 02 — CONTEXTO -->
+  <div class="slide" id="s2" style="display:none">
+    <div class="slide-num">02</div>
+    <div class="center-block">
+      <div class="title">A regra mudou. Você sabe o que mudou?</div>
+      <div class="body">
+        A Resolução CFM nº 2.336/2023 atualizou a publicidade médica.<br><br>
+        Algumas coisas que eram proibidas agora são permitidas com condições.<br>
+        Outras seguem proibidas — e muita gente ainda não sabe quais são.
+      </div>
+      <div class="alert-box">
+        Este carrossel é um guia prático, não um parecer jurídico. Quando houver dúvida, consulte o CFM ou um advogado especializado.
+      </div>
+      <div class="pill-highlight">REGRAS ATUALIZADAS EM 2023</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 03 — IDENTIFICAÇÃO -->
+  <div class="slide" id="s3" style="display:none">
+    <div class="slide-num">03</div>
+    <div class="center-block">
+      <span class="badge">Identificação</span>
+      <div class="title">Obrigatório</div>
+      <div class="section-title yes">✅ PODE</div>
+      <div class="can-item-dark yes">Publicar em perfil pessoal ou profissional com seu nome.</div>
+      <div class="can-item-dark yes">Usar nome social acompanhado de MÉDICO e CRM/UF.</div>
+      <div class="section-title no" style="margin-top:14px;">❌ NÃO PODE</div>
+      <div class="can-item-dark no">Publicar conteúdo médico em perfil sem identificação.</div>
+      <div class="can-item-dark no">Divulgar especialidade sem RQE registrado no CRM.</div>
+      <div class="highlight-box">
+        <div class="highlight-quote">
+          "Nome, MÉDICO e CRM; RQE quando a especialidade for anunciada."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 04 — IMAGENS -->
+  <div class="slide" id="s4" style="display:none">
+    <div class="slide-num">04</div>
+    <div class="center-block">
+      <span class="badge">Imagens Médicas</span>
+      <div class="title">Pode, com condições</div>
+      <div class="section-title yes" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; color:#1a5c55;">✅ PODE</div>
+      <div class="can-item yes">Mostrar ambiente de trabalho e equipamentos, sem atribuir capacidade privilegiada.</div>
+      <div class="can-item yes">Usar imagens educativas dentro dos requisitos da norma.</div>
+      <div class="can-item yes">Usar material próprio com autorização e proteção da identidade.</div>
+      <div class="section-title no" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin:12px 0 8px; color:#8B4040;">❌ NÃO PODE</div>
+      <div class="can-item no">Expor consulta ou procedimento em tempo real.</div>
+      <div class="can-item no">Ensinar ao público técnica de ato privativo do médico.</div>
+      <div class="can-item no">Usar antes/depois isolado, sem indicações e limitações.</div>
+      <div class="highlight-box">
+        <div class="highlight-quote">
+          Imagem médica precisa ensinar — não espetacularizar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 05 — PROMESSAS -->
+  <div class="slide" id="s5" style="display:none">
+    <div class="slide-num">05</div>
+    <div class="center-block">
+      <span class="badge">Promessas e Resultados</span>
+      <div class="never-word">NUNCA</div>
+      <div class="section-title yes" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px; color:#4db8a0;">✅ PODE</div>
+      <div class="can-item-dark yes">Explicar possibilidades, limites e necessidade de avaliação individual.</div>
+      <div class="can-item-dark yes">Usar linguagem condicional: "pode ser indicado", "depende da avaliação".</div>
+      <div class="cannot-box">
+        <div class="cannot-item">❌ "Cure sua [condição]"</div>
+        <div class="cannot-item">❌ Resultados garantidos</div>
+        <div class="cannot-item">❌ Tratamento definitivo</div>
+        <div class="cannot-item">❌ Melhor método disponível</div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-quote">
+          A medicina trabalha com probabilidade.<br>O conteúdo médico também.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 06 — PREÇO -->
+  <div class="slide" id="s6" style="display:none">
+    <div class="slide-num">06</div>
+    <div class="center-block">
+      <span class="badge">Preço e Desconto</span>
+      <div class="title">Pode, com limites</div>
+      <div class="two-cols">
+        <div class="col">
+          <div class="col-header yes">✅ PODE</div>
+          <div class="col-item yes">Informar preço da consulta e formas de pagamento.</div>
+          <div class="col-item yes">Anunciar abatimentos e descontos em campanhas.</div>
+        </div>
+        <div class="col">
+          <div class="col-header no">❌ NÃO PODE</div>
+          <div class="col-item no">Fazer venda casada ou premiação.</div>
+          <div class="col-item no">Associar oferta a garantia de resultado.</div>
+          <div class="col-item no">Omitir condições relevantes da oferta.</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <div class="highlight-quote">
+          Preço pode. Desvirtuar a medicina, não.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 07 — DEPOIMENTOS -->
+  <div class="slide" id="s7" style="display:none">
+    <div class="slide-num">07</div>
+    <div class="center-block">
+      <span class="badge">Depoimentos</span>
+      <div class="title">Pode, com condições</div>
+      <div class="section-title yes" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-bottom:10px; color:#4db8a0;">✅ PODE</div>
+      <div class="can-item-dark yes">Repostar agradecimentos com sobriedade.</div>
+      <div class="can-item-dark yes">Usar material autorizado e compatível com privacidade.</div>
+      <div class="section-title no" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin:14px 0 10px; color:#e07070;">❌ NÃO PODE</div>
+      <div class="can-item-dark no">Usar depoimento para prometer resultado.</div>
+      <div class="can-item-dark no">Expor informação de consulta.</div>
+      <div class="can-item-dark no">Repetir depoimentos como garantia.</div>
+      <div class="highlight-box">
+        <div class="highlight-quote">
+          O depoimento pode existir.<br>A promessa disfarçada, não.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 08 — CTA -->
+  <div class="slide" id="s8" style="display:none">
+    <div class="center-block">
+      <div class="pre-cta">
+        Antes de publicar,<br>
+        o seu texto passou
+      </div>
+      <div class="cta-filter">por esse filtro?</div>
+      <div class="divider"></div>
+      <div class="cta-word">Comente CRIVO</div>
+      <div class="post-cta">e receba o checklist gratuito</div>
+      <div class="disclaimer">
+        Este carrossel tem caráter educativo e não substitui análise jurídica individual.<br>
+        Ref.: Res. CFM nº 2.336/2023.
+      </div>
+    </div>
+    <div class="bottom-bar" style="border-top:1px solid rgba(214,239,114,0.15);">
+      <div style="color:#16796F; display:flex; align-items:center;">
+        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3.5"/>
+          <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="bottom-credit">
+        Dr. Rafael Leão &nbsp;|&nbsp; MÉDICO &nbsp;|&nbsp; CRM-MG 96735 &nbsp;|&nbsp; @medcrivo
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

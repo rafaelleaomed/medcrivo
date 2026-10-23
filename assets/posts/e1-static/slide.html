@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#000; width:1080px; height:1080px; overflow:hidden; }
+    .slide {
+      width:1080px;
+      height:1080px;
+      background-color:#123C36;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    /* Grain texture overlay */
+    .slide::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity:0.06;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    /* Large lupa watermark background */
+    .lupa-watermark {
+      position:absolute;
+      bottom:-20px;
+      right:-20px;
+      opacity:0.07;
+      z-index:0;
+      color:#1e5c54;
+    }
+    .lupa-watermark svg {
+      width:240px;
+      height:240px;
+    }
+
+    /* Main content */
+    .content {
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding:0 80px;
+      width:100%;
+    }
+
+    .headline-top {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      font-size:78px;
+      color:#F5F2E9;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      line-height:1;
+    }
+
+    .connector {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:32px;
+      color:#16796F;
+      text-transform:lowercase;
+      letter-spacing:6px;
+      margin:18px 0;
+      line-height:1;
+    }
+
+    .headline-bottom {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      font-size:78px;
+      color:#D6EF72;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      line-height:1;
+    }
+
+    .divider {
+      width:480px;
+      height:1px;
+      background:rgba(22,121,111,0.4);
+      margin:32px auto 30px;
+    }
+
+    .subtext {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:17px;
+      color:rgba(245,242,233,0.75);
+      line-height:1.7;
+      max-width:620px;
+      margin:0 auto;
+    }
+
+    /* Bottom bar */
+    .bottom-bar {
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 40px;
+      border-top:1px solid rgba(22,121,111,0.2);
+      z-index:2;
+    }
+
+    .bottom-lupa {
+      color:#16796F;
+      display:flex;
+      align-items:center;
+    }
+
+    .bottom-identity {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:14px;
+      color:rgba(245,242,233,0.6);
+      text-align:center;
+      letter-spacing:0.5px;
+    }
+
+    .bottom-handle {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:14px;
+      color:#16796F;
+      letter-spacing:0.5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+
+    <!-- Background lupa watermark -->
+    <div class="lupa-watermark">
+      <svg width="240" height="240" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3"/>
+        <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- Main text content -->
+    <div class="content">
+      <div class="headline-top">Competência Clínica</div>
+      <div class="connector">não dispensa</div>
+      <div class="headline-bottom">Comunicação Clara</div>
+      <div class="divider"></div>
+      <div class="subtext">
+        Você se formou para exercer medicina.<br>
+        Ninguém te ensinou a transformar esse conhecimento<br>
+        em presença digital clara e reconhecível.<br>
+        Isso não é falha sua. É uma lacuna que tem solução.
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="bottom-bar">
+      <div class="bottom-lupa">
+        <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3"/>
+          <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="bottom-identity">Dr. Rafael Leão &nbsp;|&nbsp; MÉDICO &nbsp;|&nbsp; CRM-MG 96735</div>
+      <div class="bottom-handle">@medcrivo</div>
+    </div>
+
+  </div>
+</body>
+</html>

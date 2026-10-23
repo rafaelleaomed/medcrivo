@@ -1,0 +1,29 @@
+{
+  "type": "carousel",
+  "slot_id": "c2-carousel",
+  "title": "Pode ou não pode no Instagram médico?",
+  "series": "Pode ou Não Pode?",
+  "pillar": "P3",
+  "scheduled_at": "2026-10-30T12:00:00-03:00",
+  "approved": false,
+  "image_urls": [
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-01.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-02.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-03.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-04.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-05.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-06.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-07.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-08.jpg"
+  ],
+  "caption": "A Resolução CFM nº 2.336/2023 atualizou as regras de publicidade médica.\n\nAinda existe confusão entre regras antigas, permissões atuais e limites que continuam valendo. Isso aumenta tanto o risco de publicação inadequada quanto a autocensura de conteúdos permitidos.\n\nEsse carrossel cobre os cinco pontos práticos que mais aparecem nos perfis de médicos criadores: identificação, imagens, promessas, preço e depoimentos.\n\nSalve para consultar antes de publicar.\n\n💬 Comente CRIVO para receber o checklist completo de revisão ética.\n\n📌 Este carrossel tem caráter educativo e não substitui análise jurídica individual. Ref.: Res. CFM nº 2.336/2023.\n\n#MedCrivo #CFM #ÉticaMédica #PublicidadeMédica #MédicoCriador\n#ConteúdoMédico #DemédicoParaMédico #PodeOuNãoPode",
+  "cfm_checklist": {
+    "identificacao_visivel": false,
+    "disclaimer_juridico_visivel": true,
+    "referencia_cfm_mencionada": true,
+    "sem_promessa_resultado": true,
+    "sem_paciente_identificavel": true,
+    "aprovado_por_rafael": false
+  },
+  "notes": "Slot: sexta 30/10 às 12h. Disclaimer jurídico obrigatório no slide 08. Rafael deve aprovar."
+}

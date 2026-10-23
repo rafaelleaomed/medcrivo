@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#000; width:1080px; }
+    .slide {
+      width:1080px;
+      height:1350px;
+      position:relative;
+      overflow:hidden;
+      display:none;
+    }
+    .slide:first-child { display:block; }
+
+    /* ===================== SHARED ===================== */
+    .slide-num {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      position:absolute;
+    }
+    .lupa-icon { display:flex; align-items:center; }
+    .top-bar {
+      position:absolute;
+      top:0; left:0; right:0;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      padding:0 48px;
+      z-index:5;
+    }
+    .top-brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:14px;
+      letter-spacing:1px;
+    }
+    .bottom-bar {
+      position:absolute;
+      bottom:0; left:0; right:0;
+      height:64px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 48px;
+      z-index:5;
+    }
+    .bottom-credit {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:13px;
+      letter-spacing:0.3px;
+    }
+    .teal-bullet {
+      display:inline-block;
+      width:10px; height:10px;
+      background:#16796F;
+      border-radius:2px;
+      margin-right:12px;
+      flex-shrink:0;
+      margin-top:4px;
+    }
+
+    /* ===================== SLIDE 01 ===================== */
+    #s1 { background:#123C36; }
+    #s1 .top-brand { color:#16796F; }
+    #s1 .slide-num {
+      font-size:110px;
+      color:rgba(245,242,233,0.08);
+      bottom:60px; right:48px;
+      line-height:1;
+    }
+    #s1 .series-label {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:14px;
+      color:#16796F;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      margin-bottom:28px;
+    }
+    #s1 .main-text {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-size:58px;
+      line-height:1.15;
+    }
+    #s1 .main-text .marfim { color:#F5F2E9; }
+    #s1 .main-text .lima { color:#D6EF72; }
+    #s1 .center-block {
+      position:absolute;
+      top:50%;
+      left:48px; right:48px;
+      transform:translateY(-50%);
+      margin-top:-20px;
+    }
+
+    /* ===================== SLIDE 02 ===================== */
+    #s2 { background:#F5F2E9; }
+    #s2 .slide-num {
+      font-size:110px;
+      color:rgba(18,60,54,0.08);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s2 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s2 .title {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:24px;
+      color:#16796F;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:24px;
+    }
+    #s2 .body {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:21px;
+      color:#172A27;
+      line-height:1.65;
+      margin-bottom:36px;
+    }
+    #s2 .pills {
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    #s2 .pill {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:20px;
+      border-radius:6px;
+      padding:10px 20px;
+    }
+    #s2 .pill-gray { background:#e0e0e0; color:#172A27; }
+    #s2 .pill-lime { background:#D6EF72; color:#172A27; }
+    #s2 .neq {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:28px;
+      color:#123C36;
+    }
+
+    /* ===================== SLIDE 03 ===================== */
+    #s3 { background:#172A27; }
+    #s3 .slide-num {
+      font-size:110px;
+      color:rgba(214,239,114,0.1);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s3 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-50%);
+    }
+    #s3 .title {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:19px;
+      color:#F5F2E9;
+      margin-bottom:36px;
+      line-height:1.5;
+    }
+    #s3 .bullet-row {
+      display:flex;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    #s3 .bullet-text {
+      font-family:'Source Serif 4', serif;
+      font-style:italic;
+      font-size:28px;
+      color:#D6EF72;
+      line-height:1.3;
+    }
+    #s3 .footer-note {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      color:rgba(245,242,233,0.7);
+      margin-top:36px;
+      line-height:1.5;
+    }
+
+    /* ===================== SLIDE 04 ===================== */
+    #s4 { background:#F5F2E9; }
+    #s4 .slide-num {
+      font-size:110px;
+      color:rgba(22,121,111,0.1);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s4 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+    }
+    #s4 .title {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:24px;
+      color:#123C36;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:20px;
+    }
+    #s4 .body {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:21px;
+      color:#172A27;
+      line-height:1.65;
+      margin-bottom:36px;
+    }
+    #s4 .compare-boxes {
+      display:flex;
+      gap:16px;
+    }
+    #s4 .compare-box {
+      flex:1;
+      border-radius:8px;
+      padding:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:700;
+      font-size:21px;
+    }
+    #s4 .box-gray { background:#e8e8e8; color:#172A27; }
+    #s4 .box-lime { background:#D6EF72; color:#123C36; }
+
+    /* ===================== SLIDE 05 ===================== */
+    #s5 { background:#123C36; }
+    #s5 .slide-num {
+      font-size:110px;
+      color:rgba(214,239,114,0.1);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s5 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-50%);
+    }
+    #s5 .title {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:19px;
+      color:#16796F;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:28px;
+    }
+    #s5 .strikethrough-line {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:21px;
+      color:rgba(245,242,233,0.6);
+      margin-bottom:14px;
+      padding-left:8px;
+    }
+    #s5 .divider {
+      width:60%;
+      height:1px;
+      background:#16796F;
+      margin:32px 0;
+    }
+    #s5 .hero-phrase {
+      font-family:'Source Serif 4', serif;
+      font-weight:600;
+      font-size:38px;
+      color:#D6EF72;
+      text-align:center;
+      line-height:1.3;
+    }
+
+    /* ===================== SLIDE 06 ===================== */
+    #s6 { background:#F5F2E9; }
+    #s6 .slide-num {
+      font-size:110px;
+      color:rgba(18,60,54,0.08);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s6 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-55%);
+    }
+    #s6 .method-title {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:600;
+      font-size:15px;
+      color:#16796F;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:28px;
+    }
+    #s6 .method-row {
+      display:flex;
+      align-items:baseline;
+      gap:20px;
+      padding:18px 0;
+      border-top:1px solid rgba(22,121,111,0.25);
+    }
+    #s6 .method-row:last-child { border-bottom:1px solid rgba(22,121,111,0.25); }
+    #s6 .method-word {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:800;
+      font-size:34px;
+      color:#123C36;
+      min-width:200px;
+      letter-spacing:0.5px;
+    }
+    #s6 .method-desc {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      color:#172A27;
+      line-height:1.45;
+    }
+
+    /* ===================== SLIDE 07 ===================== */
+    #s7 { background:#172A27; }
+    #s7 .slide-num {
+      font-size:110px;
+      color:rgba(22,121,111,0.1);
+      top:40px; left:40px;
+      line-height:1;
+    }
+    #s7 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-50%);
+    }
+    #s7 .title {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:500;
+      font-size:19px;
+      color:#F5F2E9;
+      margin-bottom:28px;
+      line-height:1.5;
+    }
+    #s7 .before-box {
+      background:rgba(255,255,255,0.05);
+      border:1px solid #16796F;
+      border-radius:8px;
+      padding:22px 24px;
+      margin-bottom:14px;
+    }
+    #s7 .after-box {
+      background:rgba(214,239,114,0.08);
+      border:1px solid #D6EF72;
+      border-radius:8px;
+      padding:22px 24px;
+      margin-bottom:20px;
+    }
+    #s7 .box-label {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:600;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      margin-bottom:8px;
+    }
+    #s7 .box-label.teal { color:#16796F; }
+    #s7 .box-label.lima { color:#D6EF72; }
+    #s7 .box-text {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:18px;
+      color:#F5F2E9;
+      line-height:1.4;
+      margin-bottom:6px;
+    }
+    #s7 .box-note {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:14px;
+    }
+    #s7 .box-note.gray { color:rgba(245,242,233,0.5); }
+    #s7 .box-note.lima { color:rgba(214,239,114,0.7); }
+    #s7 .bottom-tag {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:800;
+      font-size:30px;
+      color:#D6EF72;
+      letter-spacing:0.5px;
+      margin-bottom:6px;
+    }
+    #s7 .disclaimer {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:12px;
+      color:rgba(245,242,233,0.35);
+    }
+
+    /* ===================== SLIDE 08 ===================== */
+    #s8 { background:#123C36; }
+    #s8::after {
+      content:'';
+      position:absolute;
+      inset:20px;
+      border:3px solid #D6EF72;
+      pointer-events:none;
+      z-index:1;
+    }
+    #s8 .slide-num {
+      font-size:110px;
+      color:rgba(22,121,111,0.12);
+      top:30px; right:48px;
+      line-height:1;
+    }
+    #s8 .center-block {
+      position:absolute;
+      top:50%; left:60px; right:60px;
+      transform:translateY(-52%);
+      text-align:center;
+      z-index:2;
+    }
+    #s8 .pre-cta {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:30px;
+      color:#F5F2E9;
+      margin-bottom:10px;
+    }
+    #s8 .cta-word {
+      font-family:'Barlow Condensed', sans-serif;
+      font-weight:900;
+      font-size:104px;
+      color:#D6EF72;
+      letter-spacing:-2px;
+      line-height:0.9;
+      margin-bottom:14px;
+    }
+    #s8 .post-cta {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:400;
+      font-size:22px;
+      color:rgba(245,242,233,0.8);
+      margin-bottom:16px;
+      line-height:1.4;
+    }
+    #s8 .small-note {
+      font-family:'Plus Jakarta Sans', sans-serif;
+      font-weight:300;
+      font-size:16px;
+      color:#16796F;
+    }
+    #s8 .bottom-bar {
+      border-top:1px solid rgba(214,239,114,0.15);
+    }
+    #s8 .bottom-credit { color:rgba(245,242,233,0.6); }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 01 — CAPA -->
+  <div class="slide" id="s1">
+    <div class="top-bar">
+      <div class="top-brand" style="color:#16796F;">
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3.5"/>
+          <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+        @medcrivo
+      </div>
+    </div>
+    <div class="center-block">
+      <div class="series-label">Médico bom, perfil genérico — Parte 1</div>
+      <div class="main-text">
+        <div class="marfim">Você é bom médico.</div>
+        <div class="marfim">Seu perfil ainda</div>
+        <div class="lima">não mostra isso direito.</div>
+      </div>
+    </div>
+    <div class="slide-num">01</div>
+  </div>
+
+  <!-- SLIDE 02 — DIAGNÓSTICO 1 -->
+  <div class="slide" id="s2" style="display:none">
+    <div class="slide-num">02</div>
+    <div class="center-block">
+      <div class="title">O problema mais comum:</div>
+      <div class="body">
+        Você posta sobre vários temas.<br>
+        Anatomia. Dicas de sono. Prevenção. Mitos.<br>
+        <br>
+        Tudo útil. Nada conectado.<br>
+        <br>
+        O perfil parece uma biblioteca geral de saúde —<br>
+        não o trabalho de um médico específico com um<br>
+        ponto de vista específico.
+      </div>
+      <div class="pills">
+        <div class="pill pill-gray">BIBLIOTECA GERAL</div>
+        <div class="neq">≠</div>
+        <div class="pill pill-lime">MÉDICO ESPECÍFICO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 03 — DIAGNÓSTICO 2 -->
+  <div class="slide" id="s3" style="display:none">
+    <div class="slide-num">03</div>
+    <div class="center-block">
+      <div class="title">O que precisa ficar claro logo na entrada:</div>
+      <div class="bullet-row">
+        <div class="teal-bullet" style="width:10px; height:10px; background:#16796F; border-radius:2px; flex-shrink:0; margin-top:8px;"></div>
+        <div class="bullet-text">Qual é o seu campo de atuação?</div>
+      </div>
+      <div class="bullet-row">
+        <div class="teal-bullet" style="width:10px; height:10px; background:#16796F; border-radius:2px; flex-shrink:0; margin-top:8px;"></div>
+        <div class="bullet-text">Que tipo de assunto você explica?</div>
+      </div>
+      <div class="bullet-row">
+        <div class="teal-bullet" style="width:10px; height:10px; background:#16796F; border-radius:2px; flex-shrink:0; margin-top:8px;"></div>
+        <div class="bullet-text">Qual é o seu ponto de vista?</div>
+      </div>
+      <div class="footer-note">
+        Se o perfil não responde, cada post parece isolado.
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 04 — DIAGNÓSTICO 3 -->
+  <div class="slide" id="s4" style="display:none">
+    <div class="slide-num">04</div>
+    <div class="center-block">
+      <div class="title">Conteúdo correto, mas esquecível:</div>
+      <div class="body">
+        Não é que seu conteúdo seja ruim.<br>
+        É que ele poderia ter sido publicado por<br>
+        qualquer médico da sua especialidade.
+      </div>
+      <div class="compare-boxes">
+        <div class="compare-box box-gray">ÚTIL E ANÔNIMO</div>
+        <div class="compare-box box-lime">ÚTIL E RECONHECÍVEL</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 05 — REFRAME -->
+  <div class="slide" id="s5" style="display:none">
+    <div class="slide-num">05</div>
+    <div class="center-block">
+      <div class="title">O que posicionamento não é:</div>
+      <div class="strikethrough-line">— criar uma persona falsa.</div>
+      <div class="strikethrough-line">— dançar. Não é virar influenciador.</div>
+      <div class="strikethrough-line">— abrir mão do que você é.</div>
+      <div class="divider"></div>
+      <div class="hero-phrase">Pelo que você quer<br>ser lembrado.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 06 — SOLUÇÃO -->
+  <div class="slide" id="s6" style="display:none">
+    <div class="slide-num">06</div>
+    <div class="center-block">
+      <div class="method-title">Método Clareza → Conteúdo → Crivo → Consistência</div>
+      <div class="method-row">
+        <div class="method-word">CLAREZA</div>
+        <div class="method-desc">Define pelo que você quer ser reconhecido e por quem.</div>
+      </div>
+      <div class="method-row">
+        <div class="method-word">CONTEÚDO</div>
+        <div class="method-desc">Transforma sua experiência em séries publicáveis.</div>
+      </div>
+      <div class="method-row">
+        <div class="method-word">CRIVO</div>
+        <div class="method-desc">Revisa ética, normas e linguagem antes de publicar.</div>
+      </div>
+      <div class="method-row">
+        <div class="method-word">CONSISTÊNCIA</div>
+        <div class="method-desc">Organiza frequência e reaproveitamento.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 07 — PROVA -->
+  <div class="slide" id="s7" style="display:none">
+    <div class="slide-num">07</div>
+    <div class="center-block">
+      <div class="title">Antes e depois — não do perfil. Da clareza.</div>
+      <div class="before-box">
+        <div class="box-label teal">ANTES</div>
+        <div class="box-text">Médica | Saúde e bem-estar | CRM 00000/UF</div>
+        <div class="box-note gray">(Correto. Genérico.)</div>
+      </div>
+      <div class="after-box">
+        <div class="box-label lima">DEPOIS</div>
+        <div class="box-text">Médica de família | Prevenção explicada sem alarmismo | CRM 00000/UF | RQE 0000</div>
+        <div class="box-note lima">(Campo, tema e perspectiva identificáveis.)</div>
+      </div>
+      <div class="bottom-tag">CORRETO ≠ LEMBRADO</div>
+      <div class="disclaimer">Exemplos fictícios para fins educativos.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 08 — CTA -->
+  <div class="slide" id="s8" style="display:none">
+    <div class="slide-num">08</div>
+    <div class="center-block">
+      <div class="pre-cta">Comente</div>
+      <div class="cta-word">CRIVO</div>
+      <div class="post-cta">e receba o checklist de<br>posicionamento médico.</div>
+      <div class="small-note">Gratuito no lançamento. De médico para médico.</div>
+    </div>
+    <div class="bottom-bar">
+      <div class="lupa-icon" style="color:#16796F;">
+        <svg width="26" height="26" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="11" stroke="currentColor" stroke-width="3.5"/>
+          <line x1="25.5" y1="25.5" x2="36" y2="36" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="bottom-credit" style="color:rgba(245,242,233,0.6); font-family:'Plus Jakarta Sans',sans-serif; font-size:13px;">
+        Dr. Rafael Leão &nbsp;|&nbsp; MÉDICO &nbsp;|&nbsp; CRM-MG 96735 &nbsp;|&nbsp; @medcrivo
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

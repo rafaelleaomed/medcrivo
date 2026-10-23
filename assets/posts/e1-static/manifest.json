@@ -1,0 +1,21 @@
+{
+  "type": "static",
+  "slot_id": "e1-static",
+  "title": "Competência clínica não dispensa comunicação clara",
+  "series": "manifesto",
+  "pillar": "P1",
+  "scheduled_at": "2026-10-29T18:00:00-03:00",
+  "approved": false,
+  "image_url": "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/e1-static/slide-01.jpg",
+  "caption": "Você dedicou anos à medicina.\n\nAprendeu a ler exames, conduzir casos complexos, conversar com pacientes em seus momentos mais difíceis.\n\nTransformar esse conhecimento em conteúdo digital claro e consistente é uma competência diferente — e pode ser aprendida.\n\nIsso não é vaidade. É presença profissional.\n\nComunicar com clareza não substitui competência clínica.\nAjuda a tornar o trabalho compreensível antes do primeiro contato.\n\n💬 Comente CRIVO se você quer começar a construir isso agora.\n\n#MedCrivo #MédicoCriador #MarketingMédico #PresençaDigital\n#MedicinaDigital #DemédicoParaMédico #ComunicaçãoMédica",
+  "hashtags": ["#MedCrivo", "#MédicoCriador", "#MarketingMédico", "#PresençaDigital", "#MedicinaDigital", "#DemédicoParaMédico", "#ComunicaçãoMédica"],
+  "cfm_checklist": {
+    "identificacao_visivel": false,
+    "sem_promessa_resultado": true,
+    "sem_preco_promocao": true,
+    "conteudo_educativo": true,
+    "sem_paciente_identificavel": true,
+    "aprovado_por_rafael": false
+  },
+  "notes": "D-1 antes de publicar: Rafael aprova arte final e texto. Setar approved: true para liberar publicação."
+}
