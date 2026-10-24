@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,initial-scale=1">
+<title>Fundos editoriais MedCrivo</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:#071a17}.scene{position:absolute;inset:0;display:none;overflow:hidden}.scene.active{display:block}.noise{position:absolute;inset:0;opacity:.14;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E")}
+/* 1 — vidro sob foco */
+#s1{background:radial-gradient(circle at 72% 22%,#4db8a055 0 10%,transparent 38%),linear-gradient(145deg,#071a17 5%,#123c36 54%,#06100f)}#s1 .glass{position:absolute;width:600px;height:840px;right:-80px;top:120px;border:2px solid #d6ef7240;border-radius:310px 40px 260px 40px;transform:rotate(18deg);background:linear-gradient(145deg,#f5f2e914,#4db8a006);box-shadow:inset 0 0 100px #f5f2e90b,0 45px 100px #0008;backdrop-filter:blur(10px)}#s1 .beam{position:absolute;width:430px;height:1500px;left:150px;top:-200px;transform:rotate(24deg);background:linear-gradient(90deg,transparent,#d6ef721f,transparent);filter:blur(12px)}
+/* 2 — papel editorial */
+#s2{background:#e9e4d8}#s2 .paper{position:absolute;inset:90px 80px;background:linear-gradient(110deg,#f8f4ea,#d9d2c3);box-shadow:0 40px 90px #071a1745;transform:rotate(-4deg)}#s2 .paper:before{content:"";position:absolute;left:100px;top:0;bottom:0;width:1px;background:#a56b5b66;box-shadow:10px 0 #a56b5b18}#s2 .paper:after{content:"";position:absolute;left:0;right:0;top:230px;height:2px;background:#123c3633;box-shadow:0 90px #123c3633,0 180px #123c3633,0 270px #123c3633,0 360px #123c3633,0 450px #123c3633,0 540px #123c3633,0 630px #123c3633,0 720px #123c3633}#s2 .stamp{position:absolute;width:300px;height:300px;right:80px;bottom:80px;border:22px double #123c3628;border-radius:50%;transform:rotate(17deg)}
+/* 3 — grade e sinal */
+#s3{background:radial-gradient(circle at 50% 45%,#123c36,#071a17 65%)}#s3 .grid{position:absolute;inset:-100px;background-image:linear-gradient(#4db8a020 1px,transparent 1px),linear-gradient(90deg,#4db8a020 1px,transparent 1px);background-size:72px 72px;transform:perspective(700px) rotateX(58deg) translateY(360px) scale(1.35)}#s3 .signal{position:absolute;width:620px;height:620px;left:230px;top:260px;border:3px solid #d6ef7270;border-radius:50%;box-shadow:0 0 0 45px #d6ef7207,0 0 0 92px #d6ef7209,0 0 0 150px #d6ef7207,0 0 100px #4db8a044}#s3 .signal:after{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:#d6ef72;left:294px;top:294px;box-shadow:0 0 45px #d6ef72}
+/* 4 — corredor de luz */
+#s4{background:#06110f}#s4 .wallL,#s4 .wallR{position:absolute;top:0;bottom:0;width:64%;background:linear-gradient(90deg,#020807,#123c36)}#s4 .wallL{left:-20%;clip-path:polygon(0 0,100% 18%,100% 82%,0 100%)}#s4 .wallR{right:-20%;transform:scaleX(-1);clip-path:polygon(0 0,100% 18%,100% 82%,0 100%)}#s4 .door{position:absolute;left:430px;top:220px;width:220px;height:780px;background:linear-gradient(#d6ef72,#4db8a0);box-shadow:0 0 120px #d6ef7277}#s4 .floor{position:absolute;left:220px;right:220px;bottom:-100px;height:520px;background:linear-gradient(180deg,#d6ef7244,transparent);clip-path:polygon(41% 0,59% 0,100% 100%,0 100%)}
+/* 5 — prisma */
+#s5{background:linear-gradient(160deg,#f5f2e9 0 48%,#d6ef72 48% 58%,#123c36 58%)}#s5 .prism{position:absolute;left:170px;top:210px;width:740px;height:820px;clip-path:polygon(50% 0,100% 100%,0 100%);background:linear-gradient(125deg,#ffffff99,#4db8a033 45%,#071a1755);filter:drop-shadow(0 45px 55px #071a1760)}#s5 .prism:after{content:"";position:absolute;inset:35px;clip-path:inherit;background:linear-gradient(90deg,#f5f2e9bb,#4db8a022)}
+/* 6 — cartões em movimento */
+#s6{background:linear-gradient(135deg,#071a17,#123c36)}#s6 .card{position:absolute;width:610px;height:360px;border-radius:22px;background:linear-gradient(145deg,#f5f2e9,#d9d5cb);box-shadow:0 35px 80px #0008;border:1px solid #fff8}#s6 .a{left:-160px;top:90px;transform:rotate(-13deg)}#s6 .b{right:-110px;top:470px;transform:rotate(9deg);background:linear-gradient(145deg,#d6ef72,#9cb34c)}#s6 .c{left:20px;bottom:-70px;transform:rotate(5deg);background:linear-gradient(145deg,#4db8a0,#1e6c5d)}#s6 .card:after{content:"";position:absolute;left:48px;right:48px;top:74px;height:18px;background:#071a1730;box-shadow:0 52px #071a1720,0 104px #071a1720,0 156px #071a1715}
+/* 7 — pulso */
+#s7{background:radial-gradient(circle at 20% 18%,#4db8a044,transparent 34%),#071a17}#s7 .wave{position:absolute;left:-70px;right:-70px;top:520px;height:310px;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 310' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 190 C120 20 240 20 360 190 S600 360 720 190 S960 20 1200 190' fill='none' stroke='%23d6ef72' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M0 220 C150 100 270 100 420 220 S690 340 840 220 S1050 100 1200 220' fill='none' stroke='%234db8a0' stroke-width='3' opacity='.7'/%3E%3C/svg%3E") center/cover no-repeat;filter:drop-shadow(0 0 24px #d6ef72)}#s7 .halo{position:absolute;width:760px;height:760px;left:160px;top:280px;border-radius:50%;border:1px solid #4db8a044;box-shadow:0 0 0 90px #4db8a008,0 0 0 190px #4db8a006}
+/* 8 — recortes e contraste */
+#s8{background:#f1ecdf}#s8 .dark{position:absolute;width:820px;height:1040px;left:-80px;top:190px;background:#071a17;transform:rotate(8deg);box-shadow:35px 40px 0 #d6ef72}#s8 .circle{position:absolute;width:420px;height:420px;border-radius:50%;right:-60px;top:90px;background:#4db8a0;mix-blend-mode:multiply}#s8 .cut{position:absolute;width:590px;height:200px;right:-80px;bottom:160px;background:#123c36;transform:rotate(-10deg)}#s8 .line{position:absolute;width:8px;height:700px;right:210px;top:380px;background:#a15f50;transform:rotate(22deg)}
+</style>
+</head>
+<body>
+<div class="scene" id="s1"><div class="beam"></div><div class="glass"></div><div class="noise"></div></div>
+<div class="scene" id="s2"><div class="paper"></div><div class="stamp"></div><div class="noise"></div></div>
+<div class="scene" id="s3"><div class="grid"></div><div class="signal"></div><div class="noise"></div></div>
+<div class="scene" id="s4"><div class="wallL"></div><div class="wallR"></div><div class="door"></div><div class="floor"></div><div class="noise"></div></div>
+<div class="scene" id="s5"><div class="prism"></div><div class="noise"></div></div>
+<div class="scene" id="s6"><div class="card a"></div><div class="card b"></div><div class="card c"></div><div class="noise"></div></div>
+<div class="scene" id="s7"><div class="halo"></div><div class="wave"></div><div class="noise"></div></div>
+<div class="scene" id="s8"><div class="dark"></div><div class="circle"></div><div class="cut"></div><div class="line"></div><div class="noise"></div></div>
+<script>
+const n=Math.max(1,Math.min(8,Number(new URLSearchParams(location.search).get('scene')||1)));
+document.getElementById('s'+n).classList.add('active');
+</script>
+</body></html>
