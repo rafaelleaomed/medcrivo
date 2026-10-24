@@ -1,0 +1,28 @@
+{
+  "type": "carousel",
+  "slot_id": "c1-carousel",
+  "title": "Você pode ser excelente e ainda parecer genérico",
+  "series": "Médico bom, perfil genérico",
+  "pillar": "P1",
+  "scheduled_at": "2026-10-27T12:00:00-03:00",
+  "approved": false,
+  "image_urls": [
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-01.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-02.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-03.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-04.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-05.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-06.jpg"
+  ],
+  "caption": "Você pode ser excelente e ainda parecer genérico.\n\nIsso acontece quando o perfil reúne muito conteúdo, mas não deixa claro o campo de atuação, os assuntos que você traduz e o seu ponto de vista.\n\nPosicionamento não é criar um personagem. É retirar o ruído para que a competência já existente seja compreendida.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
+  "cfm_checklist": {
+    "identificacao_visivel": true,
+    "sem_promessa_resultado": true,
+    "exemplos_ficticios": true,
+    "sem_preco_promocao": true,
+    "conteudo_educativo": true,
+    "sem_paciente_identificavel": true,
+    "aprovado_por_rafael": false
+  },
+  "notes": "Carrossel com 6 slides. Aprovação final necessária antes de publicar."
+}

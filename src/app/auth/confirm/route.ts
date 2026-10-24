@@ -25,8 +25,12 @@ export async function GET(request: NextRequest) {
     ok = !(await supabase.auth.verifyOtp({ type, token_hash: tokenHash })).error;
   }
 
+  // Só destinos internos conhecidos: evita redirecionar para um endereço escolhido por terceiros.
+  const next = searchParams.get("next");
+  const destination = next === "/redefinir-senha" ? next : "/app";
+
   if (ok) {
-    redirectTo.pathname = "/app";
+    redirectTo.pathname = destination;
     return NextResponse.redirect(redirectTo);
   }
   redirectTo.pathname = "/login";

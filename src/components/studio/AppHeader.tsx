@@ -9,6 +9,7 @@ import { logout } from "@/app/login/actions";
 import { TOOL_GROUPS, toolsInGroup, type ToolGroupId } from "@/config/tools";
 import { cn } from "@/lib/utils";
 import { greetingName } from "@/lib/profile";
+import { Dock } from "./Dock";
 import { STUDIO_ROUTES, isActiveRoute } from "./routes";
 import { useStudio } from "./StudioProvider";
 
@@ -146,22 +147,7 @@ export function AppHeader() {
             <BrandMark size={28} className="text-base" />
           </Link>
 
-          <nav aria-label="Estúdio" className="hidden flex-1 items-stretch justify-center lg:flex">
-            <Link
-              href={STUDIO_ROUTES.home}
-              aria-current={homeActive ? "page" : undefined}
-              className={cn(
-                "inline-flex h-16 items-center gap-1.5 px-4 font-mono text-[11px] uppercase tracking-[0.18em] transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-teal-600",
-                homeActive ? "text-[var(--text-main)]" : "text-[var(--text-muted)] hover:text-[var(--text-main)]",
-              )}
-            >
-              {homeActive && <span aria-hidden className="h-1.5 w-1.5 bg-teal-600 dark:bg-lima" />}
-              Início
-            </Link>
-            {TOOL_GROUPS.map((g) => (
-              <GroupMenu key={g.id} group={g.id} label={g.label} placement="down" {...menuProps(g.id, "down")} />
-            ))}
-          </nav>
+          <Dock />
 
           <div className="ml-auto flex items-stretch border-l border-[var(--border-subtle)]">
             {storeMode === "local" && (
