@@ -1,8 +1,8 @@
 {
   "type": "carousel",
   "slot_id": "c1-carousel",
-  "title": "Médico bom, perfil genérico — Parte 1",
-  "series": "Médico Bom, Perfil Genérico",
+  "title": "Você pode ser excelente e ainda parecer genérico",
+  "series": "Médico bom, perfil genérico",
   "pillar": "P1",
   "scheduled_at": "2026-10-27T12:00:00-03:00",
   "approved": false,
@@ -12,13 +12,11 @@
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-03.jpg",
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-04.jpg",
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-05.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-06.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-07.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-08.jpg"
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-06.jpg"
   ],
-  "caption": "Você tem formação e experiência clínica.\n\nMas seu perfil ainda não comunica isso de forma clara e específica.\n\nNão porque você faz algo errado.\nPorque ninguém ensinou o médico a transformar competência em presença.\n\nEsse carrossel mostra o padrão que torna bons médicos invisíveis no digital — e o começo do caminho para sair dele.\n\nSalve para reler antes de revisar o seu perfil.\n\n💬 Comente CRIVO para receber o checklist de posicionamento médico.\nÉ gratuito, prático e feito de médico para médico.\n\n#MedCrivo #MédicoCriador #MarketingMédico #Posicionamento\n#ConteúdoMédico #MedicinaDigital #DemédicoParaMédico\n#PerfilMédico #MédicoBomPerfilGenérico",
+  "caption": "Você pode ser excelente e ainda parecer genérico.\n\nIsso acontece quando o perfil reúne muito conteúdo, mas não deixa claro o campo de atuação, os assuntos que você traduz e o seu ponto de vista.\n\nPosicionamento não é criar um personagem. É retirar o ruído para que a competência já existente seja compreendida.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
   "cfm_checklist": {
-    "identificacao_visivel": false,
+    "identificacao_visivel": true,
     "sem_promessa_resultado": true,
     "exemplos_ficticios": true,
     "sem_preco_promocao": true,
@@ -26,5 +24,5 @@
     "sem_paciente_identificavel": true,
     "aprovado_por_rafael": false
   },
-  "notes": "Slot: terça 27/10 às 12h. CTA: Comente CRIVO. Rafael deve aprovar slides finais."
+  "notes": "Carrossel com 6 slides. Aprovação final necessária antes de publicar."
 }
