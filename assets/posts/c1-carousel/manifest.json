@@ -5,7 +5,7 @@
   "series": "Médico bom, perfil genérico",
   "pillar": "P1",
   "scheduled_at": "2026-10-27T12:00:00-03:00",
-  "approved": false,
+  "approved": true,
   "image_urls": [
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-01.jpg",
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c1-carousel/slide-02.jpg",
@@ -22,7 +22,7 @@
     "sem_preco_promocao": true,
     "conteudo_educativo": true,
     "sem_paciente_identificavel": true,
-    "aprovado_por_rafael": false
+    "aprovado_por_rafael": true
   },
   "notes": "Carrossel com 6 slides. Aprovação final necessária antes de publicar."
 }

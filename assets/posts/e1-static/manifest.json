@@ -5,7 +5,7 @@
   "series": "manifesto",
   "pillar": "P1",
   "scheduled_at": "2026-10-29T18:00:00-03:00",
-  "approved": false,
+  "approved": true,
   "image_url": "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/e1-static/slide-01.jpg",
   "caption": "Você dedicou anos à medicina. Aprendeu a conduzir casos, interpretar exames e conversar em momentos difíceis.\n\nTransformar esse conhecimento em comunicação clara é outra competência — e ela pode ser desenvolvida.\n\nComunicação não inventa autoridade. Torna reconhecível a autoridade que já existe.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #ComunicaçãoMédica #MedicinaDigital",
   "hashtags": ["#MedCrivo", "#ComunicaçãoMédica", "#MedicinaDigital"],
@@ -15,7 +15,7 @@
     "sem_preco_promocao": true,
     "conteudo_educativo": true,
     "sem_paciente_identificavel": true,
-    "aprovado_por_rafael": false
+    "aprovado_por_rafael": true
   },
   "notes": "Produção visual concluída. Aprovação final necessária antes de publicar."
 }
