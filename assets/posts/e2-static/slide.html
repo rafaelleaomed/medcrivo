@@ -18,19 +18,19 @@
     padding:80px;
   }
 
-  /* foto de fundo */
+  /* fotografia editorial sem rosto */
   .bg{
     position:absolute;inset:0;
-    background:url('../../media/generated/rafael-tecnologia-medica.jpg') center/cover no-repeat;
-    filter:brightness(.82) saturate(.78);
+    background:url('../../media/generated/instrumentos-clareza-nevoa.jpg') center/cover no-repeat;
+    filter:brightness(.58) saturate(.72);
     z-index:0;
   }
-  /* gradiente sobre a foto — escurece base, abre topo */
+  /* gradiente para garantir leitura sem esconder a fotografia */
   .grad{
     position:absolute;inset:0;z-index:1;
     background:
-      linear-gradient(90deg,rgba(7,26,23,.98) 0%,rgba(7,26,23,.9) 37%,rgba(7,26,23,.28) 72%,rgba(7,26,23,.08) 100%),
-      linear-gradient(180deg,rgba(7,26,23,.1) 0%,rgba(7,26,23,.15) 64%,rgba(7,26,23,.88) 100%);
+      linear-gradient(90deg,rgba(7,26,23,.96) 0%,rgba(7,26,23,.85) 48%,rgba(7,26,23,.28) 100%),
+      linear-gradient(180deg,rgba(7,26,23,.2) 0%,rgba(7,26,23,.18) 58%,rgba(7,26,23,.9) 100%);
   }
 
   /* linha verde — elemento de identidade MedCrivo */

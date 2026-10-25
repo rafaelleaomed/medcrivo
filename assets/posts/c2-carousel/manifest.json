@@ -5,23 +5,23 @@
   "series": "Teste do Crivo",
   "pillar": "P3",
   "scheduled_at": "2026-10-30T12:00:00-03:00",
-  "approved": false,
+  "approved": true,
   "image_urls": [
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-01.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-02.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-03.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-04.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-05.jpg",
-    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/main/assets/posts/c2-carousel/slide-06.jpg"
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-01.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-02.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-03.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-04.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-05.jpg",
+    "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c2-carousel/slide-06.jpg"
   ],
   "caption": "Antes de publicar, vale passar o conteúdo por um crivo simples:\n\n— Está claro quem fala e com qual registro?\n— A frase informa ou promete?\n— A imagem ajuda a entender ou apenas impressiona?\n— Depois da revisão, sobra uma ideia simples de compreender?\n\nO crivo não trava a comunicação. Ele protege o que você quer dizer.\n\nConteúdo educativo. Referência: Resolução CFM nº 2.336/2023.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #PublicidadeMédica #ComunicaçãoMédica",
   "cfm_checklist": {
     "identificacao_visivel": true,
-    "disclaimer_juridico_visivel": false,
+
     "referencia_cfm_mencionada": true,
     "sem_promessa_resultado": true,
     "sem_paciente_identificavel": true,
-    "aprovado_por_rafael": false
+    "aprovado_por_rafael": true
   },
-  "notes": "Carrossel com 6 slides. Aprovação final necessária antes de publicar."
+  "notes": "Carrossel com 6 slides, aprovado por Rafael."
 }
