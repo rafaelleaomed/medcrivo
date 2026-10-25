@@ -58,7 +58,7 @@
   .cnt{position:relative;z-index:3;display:flex;flex-direction:column;height:100%}
 
   /* ─── SLIDE 1 — CAPA ─── */
-  #s1 .bg{background-image:url('../../media/generated/editorial-bg-04.png');filter:brightness(.46) saturate(.72)}
+  #s1 .bg{background-image:url('../../media/generated/editorial-bg-01.png');filter:brightness(.42) saturate(.72)}
   #s1 .overlay{background:linear-gradient(180deg,rgba(7,26,23,.08) 0%,rgba(7,26,23,.15) 30%,rgba(7,26,23,.88) 68%,#071a17 100%)}
   #s1 .lime-rule{bottom:230px}
   #s1 .cnt{justify-content:flex-end;padding:0 80px 100px}
@@ -114,9 +114,41 @@
   #s6 .lime-rule{top:115px}
   #s6 .cnt{justify-content:center;align-items:flex-start;padding:0 80px}
   #s6 .pergunta{font-family:MedSans,sans-serif;font-weight:900;font-size:88px;line-height:.95;letter-spacing:-4px;color:#d6ef72;text-transform:uppercase;margin-bottom:44px}
-  #s6 .resp{font-family:MedSans,sans-serif;font-size:27px;line-height:1.6;color:rgba(245,242,233,.72);max-width:740px;margin-bottom:60px}
+  #s6 .resp{font-family:MedSans,sans-serif;font-size:27px;line-height:1.6;color:rgba(245,242,233,.72);max-width:740px;margin-bottom:28px}
   #s6 .sig{font-family:MedSans,sans-serif;font-size:18px;letter-spacing:.04em;color:rgba(245,242,233,.72)}
   #s6 .sig strong{color:rgba(245,242,233,.8);font-weight:500}
+
+  /* Conteúdo denso, com progressão baseada no post de maior resposta pública da referência. */
+  .bullets{list-style:none;margin:28px 0 30px;display:grid;gap:14px;max-width:780px}
+  .bullets li{font-family:MedSans,sans-serif;font-size:24px;line-height:1.35;color:#f5f2e9;padding-left:34px;position:relative}
+  .bullets li::before{content:'•';position:absolute;left:4px;color:#d6ef72;font-weight:900}
+  .takeaway{font-family:MedSans,sans-serif;font-size:24px;line-height:1.45;color:#d6ef72;font-weight:700;max-width:780px;border-top:1px solid rgba(214,239,114,.35);padding-top:24px}
+  #s3 h3,#s4 h3,#s5 h3{font-size:68px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(245,242,233,.26);max-width:850px;margin:10px 0 28px}
+  .compare div{font-family:MedSans,sans-serif;font-size:20px;line-height:1.25;color:rgba(245,242,233,.8);padding:16px 18px;border-bottom:1px solid rgba(245,242,233,.16)}
+  .compare div:nth-child(odd){border-right:1px solid rgba(245,242,233,.16);color:#d6ef72;font-weight:700}
+  .compare .head{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#f5f2e9!important;background:rgba(245,242,233,.08)}
+  .leaks{display:grid;gap:18px;margin:28px 0 32px;max-width:790px}
+  .leak{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:16px;font-family:MedSans,sans-serif;font-size:24px;line-height:1.35;color:#f5f2e9}
+  .leak b{display:grid;place-items:center;width:48px;height:48px;border:1px solid #d6ef72;border-radius:50%;color:#d6ef72;font-size:20px}
+  .system-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:840px;margin:20px 0 26px}
+  .system-card{background:rgba(7,26,23,.72);border:1px solid rgba(214,239,114,.3);padding:20px 22px;min-height:142px}
+  .system-card strong{display:block;font-family:MedSans,sans-serif;font-size:24px;color:#d6ef72;margin-bottom:8px}
+  .system-card span{font-family:MedSans,sans-serif;font-size:19px;line-height:1.35;color:rgba(245,242,233,.78)}
+  .versus{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:860px;margin:26px 0}
+  .vcard{padding:26px;background:rgba(7,26,23,.76);border:1px solid rgba(245,242,233,.22);min-height:300px}
+  .vcard.good{border-color:rgba(214,239,114,.6)}
+  .vcard .vtag{font-family:MedSans,sans-serif;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,242,233,.55);margin-bottom:28px}
+  .vcard.good .vtag{color:#d6ef72}
+  .vcard strong{display:block;font-family:MedSans,sans-serif;font-size:30px;line-height:1.12;color:#f5f2e9}
+  .vcard span{display:block;font-family:MedSans,sans-serif;font-size:19px;line-height:1.4;color:rgba(245,242,233,.7);margin-top:18px}
+  .examples{display:grid;grid-template-columns:1fr 1.25fr;max-width:860px;border:1px solid rgba(245,242,233,.2);margin:22px 0 28px}
+  .examples div{font-family:MedSans,sans-serif;font-size:18px;line-height:1.3;padding:15px 17px;border-bottom:1px solid rgba(245,242,233,.14)}
+  .examples div:nth-child(odd){color:rgba(245,242,233,.55);border-right:1px solid rgba(245,242,233,.14)}
+  .examples div:nth-child(even){color:#f5f2e9}
+  .examples .head{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#d6ef72!important;background:rgba(214,239,114,.06)}
+  .next-hint{position:absolute;left:80px;bottom:68px;font-family:MedSans,sans-serif;font-size:17px;letter-spacing:.04em;color:rgba(214,239,114,.78)}
+  .cta{font-family:MedSans,sans-serif;font-size:23px;line-height:1.4;font-weight:700;color:#d6ef72;max-width:760px;margin-bottom:40px}
 </style>
 </head>
 <body>
@@ -129,8 +161,8 @@
   <div class="num">01 / 06</div>
   <div class="cnt">
     <p class="label">MedCrivo · De médico para médico</p>
-    <h2>Você explica<br>bem. Mas<br><em>parece igual.</em></h2>
-    <p>Se qualquer médico poderia assinar, ninguém vai lembrar que foi você.</p>
+    <h2>Carrossel médico<br>que informa.<br><em>Vs. o que prende.</em></h2>
+    <p>Mesmo tema. Outra entrada. E uma diferença enorme na vontade de continuar.</p>
   </div>
   <div class="progress" style="width:16.6%"></div>
   <button style="opacity:.25;cursor:default">← anterior</button>
@@ -145,8 +177,13 @@
   <div class="lime-rule"></div>
   <div class="num">02 / 06</div>
   <div class="cnt">
-    <h3>Você explica.<br>Ensina.<br><em>Entrega.</em></h3>
-    <p>E mesmo assim ninguém lembra que foi você. Isso acontece quando o conteúdo é bom, mas não tem a sua assinatura.</p>
+    <h3>Mesmo assunto:<br><em>acne.</em></h3>
+    <div class="versus">
+      <div class="vcard"><p class="vtag">Informativo</p><strong>5 causas da acne.</strong><span>Correto. Útil. E parecido com centenas de posts.</span></div>
+      <div class="vcard good"><p class="vtag">Com tensão</p><strong>Sua acne volta porque algo pode ter passado despercebido.</strong><span>Cinco pontos para investigar com seu dermatologista.</span></div>
+    </div>
+    <div class="takeaway">O conhecimento não mudou. O ponto de entrada mudou.</div>
+    <div class="next-hint">Agora vem o mecanismo →</div>
   </div>
   <div class="progress" style="width:33.3%"></div>
   <button onclick="show(i-1)">← anterior</button>
@@ -160,8 +197,15 @@
   <div class="lime-rule"></div>
   <div class="num">03 / 06</div>
   <div class="cnt">
-    <h3>Qualquer<br>médico poderia<br><em>assinar.</em></h3>
-    <p>O problema não é a informação. É não deixar claro como você pensa, o que você defende e o que você faz diferente.</p>
+    <h3>Informação abre a aula.<br><em>Tensão abre uma história.</em></h3>
+    <div class="examples">
+      <div class="head">Entrada genérica</div><div class="head">Entrada que pede continuação</div>
+      <div>Benefícios do Botox</div><div>“Quando eu digo que Botox não é a melhor escolha.”</div>
+      <div>Sintomas de endometriose</div><div>“Se sua dor foi normalizada por anos, leia isto.”</div>
+      <div>Como dormir melhor</div><div>“Dorme oito horas e acorda exausto? Eu investigaria isto.”</div>
+    </div>
+    <div class="takeaway">As pessoas não avançam porque o tema é importante. Avançam porque o problema parece imediato.</div>
+    <div class="next-hint">Mas é no segundo slide que muita gente perde o leitor →</div>
   </div>
   <div class="progress" style="width:50%"></div>
   <button onclick="show(i-1)">← anterior</button>
@@ -175,9 +219,14 @@
   <div class="vline"></div>
   <div class="num">04 / 06</div>
   <div class="cnt">
-    <p class="tag">O que está acontecendo</p>
-    <h3>Toda semana<br>você troca<br>de assunto.</h3>
-    <p>Seu colega lê, concorda e segue a vida. Ele não associa seu nome a nada porque você nunca fica tempo suficiente na mesma ideia.</p>
+    <p class="tag">Onde a maioria perde o leitor</p>
+    <h3>O segundo slide do seu<br>carrossel precisa provar:</h3>
+    <div class="versus">
+      <div class="vcard"><p class="vtag">Fraco</p><strong>“Queda de cabelo é uma condição comum...”</strong><span>Você voltou a dar aula antes de criar interesse.</span></div>
+      <div class="vcard good"><p class="vtag">Forte</p><strong>“Seu cabelo cai há três meses. Você trocou shampoo, vitaminas, sérum. Continua caindo.”</strong><span>Agora existe um padrão a entender.</span></div>
+    </div>
+    <div class="takeaway">A pergunta do leitor é: “vale a pena continuar?”.</div>
+    <div class="next-hint">Quatro decisões ajudam a resposta ser “sim” →</div>
   </div>
   <div class="progress" style="width:66.6%"></div>
   <button onclick="show(i-1)">← anterior</button>
@@ -191,9 +240,15 @@
   <div class="lime-rule"></div>
   <div class="num">05 / 06</div>
   <div class="cnt">
-    <p class="tag">Antes de publicar</p>
-    <h3>Tire seu nome.<br>Ainda parece<br><em>seu?</em></h3>
-    <p>Se não parece, falta dizer como você pensa. Informação correta todo mundo tem. Ponto de vista é o que faz lembrar.</p>
+    <p class="tag">O que a versão forte faz melhor</p>
+    <h3>Quatro decisões.<br><em>Antes de publicar.</em></h3>
+    <div class="system-grid">
+      <div class="system-card"><strong>Problema real</strong><span>Soa como a dúvida que o paciente realmente traz.</span></div>
+      <div class="system-card"><strong>Curiosidade</strong><span>Abre uma pergunta antes de entregar a resposta.</span></div>
+      <div class="system-card"><strong>Ponto de vista</strong><span>Mostra como o médico interpreta: “eu investigaria isto primeiro”.</span></div>
+      <div class="system-card"><strong>Sequência</strong><span>Cada slide dá um motivo para ver o próximo.</span></div>
+    </div>
+    <div class="takeaway">A medicina pode ser a mesma. A experiência de leitura, não.</div>
   </div>
   <div class="progress" style="width:83.3%"></div>
   <button onclick="show(i-1)">← anterior</button>
@@ -207,8 +262,9 @@
   <div class="lime-rule"></div>
   <div class="num">06 / 06</div>
   <div class="cnt">
-    <p class="pergunta">Escolha<br>uma ideia.</p>
-    <p class="resp">Aquela que você quer que lembrem quando disserem seu nome. Depois fale dela até ficar impossível não fazer a associação.</p>
+    <p class="pergunta">Seu conhecimento<br>provavelmente não<br>é o problema.</p>
+    <p class="resp">O problema pode estar na embalagem. No MedCrivo, o conteúdo passa por três perguntas: existe tensão sem sensacionalismo? clareza sem promessa? sequência sem repetição?</p>
+    <p class="cta">Salve este carrossel e use as três perguntas antes do próximo post.</p>
     <p class="sig"><strong>Dr. Rafael Leão</strong> · MÉDICO · CRM-MG 96735<br>@medcrivo · #MedCrivo #ComunicacaoMedica</p>
   </div>
   <div class="progress" style="width:100%"></div>
