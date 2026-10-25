@@ -1,4 +1,4 @@
-import { BookOpen, Film, Grid, Home, Layers, ShieldCheck, type LucideIcon } from "lucide-react";
+import { BookOpen, CheckSquare2, Film, Grid, Home, Layers, ShieldCheck, type LucideIcon } from "lucide-react";
 
 /** Rotas do app autenticado (estúdio). */
 export const STUDIO_ROUTES = {
@@ -8,6 +8,7 @@ export const STUDIO_ROUTES = {
   feed: "/app/feed",
   crivo: "/app/crivo",
   evidence: "/app/evidencias",
+  approvals: "/app/aprovacoes",
 } as const;
 
 export type StudioNavItem = { href: string; label: string; shortLabel: string; icon: LucideIcon; description: string };
@@ -34,6 +35,13 @@ export const STUDIO_NAV: StudioNavItem[] = [
     shortLabel: "Feed",
     icon: Grid,
     description: "Veja como o post fica na grade antes de publicar.",
+  },
+  {
+    href: STUDIO_ROUTES.approvals,
+    label: "Aprovações",
+    shortLabel: "Aprovar",
+    icon: CheckSquare2,
+    description: "Veja artes, projetos e rascunhos; aprove ou peça ajustes em um só lugar.",
   },
   {
     href: STUDIO_ROUTES.crivo,

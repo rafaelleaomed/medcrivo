@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
  * Tabela `studio_items` com RLS por dono; sem Supabase, arquivo `.data/local-items.json` (só desenvolvimento).
  * Fica fora de `Store` para não mexer no contrato usado pelo carrossel.
  */
-export const ITEM_KINDS = ["ideas", "stories", "chat", "reels"] as const;
+export const ITEM_KINDS = ["ideas", "stories", "chat", "reels", "approvals"] as const;
 export type ItemKind = (typeof ITEM_KINDS)[number];
 
 export interface StudioItem<P = unknown> {

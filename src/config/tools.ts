@@ -1,6 +1,7 @@
 import {
   BookOpen,
   CalendarDays,
+  CheckSquare2,
   Film,
   FolderOpen,
   Grid,
@@ -56,6 +57,7 @@ export const STUDIO_TOOLS: StudioTool[] = [
   { id: "biblioteca", href: "/app/biblioteca", label: "Biblioteca", hint: "Modelos por especialidade", icon: Library, group: "planejar", status: "pronto" },
   { id: "feed", href: "/app/feed", label: "Feed", hint: "Prévia da grade", icon: Grid, group: "planejar", status: "pronto" },
   // Revisar
+  { id: "aprovacoes", href: "/app/aprovacoes", label: "Aprovações", hint: "Artes, projetos e decisões", icon: CheckSquare2, group: "revisar", status: "pronto" },
   { id: "crivo", href: "/app/crivo", label: "Crivo", hint: "Normas CFM/CFO e LGPD", icon: ShieldCheck, group: "revisar", status: "pronto" },
   { id: "evidencias", href: "/app/evidencias", label: "Evidências", hint: "Referências reais", icon: BookOpen, group: "revisar", status: "pronto" },
 ];
