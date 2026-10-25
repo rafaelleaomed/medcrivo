@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>C3 — MedCrivo · Pare de postar isso</title>
+<style>
+  @font-face{font-family:MedSans;src:url('../../fonts/MedSans-Regular.ttf') format('truetype');font-weight:400 600}
+  @font-face{font-family:MedSans;src:url('../../fonts/MedSans-Bold.ttf') format('truetype');font-weight:700 900}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden;background:#071a17}
+
+  /* ── layout base ── */
+  .slide{display:none;position:absolute;inset:0;width:1080px;height:1350px}
+  .slide.active{display:flex;flex-direction:column}
+
+  /* fotos de fundo (slides que usam imagem) */
+  .bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+  .overlay{position:absolute;inset:0;z-index:1}
+
+  /* linha lima — elemento recorrente */
+  .lime-rule{
+    position:absolute;left:80px;right:80px;height:2px;
+    background:linear-gradient(90deg,#d6ef72,rgba(214,239,114,0));
+    z-index:3;
+  }
+
+  /* número do slide */
+  .num{
+    position:absolute;right:72px;top:70px;
+    font-family:MedSans,sans-serif;
+    font-weight:700;font-size:20px;letter-spacing:.1em;
+    color:rgba(245,242,233,.4);z-index:4;
+  }
+
+  /* progress bar */
+  .progress{
+    position:absolute;bottom:0;left:0;height:4px;
+    background:#d6ef72;z-index:5;
+    transition:width .35s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* navegação */
+  button{
+    position:absolute;bottom:24px;
+    background:none;border:none;cursor:pointer;
+    font-family:MedSans,sans-serif;
+    font-size:15px;color:rgba(245,242,233,.45);
+    letter-spacing:.08em;text-transform:uppercase;
+    z-index:6;padding:8px 12px;
+  }
+  button:first-of-type{left:72px}
+  button:last-of-type{right:72px}
+  /* Navegação serve só no navegador e não entra na arte final. */
+  button{display:none}
+
+  /* conteúdo relativo */
+  .cnt{position:relative;z-index:3;display:flex;flex-direction:column;height:100%}
+
+  /* ─── SLIDE 1 — CAPA ─── */
+  #s1 .bg{background-image:url('../../media/generated/editorial-bg-01.png');filter:brightness(.42) saturate(.72)}
+  #s1 .overlay{background:linear-gradient(180deg,rgba(7,26,23,.08) 0%,rgba(7,26,23,.15) 30%,rgba(7,26,23,.88) 68%,#071a17 100%)}
+  #s1 .lime-rule{bottom:230px}
+  #s1 .cnt{justify-content:flex-end;padding:0 80px 100px}
+  #s1 .label{font-family:MedSans,sans-serif;font-size:16px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#d6ef72;margin-bottom:24px;opacity:.9}
+  #s1 h2{font-family:MedSans,sans-serif;font-weight:900;font-size:103px;line-height:.92;letter-spacing:-4px;color:#f5f2e9;text-transform:uppercase;margin-bottom:32px}
+  #s1 h2 em{font-style:normal;color:#d6ef72}
+  #s1 p{font-family:MedSans,sans-serif;font-size:25px;line-height:1.55;color:rgba(245,242,233,.7);max-width:680px}
+
+  /* ─── SLIDE 2 ─── fundo escuro sólido + número grande */
+  #s2{background:#071a17}
+  #s2 .bg{background-image:url('../../media/generated/editorial-bg-06.png');filter:brightness(.35) saturate(.62)}
+  #s2 .overlay{background:linear-gradient(90deg,rgba(7,26,23,.96) 0%,rgba(7,26,23,.78) 60%,rgba(7,26,23,.48) 100%)}
+  #s2 .lime-rule{top:110px}
+  #s2 .cnt{justify-content:center;padding:0 80px}
+  #s2 .big-num{font-family:MedSans,sans-serif;font-weight:900;font-size:220px;line-height:1;color:rgba(214,239,114,.08);position:absolute;right:48px;top:80px;letter-spacing:-8px}
+  #s2 h3{font-family:MedSans,sans-serif;font-weight:900;font-size:80px;line-height:.96;letter-spacing:-4px;color:#f5f2e9;text-transform:uppercase;margin-bottom:36px}
+  #s2 h3 em{font-style:normal;color:#d6ef72}
+  #s2 p{font-family:MedSans,sans-serif;font-size:27px;line-height:1.55;color:rgba(245,242,233,.72);max-width:760px}
+
+  /* ─── SLIDE 3 ─── fundo com imagem neblina */
+  #s3 .bg{background-image:url('../../media/generated/editorial-bg-03.png');filter:brightness(.45) saturate(.7)}
+  #s3 .overlay{background:linear-gradient(135deg,rgba(7,26,23,.6) 0%,rgba(7,26,23,.85) 100%)}
+  #s3 .cnt{justify-content:center;padding:0 80px}
+  #s3 .lime-rule{top:120px}
+  #s3 h3{font-family:MedSans,sans-serif;font-weight:900;font-size:80px;line-height:.96;letter-spacing:-4px;color:#f5f2e9;text-transform:uppercase;margin-bottom:36px}
+  #s3 h3 em{font-style:normal;color:#d6ef72}
+  #s3 p{font-family:MedSans,sans-serif;font-size:26px;line-height:1.6;color:rgba(245,242,233,.72);max-width:760px}
+
+  /* ─── SLIDE 4 ─── bipartido: linha vertical */
+  #s4{background:#0e2620}
+  #s4 .bg{background-image:url('../../media/generated/editorial-bg-02.png');filter:brightness(.48) saturate(.48)}
+  #s4 .overlay{background:linear-gradient(90deg,rgba(7,26,23,.86) 0%,rgba(7,26,23,.77) 68%,rgba(7,26,23,.52) 100%)}
+  #s4 .vline{position:absolute;left:80px;top:120px;bottom:100px;width:3px;background:linear-gradient(180deg,#d6ef72 0%,rgba(214,239,114,0) 100%);z-index:3}
+  #s4 .cnt{justify-content:center;padding:0 80px 0 116px}
+  #s4 .tag{font-family:MedSans,sans-serif;font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#d6ef72;margin-bottom:30px}
+  #s4 h3{font-family:MedSans,sans-serif;font-weight:900;font-size:76px;line-height:.97;letter-spacing:-4px;color:#f5f2e9;text-transform:uppercase;margin-bottom:36px}
+  #s4 p{font-family:MedSans,sans-serif;font-size:26px;line-height:1.6;color:rgba(245,242,233,.72);max-width:740px}
+
+  /* ─── SLIDE 5 ─── fundo com imagem lupa/caos */
+  #s5 .bg{background-image:url('../../media/generated/editorial-bg-07.png');filter:brightness(.45) saturate(.72)}
+  #s5 .overlay{background:linear-gradient(180deg,rgba(7,26,23,.4) 0%,rgba(7,26,23,.75) 60%,rgba(7,26,23,.98) 100%)}
+  #s5 .lime-rule{bottom:260px}
+  #s5 .cnt{justify-content:flex-end;padding:0 80px 110px}
+  #s5 .tag{font-family:MedSans,sans-serif;font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#d6ef72;margin-bottom:24px}
+  #s5 h3{font-family:MedSans,sans-serif;font-weight:900;font-size:80px;line-height:.96;letter-spacing:-4px;color:#f5f2e9;text-transform:uppercase;margin-bottom:34px}
+  #s5 h3 em{font-style:italic;color:#d6ef72}
+  #s5 p{font-family:MedSans,sans-serif;font-size:25px;line-height:1.58;color:rgba(245,242,233,.72);max-width:720px}
+
+  /* ─── SLIDE 6 — FECHAMENTO ─── */
+  #s6{background:#071a17}
+  #s6 .bg{background-image:url('../../media/generated/editorial-bg-08.png');filter:brightness(.38) saturate(.62)}
+  #s6 .overlay{background:linear-gradient(90deg,rgba(7,26,23,.96) 0%,rgba(7,26,23,.84) 66%,rgba(7,26,23,.62) 100%)}
+  #s6 .lime-rule{top:115px}
+  #s6 .cnt{justify-content:center;align-items:flex-start;padding:0 80px}
+  #s6 .pergunta{font-family:MedSans,sans-serif;font-weight:900;font-size:88px;line-height:.95;letter-spacing:-4px;color:#d6ef72;text-transform:uppercase;margin-bottom:44px}
+  #s6 .resp{font-family:MedSans,sans-serif;font-size:27px;line-height:1.6;color:rgba(245,242,233,.72);max-width:740px;margin-bottom:28px}
+  #s6 .sig{font-family:MedSans,sans-serif;font-size:18px;letter-spacing:.04em;color:rgba(245,242,233,.72)}
+  #s6 .sig strong{color:rgba(245,242,233,.8);font-weight:500}
+
+  /* Conteúdo denso, com progressão baseada no post de maior resposta pública da referência. */
+  .bullets{list-style:none;margin:28px 0 30px;display:grid;gap:14px;max-width:780px}
+  .bullets li{font-family:MedSans,sans-serif;font-size:24px;line-height:1.35;color:#f5f2e9;padding-left:34px;position:relative}
+  .bullets li::before{content:'•';position:absolute;left:4px;color:#d6ef72;font-weight:900}
+  .takeaway{font-family:MedSans,sans-serif;font-size:24px;line-height:1.45;color:#d6ef72;font-weight:700;max-width:780px;border-top:1px solid rgba(214,239,114,.35);padding-top:24px}
+  #s3 h3,#s4 h3,#s5 h3{font-size:68px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(245,242,233,.26);max-width:850px;margin:10px 0 28px}
+  .compare div{font-family:MedSans,sans-serif;font-size:20px;line-height:1.25;color:rgba(245,242,233,.8);padding:16px 18px;border-bottom:1px solid rgba(245,242,233,.16)}
+  .compare div:nth-child(odd){border-right:1px solid rgba(245,242,233,.16);color:#d6ef72;font-weight:700}
+  .compare .head{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#f5f2e9!important;background:rgba(245,242,233,.08)}
+  .leaks{display:grid;gap:18px;margin:28px 0 32px;max-width:790px}
+  .leak{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:16px;font-family:MedSans,sans-serif;font-size:24px;line-height:1.35;color:#f5f2e9}
+  .leak b{display:grid;place-items:center;width:48px;height:48px;border:1px solid #d6ef72;border-radius:50%;color:#d6ef72;font-size:20px}
+  .system-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:840px;margin:20px 0 26px}
+  .system-card{background:rgba(7,26,23,.72);border:1px solid rgba(214,239,114,.3);padding:20px 22px;min-height:142px}
+  .system-card strong{display:block;font-family:MedSans,sans-serif;font-size:24px;color:#d6ef72;margin-bottom:8px}
+  .system-card span{font-family:MedSans,sans-serif;font-size:19px;line-height:1.35;color:rgba(245,242,233,.78)}
+  .versus{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:860px;margin:26px 0}
+  .vcard{padding:26px;background:rgba(7,26,23,.76);border:1px solid rgba(245,242,233,.22);min-height:300px}
+  .vcard.good{border-color:rgba(214,239,114,.6)}
+  .vcard .vtag{font-family:MedSans,sans-serif;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,242,233,.55);margin-bottom:28px}
+  .vcard.good .vtag{color:#d6ef72}
+  .vcard strong{display:block;font-family:MedSans,sans-serif;font-size:30px;line-height:1.12;color:#f5f2e9}
+  .vcard span{display:block;font-family:MedSans,sans-serif;font-size:19px;line-height:1.4;color:rgba(245,242,233,.7);margin-top:18px}
+  .examples{display:grid;grid-template-columns:1fr 1.25fr;max-width:860px;border:1px solid rgba(245,242,233,.2);margin:22px 0 28px}
+  .examples div{font-family:MedSans,sans-serif;font-size:18px;line-height:1.3;padding:15px 17px;border-bottom:1px solid rgba(245,242,233,.14)}
+  .examples div:nth-child(odd){color:rgba(245,242,233,.55);border-right:1px solid rgba(245,242,233,.14)}
+  .examples div:nth-child(even){color:#f5f2e9}
+  .examples .head{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#d6ef72!important;background:rgba(214,239,114,.06)}
+  .next-hint{position:absolute;left:80px;bottom:68px;font-family:MedSans,sans-serif;font-size:17px;letter-spacing:.04em;color:rgba(214,239,114,.78)}
+  .cta{font-family:MedSans,sans-serif;font-size:23px;line-height:1.4;font-weight:700;color:#d6ef72;max-width:760px;margin-bottom:40px}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 — CAPA -->
+<div class="slide active" id="s1">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="lime-rule"></div>
+  <div class="num">01 / 06</div>
+  <div class="cnt">
+    <p class="label">MedCrivo · De médico para médico</p>
+    <h2>Carrossel médico<br>que informa.<br><em>Vs. o que prende.</em></h2>
+    <p>Mesmo tema. Outra entrada. E uma diferença enorme na vontade de continuar.</p>
+  </div>
+  <div class="progress" style="width:16.6%"></div>
+  <button style="opacity:.25;cursor:default">← anterior</button>
+  <button onclick="show(i+1)">próximo →</button>
+</div>
+
+<!-- SLIDE 2 — PADRÃO 1 -->
+<div class="slide" id="s2">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="big-num">01</div>
+  <div class="lime-rule"></div>
+  <div class="num">02 / 06</div>
+  <div class="cnt">
+    <h3>Mesmo assunto:<br><em>acne.</em></h3>
+    <div class="versus">
+      <div class="vcard"><p class="vtag">Informativo</p><strong>5 causas da acne.</strong><span>Correto. Útil. E parecido com centenas de posts.</span></div>
+      <div class="vcard good"><p class="vtag">Com tensão</p><strong>Sua acne volta porque algo pode ter passado despercebido.</strong><span>Cinco pontos para investigar com seu dermatologista.</span></div>
+    </div>
+    <div class="takeaway">O conhecimento não mudou. O ponto de entrada mudou.</div>
+    <div class="next-hint">Agora vem o mecanismo →</div>
+  </div>
+  <div class="progress" style="width:33.3%"></div>
+  <button onclick="show(i-1)">← anterior</button>
+  <button onclick="show(i+1)">próximo →</button>
+</div>
+
+<!-- SLIDE 3 — PADRÃO 2 -->
+<div class="slide" id="s3">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="lime-rule"></div>
+  <div class="num">03 / 06</div>
+  <div class="cnt">
+    <h3>Informação abre a aula.<br><em>Tensão abre uma história.</em></h3>
+    <div class="examples">
+      <div class="head">Entrada genérica</div><div class="head">Entrada que pede continuação</div>
+      <div>Benefícios do Botox</div><div>“Botox nem sempre é a melhor escolha — e este é o motivo.”</div>
+      <div>Sintomas de endometriose</div><div>“Se sua dor foi normalizada por anos, leia isto.”</div>
+      <div>Como dormir melhor</div><div>“Dorme oito horas e acorda exausto? Há algo a investigar.”</div>
+    </div>
+    <div class="takeaway">As pessoas não avançam porque o tema é importante. Avançam porque o problema parece imediato.</div>
+    <div class="next-hint">Mas é no segundo slide que muita gente perde o leitor →</div>
+  </div>
+  <div class="progress" style="width:50%"></div>
+  <button onclick="show(i-1)">← anterior</button>
+  <button onclick="show(i+1)">próximo →</button>
+</div>
+
+<!-- SLIDE 4 — PADRÃO 3 -->
+<div class="slide" id="s4">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="vline"></div>
+  <div class="num">04 / 06</div>
+  <div class="cnt">
+    <p class="tag">Onde a maioria perde o leitor</p>
+    <h3>O segundo slide do seu<br>carrossel precisa provar:</h3>
+    <div class="versus">
+      <div class="vcard"><p class="vtag">Fraco</p><strong>“Queda de cabelo é uma condição comum...”</strong><span>Você voltou a dar aula antes de criar interesse.</span></div>
+      <div class="vcard good"><p class="vtag">Forte</p><strong>“Seu cabelo cai há três meses. Você trocou shampoo, vitaminas, sérum. Continua caindo.”</strong><span>Agora existe um padrão a entender.</span></div>
+    </div>
+    <div class="takeaway">A pergunta do leitor é: “vale a pena continuar?”.</div>
+    <div class="next-hint">Quatro decisões ajudam a resposta ser “sim” →</div>
+  </div>
+  <div class="progress" style="width:66.6%"></div>
+  <button onclick="show(i-1)">← anterior</button>
+  <button onclick="show(i+1)">próximo →</button>
+</div>
+
+<!-- SLIDE 5 — PADRÃO 4 -->
+<div class="slide" id="s5">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="lime-rule"></div>
+  <div class="num">05 / 06</div>
+  <div class="cnt">
+    <p class="tag">O que a versão forte faz melhor</p>
+    <h3>Quatro decisões.<br><em>Antes de publicar.</em></h3>
+    <div class="system-grid">
+      <div class="system-card"><strong>Problema real</strong><span>Soa como a dúvida que o paciente realmente traz.</span></div>
+      <div class="system-card"><strong>Curiosidade</strong><span>Abre uma pergunta antes de entregar a resposta.</span></div>
+      <div class="system-card"><strong>Ponto de vista</strong><span>Mostra como o médico interpreta e o que merece investigação primeiro.</span></div>
+      <div class="system-card"><strong>Sequência</strong><span>Cada slide dá um motivo para ver o próximo.</span></div>
+    </div>
+    <div class="takeaway">A medicina pode ser a mesma. A experiência de leitura, não.</div>
+  </div>
+  <div class="progress" style="width:83.3%"></div>
+  <button onclick="show(i-1)">← anterior</button>
+  <button onclick="show(i+1)">próximo →</button>
+</div>
+
+<!-- SLIDE 6 — FECHAMENTO -->
+<div class="slide" id="s6">
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="lime-rule"></div>
+  <div class="num">06 / 06</div>
+  <div class="cnt">
+    <p class="pergunta">Seu conhecimento<br>provavelmente não<br>é o problema.</p>
+    <p class="resp">O problema pode estar na embalagem. No MedCrivo, o conteúdo passa por três perguntas: existe tensão sem sensacionalismo? clareza sem promessa? sequência sem repetição?</p>
+    <p class="cta">Salve este carrossel e use as três perguntas antes do próximo post.</p>
+    <p class="sig"><strong>Dr. Rafael Leão</strong> · MÉDICO · CRM-MG 96735<br>@medcrivo · #MedCrivo #ComunicacaoMedica</p>
+  </div>
+  <div class="progress" style="width:100%"></div>
+  <button onclick="show(i-1)">← anterior</button>
+  <button style="opacity:.25;cursor:default">—</button>
+</div>
+
+<script>
+let i = 0;
+const slides = document.querySelectorAll('.slide');
+function show(n) {
+  if (n < 0 || n >= slides.length) return;
+  slides[i].classList.remove('active');
+  i = n;
+  slides[i].classList.add('active');
+  // update URL param for screenshot capture
+  const u = new URL(location.href);
+  u.searchParams.set('slide', i + 1);
+  history.replaceState(null,'',u);
+}
+// init from URL param
+const p = parseInt(new URLSearchParams(location.search).get('slide') || '1') - 1;
+if (p > 0 && p < slides.length) { slides[0].classList.remove('active'); i = p; slides[i].classList.add('active'); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') show(i + 1);
+  if (e.key === 'ArrowLeft') show(i - 1);
+});
+</script>
+</body>
+</html>

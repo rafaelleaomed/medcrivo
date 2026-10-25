@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>E2 — MedCrivo</title>
+<style>
+  @font-face{font-family:MedSans;src:url('../../fonts/MedSans-Regular.ttf') format('truetype');font-weight:400 600}
+  @font-face{font-family:MedSans;src:url('../../fonts/MedSans-Bold.ttf') format('truetype');font-weight:700 900}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1350px;overflow:hidden;background:#0b1e1b}
+
+  .frame{
+    position:relative;
+    width:1080px;height:1350px;
+    display:flex;flex-direction:column;
+    justify-content:center;
+    padding:80px;
+  }
+
+  /* fotografia editorial sem rosto */
+  .bg{
+    position:absolute;inset:0;
+    background:url('../../media/generated/instrumentos-clareza-nevoa.jpg') center/cover no-repeat;
+    filter:brightness(.58) saturate(.72);
+    z-index:0;
+  }
+  /* gradiente para garantir leitura sem esconder a fotografia */
+  .grad{
+    position:absolute;inset:0;z-index:1;
+    background:
+      linear-gradient(90deg,rgba(7,26,23,.96) 0%,rgba(7,26,23,.85) 48%,rgba(7,26,23,.28) 100%),
+      linear-gradient(180deg,rgba(7,26,23,.2) 0%,rgba(7,26,23,.18) 58%,rgba(7,26,23,.9) 100%);
+  }
+
+  /* linha verde — elemento de identidade MedCrivo */
+  .rule{
+    position:absolute;
+    left:80px;right:80px;
+    bottom:260px;
+    height:1.5px;
+    background:linear-gradient(90deg,#d6ef72 0%,rgba(214,239,114,0) 100%);
+    z-index:2;
+  }
+
+  .content{position:relative;z-index:3;width:590px}
+
+  /* LABEL da série */
+  .serie{
+    font-family:MedSans,sans-serif;
+    font-size:17px;font-weight:500;letter-spacing:.12em;
+    text-transform:uppercase;color:#d6ef72;
+    margin-bottom:28px;
+    opacity:.88;
+  }
+
+  /* HEADLINE — enorme */
+  .head{
+    font-family:MedSans,sans-serif;
+    font-weight:900;
+    font-size:88px;line-height:.94;
+    letter-spacing:-4px;
+    color:#f5f2e9;
+    text-transform:uppercase;
+    margin-bottom:32px;
+  }
+  .head em{
+    font-style:normal;
+    color:#d6ef72;
+  }
+
+  /* subhead */
+  .sub{
+    font-family:MedSans,sans-serif;
+    font-size:26px;line-height:1.5;
+    color:rgba(245,242,233,.75);
+    max-width:570px;
+    margin-bottom:46px;
+  }
+
+  /* assinatura */
+  .sig{
+    font-family:MedSans,sans-serif;
+    font-size:19px;line-height:1.45;letter-spacing:.04em;
+    color:rgba(245,242,233,.9);
+  }
+  .sig strong{color:rgba(245,242,233,.85);font-weight:500}
+
+  /* Arte estática: sem animação para preservar cor e opacidade na captura. */
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="bg"></div>
+  <div class="grad"></div>
+  <div class="rule"></div>
+  <div class="content">
+    <p class="serie">MedCrivo · De médico para médico</p>
+    <h1 class="head">Eu parei de abrir post com<br><em>“5 dicas sobre...”</em></h1>
+    <p class="sub">Não porque a informação era ruim. O leitor entendia o tema sem sentir que precisava continuar.</p>
+    <p class="sig"><strong>Dr. Rafael Leão</strong> · MÉDICO · CRM-MG 96735<br>@medcrivo</p>
+  </div>
+</div>
+</body>
+</html>
