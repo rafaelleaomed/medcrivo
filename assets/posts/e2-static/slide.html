@@ -14,40 +14,36 @@
     position:relative;
     width:1080px;height:1350px;
     display:flex;flex-direction:column;
-    justify-content:flex-end;
-    padding:80px 80px 90px;
+    justify-content:center;
+    padding:80px;
   }
 
   /* foto de fundo */
   .bg{
     position:absolute;inset:0;
-    background:url('../../media/generated/editorial-bg-01.png') center/cover no-repeat;
-    filter:brightness(.78) saturate(.9);
+    background:url('../../media/generated/rafael-tecnologia-medica.jpg') center/cover no-repeat;
+    filter:brightness(.82) saturate(.78);
     z-index:0;
   }
   /* gradiente sobre a foto — escurece base, abre topo */
   .grad{
     position:absolute;inset:0;z-index:1;
-    background:linear-gradient(
-      180deg,
-      rgba(7,26,23,.05) 0%,
-      rgba(7,26,23,.20) 35%,
-      rgba(7,26,23,.72) 62%,
-      rgba(7,26,23,.97) 100%
-    );
+    background:
+      linear-gradient(90deg,rgba(7,26,23,.98) 0%,rgba(7,26,23,.9) 37%,rgba(7,26,23,.28) 72%,rgba(7,26,23,.08) 100%),
+      linear-gradient(180deg,rgba(7,26,23,.1) 0%,rgba(7,26,23,.15) 64%,rgba(7,26,23,.88) 100%);
   }
 
   /* linha verde — elemento de identidade MedCrivo */
   .rule{
     position:absolute;
     left:80px;right:80px;
-    bottom:218px;
+    bottom:260px;
     height:1.5px;
     background:linear-gradient(90deg,#d6ef72 0%,rgba(214,239,114,0) 100%);
     z-index:2;
   }
 
-  .content{position:relative;z-index:3}
+  .content{position:relative;z-index:3;width:590px}
 
   /* LABEL da série */
   .serie{
@@ -62,11 +58,11 @@
   .head{
     font-family:MedSans,sans-serif;
     font-weight:900;
-    font-size:112px;line-height:.93;
+    font-size:88px;line-height:.94;
     letter-spacing:-4px;
     color:#f5f2e9;
     text-transform:uppercase;
-    margin-bottom:38px;
+    margin-bottom:32px;
   }
   .head em{
     font-style:normal;
@@ -78,15 +74,15 @@
     font-family:MedSans,sans-serif;
     font-size:26px;line-height:1.5;
     color:rgba(245,242,233,.75);
-    max-width:700px;
-    margin-bottom:52px;
+    max-width:570px;
+    margin-bottom:46px;
   }
 
   /* assinatura */
   .sig{
     font-family:MedSans,sans-serif;
-    font-size:17px;letter-spacing:.04em;
-    color:rgba(245,242,233,.72);
+    font-size:19px;line-height:1.45;letter-spacing:.04em;
+    color:rgba(245,242,233,.9);
   }
   .sig strong{color:rgba(245,242,233,.85);font-weight:500}
 
@@ -100,9 +96,9 @@
   <div class="rule"></div>
   <div class="content">
     <p class="serie">MedCrivo · De médico para médico</p>
-    <h1 class="head">Toda semana,<br>um assunto<br><em>diferente.</em></h1>
-    <p class="sub">Aí ninguém sabe pelo que lembrar de você. Não falta conteúdo. Falta uma ideia repetida o bastante para virar associação.</p>
-    <p class="sig"><strong>Dr. Rafael Leão</strong> · MÉDICO · CRM-MG 96735 · @medcrivo</p>
+    <h1 class="head">Eu parei de abrir post com<br><em>“5 dicas sobre...”</em></h1>
+    <p class="sub">Não porque a informação era ruim. O leitor entendia o tema sem sentir que precisava continuar.</p>
+    <p class="sig"><strong>Dr. Rafael Leão</strong> · MÉDICO · CRM-MG 96735<br>@medcrivo</p>
   </div>
 </div>
 </body>
