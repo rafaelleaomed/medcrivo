@@ -1,0 +1,35 @@
+{
+  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
+  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "paths": {
+    "blocks": "compositions",
+    "components": "compositions/components",
+    "assets": "assets"
+  },
+  "media": {
+    "autoProxy": true
+  },
+  "authoringSkill": "hyperframes",
+  "registryItems": [
+    {
+      "name": "kinetic-type-swap",
+      "type": "hyperframes:component",
+      "target": "compositions/components/kinetic-type-swap.html"
+    },
+    {
+      "name": "strikethrough-replace",
+      "type": "hyperframes:component",
+      "target": "compositions/components/strikethrough-replace.html"
+    },
+    {
+      "name": "type-match-cut",
+      "type": "hyperframes:component",
+      "target": "compositions/components/type-match-cut.html"
+    },
+    {
+      "name": "logo-brand-close",
+      "type": "hyperframes:component",
+      "target": "compositions/components/logo-brand-close.html"
+    }
+  ]
+}

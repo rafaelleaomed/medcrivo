@@ -1,0 +1,33 @@
+{
+  "id": "r1-reel-motion",
+  "projectId": "medcrivo",
+  "format": "reel",
+  "status": "draft",
+  "approved": false,
+  "aprovado_por_rafael": false,
+  "scheduledAt": null,
+  "source": {
+    "account": "@dariamedric",
+    "url": "https://www.threads.com/@dariamedric/post/DesK3hADgKY/the-biggest-lie-doctors-were-told-just-be-good-at-what-you-do-patients-will",
+    "use": "referência conceitual; roteiro e execução originais"
+  },
+  "video": {
+    "durationSeconds": 14,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "audio": "none-preview",
+    "personIdentifiable": false,
+    "syntheticDoctor": false
+  },
+  "caption": "Seu conteúdo pode estar correto, útil e ético — e ainda assim não construir uma ideia reconhecível.\n\nNão é sobre publicar por publicar. É sobre sustentar uma linguagem, uma tese e um critério ao longo do tempo.\n\nSalve antes de planejar o próximo post.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735",
+  "cfm_checklist": {
+    "identificacao_medica": true,
+    "sem_promessa_resultado": true,
+    "sem_autopromocao_sensacionalista": true,
+    "sem_caso_clinico": true,
+    "sem_preco": true,
+    "sem_rqe_indevido": true
+  },
+  "notes": "PROTÓTIPO. Não publicar nem agendar antes de revisão CFM e aprovação humana."
+}
