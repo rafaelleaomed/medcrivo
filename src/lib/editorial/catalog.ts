@@ -4,6 +4,7 @@ import c2 from "../../../assets/posts/c2-carousel/manifest.json";
 import e2 from "../../../assets/posts/e2-static/manifest.json";
 import c3 from "../../../assets/posts/c3-carousel/manifest.json";
 import type { ApprovalStatus } from "./approval";
+import { privateEditorialImages } from "./assets";
 
 export type EditorialFormat = "Carrossel" | "Reel" | "Estático" | "Stories";
 
@@ -43,6 +44,7 @@ type Manifest = {
 };
 
 function publishedItem(manifest: Manifest): EditorialItem {
+  const sourceImages = manifest.image_urls ?? (manifest.image_url ? [manifest.image_url] : []);
   return {
     id: manifest.slot_id,
     projectId: "lote-01",
@@ -53,7 +55,7 @@ function publishedItem(manifest: Manifest): EditorialItem {
     thesis: manifest.notes,
     body: manifest.caption.split("\n\n")[0],
     caption: manifest.caption,
-    images: manifest.image_urls ?? (manifest.image_url ? [manifest.image_url] : []),
+    images: privateEditorialImages(manifest.slot_id, sourceImages),
     dependencies: ["Arte final aprovada", "Crivo editorial concluído", "Publicação agendada"],
     defaultStatus: "scheduled",
   };

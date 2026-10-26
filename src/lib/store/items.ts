@@ -2,6 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { authorizedUserId } from "@/lib/access";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
@@ -193,7 +194,7 @@ export async function getItemStore(): Promise<ItemStore | null> {
   }
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
-  const userId = data?.claims?.sub;
+  const userId = authorizedUserId(data?.claims);
   if (!userId) return null;
   return supabaseItems(supabase, userId);
 }

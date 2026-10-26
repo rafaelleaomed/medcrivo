@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { authorizedUserId } from "@/lib/access";
 import { getSupabaseEnv } from "./config";
 
 /** Só o estúdio e o onboarding exigem login; o site (landing, Crivo grátis, checklist, planos, termos) é público. */
@@ -30,11 +31,11 @@ export async function updateSession(request: NextRequest) {
   // Não colocar código entre createServerClient e getClaims (renovação de sessão).
   const { data } = await supabase.auth.getClaims();
   const isAuthenticated = Boolean(data?.claims?.sub);
+  const isAuthorized = Boolean(authorizedUserId(data?.claims));
 
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
-  // APIs respondem 401 sozinhas; o estúdio redireciona para o login.
   if (!isAuthenticated && isProtected) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
@@ -42,10 +43,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  if (isAuthenticated && !isAuthorized && isProtected) {
+    const restrictedUrl = request.nextUrl.clone();
+    restrictedUrl.pathname = "/acesso-restrito";
+    restrictedUrl.search = "";
+    return NextResponse.redirect(restrictedUrl);
+  }
+
   // Quem já entrou e abre o login vai direto para o estúdio.
   if (isAuthenticated && pathname === "/login") {
     const appUrl = request.nextUrl.clone();
-    appUrl.pathname = PROTECTED_PREFIX;
+    appUrl.pathname = isAuthorized ? PROTECTED_PREFIX : "/acesso-restrito";
     appUrl.search = "";
     return NextResponse.redirect(appUrl);
   }
