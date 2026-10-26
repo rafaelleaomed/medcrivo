@@ -73,7 +73,7 @@ function DraftCover({ item }: { item: EditorialItem }) {
 function ArtworkCover({ item }: { item: EditorialItem }) {
   return (
     <div className="relative aspect-[4/5] overflow-hidden bg-pinho">
-      {/* Imagens já estão versionadas e públicas; sem proxy para a prévia refletir exatamente o arquivo aprovado. */}
+      {/* A prévia usa a rota privada e autenticada dos assets editoriais. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={item.images[0]} alt={`Capa de ${item.title}`} width={1080} height={1350} loading="lazy" className="h-full w-full object-cover" />
       {item.images.length > 1 && (
