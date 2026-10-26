@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { authorizedUserId } from "@/lib/access";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 
@@ -18,8 +19,8 @@ export async function GET() {
 
   const supabase = await createClient();
   const { data: claims } = await supabase.auth.getClaims();
-  if (!claims?.claims?.sub) {
-    return NextResponse.json({ success: false, error: "Sessão expirada. Entre novamente." }, { status: 401 });
+  if (!authorizedUserId(claims?.claims)) {
+    return NextResponse.json({ success: false, error: "Acesso não autorizado." }, { status: 401 });
   }
 
   const count = async (table: "posts" | "studio_items", filter?: (q: ReturnType<typeof base>) => ReturnType<typeof base>) => {

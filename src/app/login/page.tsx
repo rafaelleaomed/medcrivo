@@ -8,8 +8,7 @@ import { LoginForm } from "./LoginForm";
 const MESSAGES: Record<string, string> = {
   dados: "Informe um e-mail válido e uma senha com pelo menos 8 caracteres.",
   credenciais: "E-mail ou senha incorretos.",
-  cadastro: "Não foi possível criar a conta. Tente outro e-mail.",
-  "confirme-email": "Enviamos um link de confirmação para o seu e-mail.",
+  acesso: "Este painel é privado e esta conta não tem autorização.",
   confirmacao: "O link de confirmação é inválido ou expirou.",
 };
 
@@ -37,7 +36,7 @@ export default function LoginPage({ searchParams }: { searchParams: LoginSearchP
       <div className="w-full max-w-sm rounded-2xl border border-[#E2DDD0] dark:border-[#23463F] bg-white dark:bg-[#132D29] p-6 shadow-sm">
         <h1 className="text-2xl"><BrandMark size={34} /></h1>
         <p className="mt-2 font-serif text-[#16796F] dark:text-[#D6EF72]">{BRAND.tagline}</p>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Entre ou crie sua conta para gerar conteúdo de saúde revisado pelo {BRAND.auditorName}.</p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Acesso privado ao estúdio editorial {BRAND.name}.</p>
 
         {!configured ? (
           <div className="mt-6 rounded-xl bg-amber-50 dark:bg-amber-950/40 p-4 text-sm text-amber-900 dark:text-amber-200">

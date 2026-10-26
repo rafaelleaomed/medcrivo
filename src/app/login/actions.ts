@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { z } from "zod";
+import { authorizedUserId, parseAllowedEmails } from "@/lib/access";
 import { createClient } from "@/lib/supabase/server";
 
 const CredentialsSchema = z.object({
@@ -23,23 +24,14 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) redirect("/login?erro=credenciais");
 
+  const { data } = await supabase.auth.getClaims();
+  if (!authorizedUserId(data?.claims)) {
+    await supabase.auth.signOut();
+    redirect("/login?erro=acesso");
+  }
+
   revalidatePath("/", "layout");
   redirect("/app");
-}
-
-export async function signup(formData: FormData) {
-  const parsed = readCredentials(formData);
-  if (!parsed.success) redirect("/login?erro=dados");
-
-  const origin = (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_APP_URL ?? "";
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
-    ...parsed.data,
-    options: { emailRedirectTo: `${origin}/auth/confirm` },
-  });
-  if (error) redirect("/login?erro=cadastro");
-
-  redirect("/login?aviso=confirme-email");
 }
 
 const EmailSchema = z.object({ email: z.string().trim().email() });
@@ -48,6 +40,9 @@ const EmailSchema = z.object({ email: z.string().trim().email() });
 export async function requestPasswordReset(formData: FormData) {
   const parsed = EmailSchema.safeParse({ email: formData.get("email") });
   if (!parsed.success) redirect("/esqueci-senha?erro=dados");
+
+  const allowed = parseAllowedEmails(process.env.MEDCRIVO_ALLOWED_EMAILS);
+  if (!allowed.includes(parsed.data.email.toLowerCase())) redirect("/esqueci-senha?aviso=enviado");
 
   const origin = (await headers()).get("origin") ?? process.env.NEXT_PUBLIC_APP_URL ?? "";
   const supabase = await createClient();
@@ -63,6 +58,11 @@ export async function updatePassword(formData: FormData) {
   if (!parsed.success) redirect("/redefinir-senha?erro=dados");
 
   const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  if (!authorizedUserId(data?.claims)) {
+    await supabase.auth.signOut();
+    redirect("/login?erro=acesso");
+  }
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
   if (error) redirect("/redefinir-senha?erro=falha");
 

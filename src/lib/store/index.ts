@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { authorizedUserId } from "@/lib/access";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { createClient } from "@/lib/supabase/server";
 import { createLocalStore } from "./local";
@@ -21,11 +22,11 @@ export async function getStore(): Promise<Store | null> {
   }
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
-  const userId = data?.claims?.sub;
+  const userId = authorizedUserId(data?.claims);
   if (!userId) return null;
   return createSupabaseStore(supabase, userId);
 }
 
 export function unauthorized() {
-  return NextResponse.json({ success: false, error: "Sessão expirada. Entre novamente." }, { status: 401 });
+  return NextResponse.json({ success: false, error: "Acesso não autorizado." }, { status: 401 });
 }
