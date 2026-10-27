@@ -1,0 +1,23 @@
+{
+  "batchId": "medico-criador-01",
+  "classification": "prototype",
+  "status": "draft",
+  "approved": false,
+  "aprovado_por_rafael": false,
+  "scheduledAt": null,
+  "publishAllowed": false,
+  "identity": "Dr. Rafael Leão | MÉDICO | CRM-MG 96735",
+  "pieces": [
+    {"id":"mc01","title":"Prompt não é produto","format":"reel-motion","durationSeconds":15,"usesIdentifiablePerson":false,"file":"01-prompt-nao-e-produto.html"},
+    {"id":"mc02","title":"Cinco perguntas antes de automatizar","format":"carousel","slides":7,"usesIdentifiablePerson":false,"file":"02-cinco-perguntas-crivo.html"},
+    {"id":"mc03","title":"Meu designer é minha IA","format":"reel-motion","durationSeconds":16,"usesIdentifiablePerson":false,"file":"03-designer-ia-direcao-humana.html"}
+  ],
+  "cfm_checklist": {
+    "professionalIdentification": true,
+    "noIncomePromise": true,
+    "noClinicalAdvice": true,
+    "noUnverifiedTestimonial": true,
+    "noPatientData": true,
+    "humanApprovalRequired": true
+  }
+}
