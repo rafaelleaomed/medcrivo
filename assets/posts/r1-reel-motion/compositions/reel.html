@@ -1,0 +1,157 @@
+<template>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      container-type: size;
+      isolation: isolate;
+      background: var(--paper, #F4F1E8);
+      color: var(--ink, #111111);
+      font-family: Inter, Arial, sans-serif;
+    }
+    .paper { position: absolute; inset: 0; background: var(--paper, #F4F1E8); }
+    .paper::after {
+      content: ""; position: absolute; inset: 0; opacity: .13; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent 0 7px, rgba(17,17,17,.12) 7px 8px);
+    }
+    .clip { position: absolute; inset: 0; overflow: hidden; }
+    .safe { position: absolute; left: 82px; right: 110px; top: 190px; height: 1120px; }
+    .display { font-family: "Archivo Black", Inter, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.06em; line-height: .88; margin: 0; }
+    .support { font-weight: 700; letter-spacing: -.035em; line-height: 1.05; margin: 0; }
+    .accent { background: var(--accent, #C7FF3D); }
+    .hard-shadow { box-shadow: 12px 12px 0 var(--ink, #111111); border: 5px solid var(--ink, #111111); }
+
+    #s1 .kicker { position: absolute; top: 70px; left: 0; font-size: 62px; }
+    #s1 .hero { position: absolute; top: 250px; left: 0; font-size: 182px; width: 860px; }
+    #s1 .bar { position: absolute; left: -24px; top: 650px; padding: 28px 34px 22px; font-size: 105px; transform-origin: left center; }
+    #s1 .dot { position: absolute; width: 190px; height: 190px; border: 20px solid var(--ink); border-radius: 50%; right: 10px; top: 910px; }
+
+    #s2 .word-wall { position: absolute; left: -70px; top: 30px; width: 1040px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; transform: rotate(-4deg); opacity: .26; }
+    #s2 .word-wall span { font-family: "Archivo Black", Inter, sans-serif; font-size: 76px; line-height: .9; white-space: nowrap; }
+    #s2 .claim { position: absolute; top: 360px; left: 0; font-size: 118px; width: 870px; }
+    #s2 .igual { position: absolute; top: 670px; left: -20px; padding: 30px 32px 22px; font-size: 190px; }
+    #s2 .arrow { position: absolute; top: 950px; right: 15px; width: 330px; height: 90px; border-bottom: 18px solid var(--ink); }
+    #s2 .arrow::after { content: ""; position: absolute; right: -5px; bottom: -27px; border-left: 56px solid var(--ink); border-top: 28px solid transparent; border-bottom: 28px solid transparent; }
+
+    #s3 .old { position: absolute; top: 260px; left: 0; font-size: 112px; }
+    #s3 .strike { position: absolute; left: -20px; top: 390px; width: 855px; height: 20px; background: var(--accent); border: 5px solid var(--ink); transform-origin: left center; }
+    #s3 .replace { position: absolute; top: 520px; left: 0; width: 880px; font-size: 120px; color: var(--ink); }
+    #s3 .small { position: absolute; top: 940px; left: 4px; font-size: 50px; width: 710px; }
+
+    #s4 .label { position: absolute; top: 85px; left: 0; font-size: 46px; }
+    #s4 .swap-frame { position: absolute; top: 330px; left: -20px; width: 940px; height: 340px; border: 7px solid var(--ink); box-shadow: 16px 16px 0 var(--ink); background: var(--accent); overflow: hidden; }
+    #s4 .swap-word { position: absolute; inset: 0; display: grid; place-items: center; font-size: 128px; text-align: center; padding: 25px; }
+    #s4 .support-line { position: absolute; top: 800px; left: 0; font-size: 64px; width: 770px; }
+    #s4 .counter { position: absolute; top: 1035px; right: 6px; font-family: "IBM Plex Mono", monospace; font-size: 38px; }
+
+    #s5 .final-a { position: absolute; top: 90px; left: 0; font-size: 86px; width: 835px; }
+    #s5 .final-b { position: absolute; top: 430px; left: -18px; width: 920px; padding: 30px 28px 24px; font-size: 112px; }
+    #s5 .rule { position: absolute; left: 0; top: 850px; width: 0; height: 10px; background: var(--ink); }
+    #s5 .identity { position: absolute; left: 0; top: 900px; width: 820px; font-size: 42px; font-weight: 800; line-height: 1.22; }
+    #s5 .handle { position: absolute; left: 0; top: 1065px; font-size: 40px; font-weight: 900; letter-spacing: .02em; }
+    .footer-texture { position: absolute; top: 1420px; left: -80px; right: -80px; font-family: "Archivo Black", Inter, sans-serif; font-size: 138px; white-space: nowrap; color: transparent; -webkit-text-stroke: 4px rgba(17,17,17,.12); transform: rotate(-5deg); }
+  </style>
+
+  <div id="root" data-composition-id="reel" data-duration="14" data-fps="30" data-motion-blur="on" data-motion-blur-shutter="240">
+    <div class="paper" data-layout-ignore></div>
+    <div class="footer-texture" data-layout-ignore>CRIVO CRIVO CRIVO CRIVO</div>
+
+    <section id="s1" class="clip" data-start="0" data-duration="3" data-track-index="1">
+      <div class="safe">
+        <p class="kicker support">Seu conteúdo</p>
+        <h1 class="hero display">pode estar</h1>
+        <div class="bar accent hard-shadow display">CERTO</div>
+        <div class="dot" data-layout-ignore></div>
+      </div>
+    </section>
+
+    <section id="s2" class="clip" data-start="3" data-duration="3" data-track-index="2">
+      <div class="safe">
+        <div class="word-wall" data-layout-allow-overflow>
+          <span>CORRETO</span><span>ÚTIL</span><span>ÉTICO</span><span>SEGURO</span><span>CLARO</span><span>ÚTIL</span><span>CORRETO</span><span>ÉTICO</span>
+        </div>
+        <p class="claim display">e ainda<br>parecer</p>
+        <div class="igual accent hard-shadow display">IGUAL</div>
+        <div class="arrow" data-layout-ignore></div>
+      </div>
+    </section>
+
+    <section id="s3" class="clip" data-start="6" data-duration="3.2" data-track-index="3">
+      <div class="safe">
+        <p class="old display" data-layout-allow-occlusion>PUBLICAR<br>MAIS</p>
+        <div class="strike"></div>
+        <p class="replace display" data-layout-allow-overflow>SER<br>RECONHECÍVEL</p>
+        <p class="small support">Quantidade não substitui identidade.</p>
+      </div>
+    </section>
+
+    <section id="s4" class="clip" data-start="9.2" data-duration="2.4" data-track-index="4">
+      <div class="safe">
+        <p class="label support">O que constrói memória:</p>
+        <div class="swap-frame" data-layout-allow-overflow>
+          <p class="swap-word display" data-word="0">IDEIA</p>
+          <p class="swap-word display" data-word="1">LINGUAGEM</p>
+          <p class="swap-word display" data-word="2">CONSTÂNCIA</p>
+        </div>
+        <p class="support-line support">clareza que se repete</p>
+        <p class="counter">01 / 03</p>
+      </div>
+    </section>
+
+    <section id="s5" class="clip" data-start="11.6" data-duration="2.4" data-track-index="5">
+      <div class="safe">
+        <p class="final-a display" data-layout-allow-overflow>Você não precisa aparecer.</p>
+        <p class="final-b accent hard-shadow display" data-layout-allow-overflow>Precisa ser reconhecido pelo que defende.</p>
+        <div class="rule"></div>
+        <p class="identity">Dr. Rafael Leão | MÉDICO<br>CRM-MG 96735</p>
+        <p class="handle">@medcrivo</p>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        "use strict";
+        var tl = gsap.timeline({ paused: true });
+
+        tl.set("#s1 .kicker, #s1 .hero", { opacity: 1 }, 0);
+        tl.fromTo("#s1 .bar", { x: -980, skewX: -12 }, { x: 0, skewX: 0, duration: .52, ease: "expo.out" }, .18);
+        tl.fromTo("#s1 .dot", { scale: .3, rotate: -120 }, { scale: 1, rotate: 0, duration: .7, ease: "back.out(1.35)" }, .52);
+        tl.to("#s1 .safe", { x: -1150, duration: .28, ease: "power3.in" }, 2.82);
+
+        tl.fromTo("#s2 .word-wall span", { x: 480, opacity: 0 }, { x: 0, opacity: 1, duration: .42, stagger: .045, ease: "power4.out" }, 3.02);
+        tl.fromTo("#s2 .claim", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .5, ease: "power4.out" }, 3.35);
+        tl.fromTo("#s2 .igual", { scaleX: .05, transformOrigin: "left center" }, { scaleX: 1, duration: .38, ease: "power4.out" }, 4.12);
+        tl.fromTo("#s2 .igual", { x: 0 }, { x: 1280, duration: .34, ease: "power3.in" }, 5.68);
+        tl.to("#s2 .claim, #s2 .word-wall, #s2 .arrow", { x: 1150, duration: .31, ease: "power3.in" }, 5.72);
+
+        tl.fromTo("#s3 .old", { y: 150, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "expo.out" }, 6.02);
+        tl.fromTo("#s3 .strike", { scaleX: 0 }, { scaleX: 1, duration: .36, ease: "power4.out" }, 6.64);
+        tl.fromTo("#s3 .replace", { x: -980 }, { x: 0, duration: .52, ease: "expo.out" }, 7.02);
+        tl.fromTo("#s3 .small", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: .2, ease: "power4.out" }, 7.62);
+        tl.to("#s3 .safe", { scale: 1.55, x: -230, duration: .42, ease: "power3.in" }, 8.96);
+
+        tl.fromTo("#s4 .swap-frame", { scaleX: .08, transformOrigin: "left center" }, { scaleX: 1, duration: .38, ease: "power4.out" }, 9.22);
+        tl.set("#s4 [data-word='0']", { y: 0, opacity: 1 }, 9.22);
+        tl.set("#s4 [data-word='1'], #s4 [data-word='2']", { y: 340, opacity: 0 }, 9.22);
+        tl.to("#s4 [data-word='0']", { y: -340, opacity: 0, duration: .28, ease: "power3.in" }, 9.78);
+        tl.to("#s4 [data-word='1']", { y: 0, opacity: 1, duration: .38, ease: "expo.out" }, 9.86);
+        tl.set("#s4 .counter", { textContent: "02 / 03" }, 9.9);
+        tl.to("#s4 [data-word='1']", { y: -340, opacity: 0, duration: .28, ease: "power3.in" }, 10.43);
+        tl.to("#s4 [data-word='2']", { y: 0, opacity: 1, duration: .38, ease: "expo.out" }, 10.5);
+        tl.set("#s4 .counter", { textContent: "03 / 03" }, 10.54);
+        tl.fromTo("#s4 .support-line", { opacity: 0 }, { opacity: 1, duration: .18, ease: "none" }, 9.35);
+        tl.to("#s4 .swap-frame", { scale: 6, duration: .38, ease: "power3.in" }, 11.35);
+
+        tl.fromTo("#s5 .final-a", { x: -940 }, { x: 0, duration: .48, ease: "expo.out" }, 11.62);
+        tl.fromTo("#s5 .final-b", { x: 1040 }, { x: 0, duration: .55, ease: "expo.out" }, 11.76);
+        tl.to("#s5 .rule", { width: 820, duration: .34, ease: "power4.out" }, 12.02);
+        tl.fromTo("#s5 .identity, #s5 .handle", { opacity: 0, filter: "blur(7px)" }, { opacity: 1, filter: "blur(0px)", duration: .18, stagger: .04, ease: "power4.out" }, 11.72);
+
+        window.__timelines["reel"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -6,10 +6,10 @@
   "pillar": "P1",
   "scheduled_at": "2026-11-01T18:00:00-03:00",
   "approved": true,
-  "image_url": "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/e2-static/slide-01.jpg",
-  "caption": "Seu conteúdo pode estar tecnicamente correto — e ainda não construir associação nenhuma entre seu nome e um campo de atuação.\n\nInformação isolada ensina. Uma mensagem coerente, repetida sob ângulos diferentes, ajuda o público a entender como você pensa e por que deveria lembrar de você.\n\nClareza antes de volume. Território antes de escala.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
+  "image_url": "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-e2-test-approved-2026-10-27/assets/posts/e2-static/slide-01.jpg",
+  "caption": "Seu conteúdo pode estar tecnicamente correto — e ainda não construir associação nenhuma entre seu nome e um campo de atuação.\n\nInformação isolada ensina. Uma mensagem coerente, repetida sob ângulos diferentes, ajuda o público a entender como você pensa e por que deveria lembrar de você.\n\nClareza antes de volume. Território antes de escala.\n\n@medcrivo\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
   "cfm_checklist": {
-    "identificacao_visivel": true,
+    "identificacao_visivel": false,
     "sem_promessa_resultado": true,
     "sem_preco_promocao": true,
     "conteudo_educativo": true,

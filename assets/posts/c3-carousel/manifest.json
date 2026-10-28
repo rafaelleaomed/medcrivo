@@ -5,7 +5,7 @@
   "series": "Pare de postar isso",
   "pillar": "P1",
   "scheduled_at": "2026-11-03T12:00:00-03:00",
-  "approved": true,
+  "approved": false,
   "image_urls": [
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c3-carousel/slide-01.jpg",
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c3-carousel/slide-02.jpg",
@@ -14,14 +14,14 @@
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c3-carousel/slide-05.jpg",
     "https://raw.githubusercontent.com/rafaelleaomed/medcrivo/refs/tags/editorial-lote-01-approved-2026-10-25/assets/posts/c3-carousel/slide-06.jpg"
   ],
-  "caption": "Quatro padrões deixam o conteúdo médico correto — e esquecível:\n\n1. Falar de tudo sem um fio condutor.\n2. Informar sem mostrar um ponto de vista.\n3. Exibir credenciais sem contexto.\n4. Publicar sem uma revisão ética final.\n\nPosicionamento não exige um personagem nem um nicho apertado. Exige coerência suficiente para que seu nome seja associado a um território.\n\nDr. Rafael Leão | MÉDICO | CRM-MG 96735\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
+  "caption": "Conteúdo correto não é conteúdo que fica na memória.\n\nQuatro padrões que aparecem muito em perfis médicos bons:\n\n1. Falar de tudo sem um eixo central.\n2. Dar informação sem mostrar o que você pensa.\n3. Exibir o currículo sem mostrar como você raciocina.\n4. Publicar sem revisar o que aquilo diz sobre você.\n\nVocê não precisa de nicho fechado. Precisa ser reconhecível. Quando alguém lê seu post sem ver quem escreveu — sabe que veio de você?\n\n@medcrivo\n\n#MedCrivo #ComunicaçãoMédica #PosicionamentoMédico",
   "cfm_checklist": {
-    "identificacao_visivel": true,
+    "identificacao_visivel": false,
     "sem_promessa_resultado": true,
     "sem_preco_promocao": true,
     "conteudo_educativo": true,
     "sem_paciente_identificavel": true,
-    "aprovado_por_rafael": true
+    "aprovado_por_rafael": false
   },
-  "notes": "Carrossel sem rosto com 6 slides, aprovado por Rafael."
+  "notes": "Texto humanizado aprovado. Arte ainda precisa de revisão visual e nova aprovação antes de publicar."
 }

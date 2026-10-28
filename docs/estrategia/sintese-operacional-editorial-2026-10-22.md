@@ -382,6 +382,37 @@ Antes de usar qualquer imagem comparativa, aplicar os 11 itens do checklist edit
 
 ---
 
+## Atualização Estratégica — Médico Criador com IA (27/10/2026)
+
+A análise de @thiagomendesmed e da MEDCODING adiciona uma nova camada ao posicionamento da MedCrivo: Rafael não deve aparecer apenas como revisor de conteúdo médico, mas como **médico que ajuda outros médicos a criar, comunicar e empreender com IA sob um Crivo Médico**.
+
+### Direção incorporada
+- mostrar construção real, decisões, testes e correções;
+- transformar problemas médicos em hipóteses de conteúdo, sistema ou produto;
+- ensinar IA junto com validação, comunicação, ética e modelo de negócio;
+- usar interfaces, protótipos e processos como prova;
+- trocar listas genéricas de ferramentas por demonstrações de uso;
+- construir uma jornada editorial de `problema → validação → protótipo → conteúdo → oferta → Crivo`.
+
+### Novas séries prioritárias
+1. **Antes de construir** — perguntas anteriores à tecnologia.
+2. **Construindo em público** — bastidores de uma decisão real.
+3. **Passou no Crivo?** — avaliação de utilidade, evidência, ética, clareza e risco.
+4. **Médico, não operador de prompt** — autonomia, identidade e responsabilidade.
+
+### Limites
+- não copiar marca, texto, estética, hooks ou produtos da referência;
+- não centralizar a comunicação em promessa de renda;
+- não anunciar funcionalidades, preço ou resultados inexistentes;
+- manter toda automação semanal limitada a rascunhos;
+- exigir Crivo e aprovação humana antes de publicar ou agendar.
+
+**Documento operacional:** [Engenharia reversa — Thiago Mendes / MEDCODING](./engenharia-reversa-thiagomendesmed-2026-10-27.md)
+
+**Registro de referências:** [Referências estratégicas da MedCrivo](./referencias-estrategicas.md)
+
+---
+
 ## Anexo — Referências Cruzadas
 
 | Seção deste documento | Fonte primária |
