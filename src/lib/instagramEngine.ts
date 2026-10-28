@@ -10,6 +10,8 @@
  * 5. Conformidade total com CFM nº 2.336/2023 e LGPD
  */
 
+import { humanizeText } from "./content/humanizer";
+
 export type EngagementGoal = "saves" | "shares" | "comments" | "follows";
 
 export interface HookFormula {
@@ -106,6 +108,7 @@ const AI_TELL_WORDS = [
   "imperdível",
   "descubra os segredos",
   "revolucionário",
+  "divisor de águas",
 ];
 
 export interface CaptionAuditResult {
@@ -126,30 +129,11 @@ export interface CaptionAuditResult {
  * - Limita travessões excessivos (máx 1 por 100 palavras)
  */
 export function humanizeMedicalText(text: string): { cleanedText: string; detectedTells: string[] } {
-  let cleaned = text;
-  const detected: string[] = [];
+  const detected = AI_TELL_WORDS.filter((word) =>
+    text.toLocaleLowerCase("pt-BR").includes(word.toLocaleLowerCase("pt-BR")),
+  );
 
-  for (const word of AI_TELL_WORDS) {
-    const regex = new RegExp(`\\b${word}\\b`, "gi");
-    if (regex.test(cleaned)) {
-      detected.push(word);
-      cleaned = cleaned.replace(regex, (match) => {
-        // Substituições naturais e humanas
-        if (/mergulh/i.test(match)) return "analisar";
-        if (/desvend/i.test(match)) return "entender";
-        if (/crucial|fundamental/i.test(match)) return "importante";
-        if (/no mundo de hoje|no vasto mundo/i.test(match)) return "atualmente";
-        if (/em resumo|em conclusão/i.test(match)) return "na prática";
-        if (/revolucionário|transformador/i.test(match)) return "eficaz";
-        return "";
-      });
-    }
-  }
-
-  // Remove espaços duplos
-  cleaned = cleaned.replace(/\s{2,}/g, " ").trim();
-
-  return { cleanedText: cleaned, detectedTells: detected };
+  return { cleanedText: humanizeText(text), detectedTells: detected };
 }
 
 /**

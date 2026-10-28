@@ -16,11 +16,11 @@
 
 **Legenda:**
 
-Uma boa instrução pode gerar uma tela em minutos. Isso não significa que exista um produto.
+Dá para gerar uma tela em minutos com um bom prompt. Mas isso não é um produto.
 
-Antes de construir, eu tento responder quatro coisas: qual problema acontece de verdade, para quem, com que frequência e como saberei que a solução ajudou.
+Antes de construir qualquer coisa, eu tento responder quatro perguntas: qual problema acontece de verdade, para quem acontece, com que frequência, e como vou saber se a solução ajudou.
 
-A IA acelera a execução. O Crivo decide o que merece continuar.
+Se não consigo responder as quatro, ainda não é hora de construir. A IA vai rápido. Mas eu preciso saber para onde.
 
 **CTA:** Qual ideia você ainda precisa validar antes de construir?
 
@@ -52,11 +52,11 @@ Use estas cinco perguntas antes de automatizar qualquer tarefa médica.
 
 **Legenda:**
 
-Eu uso IA para explorar caminhos, criar variações e acelerar a execução visual.
+Eu uso IA para fazer variações visuais e explorar caminhos que levariam horas para fazer na mão.
 
-Mas objetivo, hierarquia, prova, identidade e escolha não saem de um botão. Direção é decidir o que merece existir — e também o que deve ser descartado.
+Mas o que vai ficar, o que vai para o lixo e o que a peça precisa comunicar — isso continua comigo. A IA não sabe o que você quer dizer. Só você sabe.
 
-Meu designer pode ser uma IA. Minha responsabilidade pela mensagem continua humana.
+Meu designer é uma IA. A direção é minha.
 
 **CTA:** O que você delega para a IA e o que mantém sob seu critério?
 

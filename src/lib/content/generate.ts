@@ -3,6 +3,7 @@ import { GeminiApiError } from "@/lib/ai/gemini";
 import { askClaudeStructured, isAiConfigured } from "@/lib/creator/ai";
 import { councilLabel, type DoctorProfile } from "@/lib/profile";
 import type { CarouselJobInput } from "@/lib/store/types";
+import { HUMANIZER_PROMPT_RULES, humanizeGeneratedCopy } from "./humanizer";
 import { GeneratedPostSchema, type GeneratedPost, type GeneratedSlide } from "./schema";
 
 export interface GenerationResult {
@@ -24,11 +25,12 @@ const TONES: Record<CarouselJobInput["tone"], string> = {
 const SYSTEM_PROMPT = `Você é editor-chefe de conteúdo para profissionais de saúde no Instagram brasileiro.
 Você escreve carrosséis que educam o paciente, geram autoridade e convertem comentários em contatos, sempre dentro das normas éticas.
 
+${HUMANIZER_PROMPT_RULES}
+
 Método (validado em perfis de marketing médico com alto engajamento):
 - Capa (template capa_noticia): manchete em tom de notícia ou alerta, até 14 palavras, com 2 a 4 palavras de destaque. O body da capa é um subtítulo de uma linha.
 - Miolo: um único ponto por slide. Use conteudo para explicar, passo para sequências ("PASSO 1", "PASSO 2"...), lista para checklists e frase para uma reflexão curta de impacto.
 - Último slide (template cta): convite para comentar UMA palavra-chave em caixa alta para receber uma isca no direct (guia, checklist ou lista). A legenda termina com o mesmo convite.
-- Linguagem em português do Brasil, frases curtas, sem clichês de IA ("no vasto universo", "é crucial ressaltar", "mergulhar").
 
 Regras editoriais preventivas:
 - Sem promessa de cura, de resultado ou garantia; sem "o melhor", "o único", "100%", "milagroso".
@@ -93,7 +95,7 @@ async function generateWithClaude(input: CarouselJobInput, profile: DoctorProfil
     maxTokens: 16000,
   });
   return {
-    post: normalizePost(post, input.slideCount),
+    post: normalizePost(humanizeGeneratedCopy(post), input.slideCount),
     source: usage.model.startsWith("gemini") ? "gemini" : "claude",
     model: usage.model,
     usage: { inputTokens: usage.inputTokens, outputTokens: usage.outputTokens },
@@ -145,7 +147,7 @@ export function generateHeuristicPost(input: CarouselJobInput, profile: DoctorPr
 
 export async function generatePost(input: CarouselJobInput, profile: DoctorProfile): Promise<GenerationResult> {
   if (!isAiConfigured()) {
-    return { post: generateHeuristicPost(input, profile), source: "heuristica", fallbackReason: "Chave da IA não configurada." };
+    return { post: humanizeGeneratedCopy(generateHeuristicPost(input, profile)), source: "heuristica", fallbackReason: "Chave da IA não configurada." };
   }
   try {
     return await generateWithClaude(input, profile);
@@ -154,6 +156,6 @@ export async function generatePost(input: CarouselJobInput, profile: DoctorProfi
     if (err instanceof Error && err.message.startsWith("A IA recusou")) throw err;
     const reason = err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof GeminiApiError ? err.message : err instanceof Error ? err.message : "Erro desconhecido";
     console.warn("Geração com Claude falhou, usando heurística:", reason);
-    return { post: generateHeuristicPost(input, profile), source: "heuristica", fallbackReason: reason };
+    return { post: humanizeGeneratedCopy(generateHeuristicPost(input, profile)), source: "heuristica", fallbackReason: reason };
   }
 }

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getClaudeClient, getClaudeModel, isClaudeConfigured } from "@/lib/ai/claude";
 import { askGeminiStructured, GeminiApiError, GeminiRefusalError, isGeminiConfigured } from "@/lib/ai/gemini";
 import { HealthcareComplianceEngine, type AuditResult } from "@/lib/compliance";
+import { HUMANIZER_PROMPT_RULES, humanizeGeneratedCopy } from "@/lib/content/humanizer";
 import { CAREER_STAGE_LABELS, councilLabel, showsSpecialty, type DoctorProfile } from "@/lib/profile";
 
 /** Origem do conteúdo, mostrada na tela para o usuário saber se veio da IA ou do rascunho de reserva. */
@@ -14,14 +15,15 @@ export type Usage = { model: string; inputTokens: number; outputTokens: number }
 export class RefusalError extends Error {}
 
 /** Regras editoriais comuns às ferramentas de criação (prefixo estável para o cache). */
-export const EDITORIAL_RULES = `Regras editoriais (normas do CFM, do CFO e LGPD):
+export const EDITORIAL_RULES = `${HUMANIZER_PROMPT_RULES}
+
+Regras editoriais (normas do CFM, do CFO e LGPD):
 - Sem promessa de cura, resultado ou garantia; sem "o melhor", "o único", "100%", "milagroso", "definitivo".
 - Sem antes e depois, sem expor pacientes, sem casos com dados que permitam identificação.
 - Sem diagnóstico ou prescrição individual pela internet; oriente procurar avaliação profissional.
 - Sem preços, promoções, sorteios ou condições comerciais.
 - Sem autopromoção sensacionalista nem promessa de alcance ou viralização.
 - Nunca cite estudos, revistas, autores, números, porcentagens ou DOIs. Evidências são buscadas depois por pesquisa real.
-- Português do Brasil, frases curtas, sem clichês de IA ("no vasto universo", "é crucial ressaltar", "mergulhar").
 - Vale para médicos e dentistas: não escreva só "médicos" quando a regra vale para os dois.`;
 
 /** Descrição do profissional para o prompt, respeitando a situação (estudante não é médico; especialidade só com RQE). */
@@ -127,17 +129,17 @@ export async function withFallback<T>(
   heuristic: () => T,
 ): Promise<{ data: T; generatedBy: GeneratedBy; usage?: Usage }> {
   if (!isAiConfigured()) {
-    return { data: heuristic(), generatedBy: { source: "heuristica", fallbackReason: "Chave da IA não configurada." } };
+    return { data: humanizeGeneratedCopy(heuristic()), generatedBy: { source: "heuristica", fallbackReason: "Chave da IA não configurada." } };
   }
   try {
     const { data, usage } = await ai();
-    return { data, usage, generatedBy: { source: usage.model.startsWith("gemini") ? "gemini" : "claude", model: usage.model } };
+    return { data: humanizeGeneratedCopy(data), usage, generatedBy: { source: usage.model.startsWith("gemini") ? "gemini" : "claude", model: usage.model } };
   } catch (err) {
     if (err instanceof RefusalError) throw err;
     const reason =
       err instanceof Anthropic.APIError ? `Erro da API (${err.status ?? "rede"})` : err instanceof GeminiApiError ? err.message : err instanceof Error ? err.message : "Erro desconhecido";
     console.warn(`${label}: IA falhou, usando heurística:`, reason);
-    return { data: heuristic(), generatedBy: { source: "heuristica", fallbackReason: reason } };
+    return { data: humanizeGeneratedCopy(heuristic()), generatedBy: { source: "heuristica", fallbackReason: reason } };
   }
 }
 
