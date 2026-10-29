@@ -1,3 +1,4 @@
+import { HealthcareComplianceEngine } from "../compliance.ts";
 import { z } from "zod";
 
 const enumToken = <T extends readonly [string, ...string[]]>(values: T) =>
@@ -193,5 +194,11 @@ export function fallbackOpportunities(
   const slot = now.slice(0, 13);
   const offset = hash(`${slot}:${subjects.join("|")}`) % candidates.length;
   const rotated = [...candidates.slice(offset), ...candidates.slice(0, offset)];
-  return selectFreshOpportunities(rotated, excludedTitles, limit);
+  // Filtro clínico: rejeita qualquer candidato com infração CRITICAL, mesmo em templates.
+  const compliant = rotated.filter((item) => {
+    const text = `${item.title} ${item.hook} ${item.angle} ${item.whyNow}`;
+    const { infractions } = HealthcareComplianceEngine.audit(text);
+    return !infractions.some((i) => i.severity === "CRITICAL");
+  });
+  return selectFreshOpportunities(compliant, excludedTitles, limit);
 }

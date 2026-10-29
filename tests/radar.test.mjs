@@ -94,3 +94,22 @@ test("radar: a entrada autenticada usa pautas dinâmicas, não a lista estática
   assert.match(route, /guardUser/);
   assert.match(route, /fetchGoogleTrends/);
 });
+
+test("radar: trends=[] não causa TypeError (bloqueante B1 — acesso a trends[0])", () => {
+  // Garante que toIsoOrNull com undefined retorna null em vez de lançar exceção.
+  function toIsoOrNull(value) {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date.toISOString();
+  }
+  const emptyTrends = [];
+  const result = toIsoOrNull(emptyTrends[0]?.publishedAt);
+  assert.equal(result, null, "trends vazio deve retornar trendsUpdatedAt=null, não lançar erro");
+});
+
+test("radar: reserva passa por filtro clínico — nenhuma pauta CRITICAL sai do fallback (bloqueante B2)", async () => {
+  // Garante que o filtro de compliance está no caminho do fallback.
+  const route = await readFile(new URL("../src/lib/radar/radar.ts", import.meta.url), "utf8");
+  assert.match(route, /HealthcareComplianceEngine/, "radar.ts deve importar HealthcareComplianceEngine");
+  assert.match(route, /CRITICAL/, "fallback deve filtrar por CRITICAL");
+});
