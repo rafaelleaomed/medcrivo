@@ -1,54 +1,63 @@
-# MedCrivo — Plataforma de Marketing Médico Ético, Conteúdo e Inteligência Científica
+<div align="center">
 
-> **A plataforma de crescimento para médicos e dentistas**, combinando criação inteligente de conteúdo (carrosséis, posts e Reels), auditoria ética e científica (Crivo CFM/CFO) e motores de potencial viral (Viralyze & Google Trends).
+**Idioma:** [Português do Brasil](README.md) · [English](README.en.md)
 
-Desenvolvido por **Dr. Rafael Leão** ([@rafaelleaomed](https://github.com/rafaelleaomed)) — Médico (CRM-MG 96735) & Especialista em IA Aplicada à Saúde.
+# MedCrivo
 
----
+**Planejamento, criação e revisão de conteúdo digital para profissionais de saúde.**
 
-## 🏥 Sobre o MedCrivo
+</div>
 
-O **MedCrivo** foi desenhado do zero para resolver o maior desafio do profissional de saúde no digital: **criar conteúdo de altíssimo engajamento sem ferir as resoluções éticas do CFM e CFO**.
+## O problema
 
-### Diferenciais do MedCrivo:
-1. **Onboarding por Especialidade:** O médico informa sua área (Medicina Geral, Cirurgia, Dermatologia, MNIO, Odontologia) e dores do seu público.
-2. **Motores de Pauta Viral (Viralyze + Google Trends):** Sugestões automatizadas de temas quentes com alto potencial de atração e engajamento.
-3. **Crivo CFM/CFO Automático:** Todo roteiro e post passa por uma auditoria em tempo real contra as Resoluções CFM 2.336/2023 e CFO 196/2019, garantindo conformidade ética antes da publicação.
-4. **Criação Multiformato (MedCrivo Studio):** Geração instantânea de carrosséis 4:5, frases de autoridade, legendas prontas e Reels/Shorts programáticos com o **MedCrivo Studio**.
-5. **Funil "Comente PALAVRA":** Geração automática de isca digital + automação de DM no Instagram ([@medcrivo](https://www.instagram.com/medcrivo/)).
+Médicos e dentistas precisam transformar conhecimento técnico em conteúdo compreensível sem perder rigor científico, identidade profissional ou conformidade ética. Fazer isso de forma consistente envolve pesquisa, planejamento, criação, revisão e aprovação.
 
----
+O MedCrivo reúne essas etapas em um fluxo editorial assistido por IA. A ferramenta apoia a produção; a responsabilidade pelo conteúdo e pela publicação continua com o profissional.
 
-## 🛠️ Tech Stack & Arquitetura
+## O que está implementado
 
-- **Frontend & App:** Next.js 16.4 (App Router) + React 19 + Tailwind CSS v4 + Motion
-- **Audiovisual & Render:** Remotion Engine (MedCrivo Studio)
-- **Persistência & Auth:** Supabase SSR (PostgreSQL + pgvector)
-- **Motores Cognitivos:** Anthropic Claude (Sonnet / Opus) + Validadores Zod + Consensus (Evidência Científica)
-- **Identidade de Marca:** Design System MedCrivo (Pinho `#123C36`, Marfim `#F5F2E9`, Lima `#D6EF72`)
+- onboarding por profissão, especialidade, público e objetivos editoriais;
+- planejamento de pautas e calendário de conteúdo;
+- geração de carrosséis, legendas, roteiros e peças para vídeo;
+- assistente conversacional para criação e refinamento;
+- radar de tendências e sinais para novas pautas;
+- revisão de conformidade baseada em regras médicas e odontológicas;
+- checagem de consistência e consenso entre modelos;
+- hub de aprovação antes de qualquer conteúdo seguir para publicação;
+- componentes de estúdio e renderização programática com Remotion.
 
----
+## IA, ética e supervisão
 
-## ⚡ Como Executar
+A IA é usada para pesquisa, estruturação e criação de rascunhos. O fluxo inclui validações determinísticas, revisão de conformidade e aprovação humana. Essas barreiras reduzem risco, mas não substituem a análise do profissional nem garantem conformidade em todos os contextos.
+
+O repositório inclui documentação de governança de IA e regras específicas para conteúdo médico. Nenhum conteúdo deve ser publicado automaticamente sem revisão.
+
+## Arquitetura
+
+- **Aplicação:** Next.js 16, React 19 e TypeScript;
+- **Interface:** Tailwind CSS 4, Motion e componentes próprios;
+- **Dados e autenticação:** Supabase e PostgreSQL;
+- **IA:** Anthropic Claude, validação Zod e fluxo de consenso;
+- **Mídia:** Remotion para composições e renderização;
+- **Qualidade:** testes para segurança, compliance, planejamento, radar e motores editoriais.
+
+## Executar localmente
 
 ```bash
-# Clone do Repositório
-git clone https://github.com/rafaelleaomed/medcrivo.git
-cd medcrivo
-
-# Instalar Dependências
 npm install
-
-# Iniciar Servidor de Desenvolvimento
 npm run dev
 ```
 
----
+As integrações externas exigem configuração local. Não versione credenciais nem dados pessoais.
 
-## 👤 Autor
+## Limitações atuais
 
-**Dr. Rafael Leão** ([@rafaelleaomed](https://github.com/rafaelleaomed))
-* CRM-MG 96735 | Médico & Mestre (UFMG)
-* Especialista em Monitorização Neurofisiológica Intraoperatória (MNIO)
-* Construtor e Facilitador na Comunidade *Médicos Híbridos*
-* Instagram Oficial da Marca: [@medcrivo](https://www.instagram.com/medcrivo/)
+- a revisão automática não equivale a parecer jurídico ou regulatório;
+- referências científicas e afirmações clínicas precisam ser conferidas antes da publicação;
+- tendências e previsões de desempenho não garantem alcance ou engajamento;
+- o projeto está em evolução e mantém aprovação humana como etapa obrigatória.
+
+## Autor
+
+**Rafael Leão, médico e mestre pela UFMG:** criador de produtos na interseção entre saúde, IA e comunicação.
+[GitHub](https://github.com/rafaelleaomed) · [LinkedIn](https://www.linkedin.com/in/rafaelleaomed/)
