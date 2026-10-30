@@ -15,7 +15,7 @@ import { STUDIO_ROUTES } from "./routes";
 import { useStudio } from "./StudioProvider";
 
 export function CarouselView() {
-  const { jobProgress, postDraft, profile, carouselSlides, setCarouselSlides, topic, variationSeed } = useStudio();
+  const { jobProgress, postDraft, profile, carouselSlides, setCarouselSlides, topic, variationSeed, editorialBriefing } = useStudio();
   return (
     <div className="space-y-6">
       <PageHeader kicker="Criar · 4:5" title="Carrossel" />
@@ -41,6 +41,7 @@ export function CarouselView() {
               doctorInstagram={profile.instagram}
               variationSeed={variationSeed}
               initialSlides={carouselSlides}
+              editorialBriefing={editorialBriefing ?? undefined}
               onSlidesUpdated={setCarouselSlides}
             />
           </div>

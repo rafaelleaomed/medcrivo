@@ -9,6 +9,11 @@ import type { ComplianceAuditResult } from "@/lib/compliance";
 import type { ScientificEvidence } from "@/lib/consensus";
 import type { VideoScript } from "@/lib/vturbVideo";
 import type { CarouselSlide } from "@/lib/carouselEngine";
+import {
+  buildCarouselJobInput,
+  type CarouselGenerationInput,
+  type EditorialBriefing,
+} from "@/lib/content/editorialBriefing";
 import type { JobProgress } from "@/components/PostStudio";
 import { getSpecialtyById } from "@/data/medicalSpecialtiesData";
 import { STUDIO_ROUTES } from "./routes";
@@ -74,10 +79,11 @@ type StudioContextValue = {
   evidence: ScientificEvidence[];
   videoScript: VideoScript | null;
   carouselSlides: CarouselSlide[] | null;
+  editorialBriefing: EditorialBriefing | null;
   setCarouselSlides: (slides: CarouselSlide[]) => void;
   jobProgress: JobProgress | null;
   generate: () => Promise<void>;
-  startFromTopic: (topic: string) => void;
+  startFromTopic: (topic: string | EditorialBriefing) => Promise<void>;
 };
 
 const StudioContext = createContext<StudioContextValue | null>(null);
@@ -152,16 +158,17 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const [evidence, setEvidence] = useState<ScientificEvidence[]>([]);
   const [videoScript, setVideoScript] = useState<VideoScript | null>(null);
   const [carouselSlides, setCarouselSlides] = useState<CarouselSlide[] | null>(null);
+  const [editorialBriefing, setEditorialBriefing] = useState<EditorialBriefing | null>(null);
   const [jobProgress, setJobProgress] = useState<JobProgress | null>(null);
 
   /** Cria o job de carrossel e acompanha até concluir. */
   const runCarouselJob = useCallback(
-    async (activeTopic: string, sourceContext?: string) => {
+    async (input: CarouselGenerationInput) => {
       setJobProgress({ status: "queued", progress: 0, step: "Enviando pedido", error: null });
       const res = await fetch("/api/jobs/carousel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: activeTopic, sourceContext, tone: profile.tone }),
+        body: JSON.stringify(input),
       });
       const created = await res.json().catch(() => null);
       if (!res.ok || !created?.jobId) {
@@ -211,7 +218,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
       }
       setJobProgress({ status: "failed", progress: 0, step: "Falhou", error: "Tempo esgotado aguardando a geração." });
     },
-    [profile.tone],
+    [],
   );
 
   /** Gera carrossel e roteiro a partir do tema (ou de um link de notícia/artigo). */
@@ -219,6 +226,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     let activeTopic = topic.trim();
     if (!activeTopic) return;
     setIsLoading(true);
+    setEditorialBriefing(null);
     setVariationSeed((s) => s + 1);
     router.push(STUDIO_ROUTES.carousel);
     try {
@@ -260,7 +268,9 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
         })
         .catch((e) => console.warn("Roteiro de vídeo indisponível:", e));
 
-      await runCarouselJob(activeTopic, sourceContext);
+      const input = buildCarouselJobInput(activeTopic, profile.tone, 9);
+      if (sourceContext) input.sourceContext = sourceContext;
+      await runCarouselJob(input);
       await scriptPromise;
     } finally {
       setIsLoading(false);
@@ -268,11 +278,26 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   }, [topic, profile, router, runCarouselJob]);
 
   const startFromTopic = useCallback(
-    (next: string) => {
-      setTopic(next);
+    async (next: string | EditorialBriefing) => {
+      const input = buildCarouselJobInput(next, profile.tone, 9);
+      setEditorialBriefing(input.editorialBriefing ?? null);
+      setTopic(input.topic);
+      setPostDraft(null);
+      setCarouselSlides(null);
+      setAudit(null);
+      setEvidence([]);
+      setPostTitle("");
+      setPostHook("");
+      setIsLoading(true);
+      setVariationSeed((seed) => seed + 1);
       router.push(STUDIO_ROUTES.carousel);
+      try {
+        await runCarouselJob(input);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [router],
+    [profile.tone, router, runCarouselJob],
   );
 
   const value: StudioContextValue = {
@@ -296,6 +321,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
     evidence,
     videoScript,
     carouselSlides,
+    editorialBriefing,
     setCarouselSlides,
     jobProgress,
     generate,

@@ -50,6 +50,7 @@ import {
   buildImageUrlFromPrompt,
   generateMedicalImagePrompt,
 } from "@/lib/carouselEngine";
+import type { EditorialBriefing } from "@/lib/content/editorialBriefing";
 
 interface CarouselStudioProps {
   topic: string;
@@ -62,6 +63,7 @@ interface CarouselStudioProps {
   variationSeed?: number;
   initialSlides?: CarouselSlide[];
   onSlidesUpdated?: (slides: CarouselSlide[]) => void;
+  editorialBriefing?: EditorialBriefing;
 }
 
 export function CarouselStudio({
@@ -74,6 +76,7 @@ export function CarouselStudio({
   variationSeed,
   initialSlides,
   onSlidesUpdated,
+  editorialBriefing,
 }: CarouselStudioProps) {
   const [activeSlide, setActiveSlide] = useState<number>(0);
   const [copied, setCopied] = useState<boolean>(false);
@@ -110,6 +113,7 @@ export function CarouselStudio({
           rqe,
           tone: newTone,
           goal: newGoal,
+          editorialBriefing,
         }),
       });
       const data = await res.json();

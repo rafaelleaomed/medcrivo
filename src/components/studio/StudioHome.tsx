@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Loader2, RefreshCw, Sparkles, TrendingUp } from "lucide-react";
 import { CAREER_STAGE_LABELS, firstName } from "@/lib/profile";
 import type { RadarResponse } from "@/lib/radar/radar";
+import { EditorialBriefingSchema } from "@/lib/content/editorialBriefing";
 import { Seal } from "@/components/ui";
 import { BRAND } from "@/config/brand";
 import { STUDIO_TOOLS } from "@/config/tools";
@@ -187,7 +188,7 @@ export function StudioHome() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => startFromTopic(item.title)}
+                  onClick={() => void startFromTopic(EditorialBriefingSchema.parse(item))}
                   className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-teal-700 hover:text-pinho dark:text-lima cursor-pointer"
                 >
                   Usar esta pauta <ArrowUpRight className="h-4 w-4" aria-hidden />

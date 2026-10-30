@@ -4,6 +4,7 @@ import { z } from "zod";
 import { generatePost } from "@/lib/content/generate";
 import type { CarouselSlide } from "@/lib/carouselEngine";
 import { DoctorProfileSchema } from "@/lib/profile";
+import { EditorialBriefingSchema } from "@/lib/content/editorialBriefing";
 
 /**
  * Geração síncrona usada pelos layouts clássicos do CarouselStudio (troca de tom/meta).
@@ -17,6 +18,7 @@ const BodySchema = z.object({
   rqe: z.string().max(20).optional(),
   tone: z.enum(["didatico", "academico", "consultorio"]).default("didatico"),
   goal: z.enum(["saves", "shares", "comments", "follows"]).default("saves"),
+  editorialBriefing: EditorialBriefingSchema.optional(),
 });
 
 const TEMPLATE_LABELS: Record<string, string> = {
@@ -35,11 +37,11 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ success: false, error: "Tema é obrigatório." }, { status: 400 });
   }
-  const { topic, specialty, doctorName, crm, rqe, tone, goal } = parsed.data;
+  const { topic, specialty, doctorName, crm, rqe, tone, goal, editorialBriefing } = parsed.data;
   const profile = DoctorProfileSchema.parse({ name: doctorName, specialty, crm, rqe, tone });
 
   try {
-    const { post, source } = await generatePost({ topic, tone, slideCount: 7 }, profile);
+    const { post, source } = await generatePost({ topic, tone, slideCount: 7, editorialBriefing }, profile);
     const slides: CarouselSlide[] = post.slides.map((s, i) => ({
       number: i + 1,
       type: TEMPLATE_LABELS[s.template] ?? s.template,

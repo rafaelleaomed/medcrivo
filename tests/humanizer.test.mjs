@@ -58,3 +58,23 @@ test("humanizer: mantém __proto__ como dado sem alterar o protótipo global", (
   assert.deepEqual(output.__proto__, { polluted: true });
   assert.equal(output.title, "Um processo");
 });
+
+test("humanizer: preserva campos técnicos e humaniza apenas a cópia exibida", () => {
+  const input = {
+    framework: "uma jornada fascinante",
+    action: "uma jornada fascinante",
+    template: "uma jornada fascinante",
+    keyword: "SEGREDO",
+    evidenceQuery: "uma jornada fascinante",
+    headline: "Uma jornada fascinante",
+    body: "Desvende o segredo definitivo",
+  };
+  const output = humanizeGeneratedCopy(input);
+  assert.equal(output.framework, input.framework);
+  assert.equal(output.action, input.action);
+  assert.equal(output.template, input.template);
+  assert.equal(output.keyword, input.keyword);
+  assert.equal(output.evidenceQuery, input.evidenceQuery);
+  assert.equal(output.headline, "Um processo");
+  assert.equal(output.body, "Entenda o ponto principal");
+});

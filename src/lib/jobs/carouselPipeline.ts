@@ -74,7 +74,7 @@ export async function runCarouselJob(store: Store, job: JobRecord): Promise<void
       cta: post.cta,
       audit,
       evidence,
-      generatedBy: { source: generation.source, model: generation.model },
+      generatedBy: { source: generation.source, model: generation.model, fallbackReason: generation.fallbackReason },
     };
 
     const saved = await store.createPost(job.input.topic, draft);

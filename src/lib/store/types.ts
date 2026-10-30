@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { DoctorProfile } from "@/lib/profile";
 import type { PostDraft, PostSlide } from "@/lib/content/schema";
 import type { PlannerItem, PlannerItemInput, PlannerItemPatch } from "@/lib/planner/planner";
+import { EditorialBriefingSchema } from "@/lib/content/editorialBriefing";
 
 export type { PlannerItem, PlannerItemInput, PlannerItemPatch } from "@/lib/planner/planner";
 
@@ -9,6 +10,8 @@ export const CarouselJobInputSchema = z.object({
   topic: z.string().trim().min(3, "Informe um tema com pelo menos 3 caracteres.").max(500),
   /** Contexto extraído de notícia/artigo (opcional), já resumido pelo /api/extract-link. */
   sourceContext: z.string().max(4000).optional(),
+  /** Briefing completo do Radar. Impede que gancho, ângulo e contexto se percam no clique. */
+  editorialBriefing: EditorialBriefingSchema.optional(),
   tone: z.enum(["didatico", "academico", "consultorio"]).default("didatico"),
   slideCount: z.number().int().min(7).max(10).default(9),
 });

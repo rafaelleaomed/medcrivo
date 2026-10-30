@@ -41,8 +41,30 @@ export function humanizeText(text: string): string {
     .trim();
 }
 
-function cloneAndHumanize(value: unknown, seen: WeakMap<object, unknown>): unknown {
-  if (typeof value === "string") return humanizeText(value);
+const TECHNICAL_FIELDS = new Set([
+  "id",
+  "framework",
+  "template",
+  "action",
+  "keyword",
+  "evidenceQuery",
+  "imagePrompt",
+  "imageUrl",
+  "url",
+  "doi",
+  "model",
+  "source",
+  "format",
+  "goal",
+  "status",
+  "profession",
+  "tone",
+  "createdAt",
+  "updatedAt",
+]);
+
+function cloneAndHumanize(value: unknown, seen: WeakMap<object, unknown>, field?: string): unknown {
+  if (typeof value === "string") return field && TECHNICAL_FIELDS.has(field) ? value : humanizeText(value);
   if (!value || typeof value !== "object") return value;
 
   const previous = seen.get(value);
@@ -51,7 +73,7 @@ function cloneAndHumanize(value: unknown, seen: WeakMap<object, unknown>): unkno
   if (Array.isArray(value)) {
     const output: unknown[] = [];
     seen.set(value, output);
-    for (const item of value) output.push(cloneAndHumanize(item, seen));
+    for (const item of value) output.push(cloneAndHumanize(item, seen, field));
     return output;
   }
 
@@ -64,7 +86,7 @@ function cloneAndHumanize(value: unknown, seen: WeakMap<object, unknown>): unkno
     Object.defineProperty(output, key, {
       configurable: true,
       enumerable: true,
-      value: cloneAndHumanize(item, seen),
+      value: cloneAndHumanize(item, seen, key),
       writable: true,
     });
   }

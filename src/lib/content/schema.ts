@@ -39,10 +39,11 @@ export const GeneratedPostSchema = z.object({
   framework: z.enum(FRAMEWORKS),
   angle: z.string().describe("Ângulo editorial escolhido em uma frase."),
   slides: z.array(GeneratedSlideSchema).describe("Entre 7 e 10 slides; o primeiro é capa_noticia e o último é cta."),
-  caption: z.string().describe("Legenda curta (até 300 caracteres) terminando com o CTA de comentário."),
+  caption: z.string().describe("Legenda curta (até 300 caracteres) com uma ação final coerente com a pauta."),
   cta: z.object({
-    keyword: z.string().describe("Palavra única em CAIXA ALTA que o seguidor comenta, ex.: GUIA."),
-    promise: z.string().describe("O que a pessoa recebe no direct ao comentar."),
+    action: z.enum(["comment", "save", "share", "follow", "none"]).optional().describe("Ação final coerente com a pauta. Comentário só quando houver uma entrega real."),
+    keyword: z.string().describe("Palavra única em CAIXA ALTA quando action=comment; vazia nos demais casos."),
+    promise: z.string().describe("Frase curta da ação final ou, quando action=comment, o que a pessoa recebe."),
     leadMagnetTitle: z.string(),
     leadMagnetOutline: z.array(z.string()).describe("Tópicos da isca (guia/checklist), 4 a 7."),
     dmMessage: z.string().describe("Mensagem enviada no direct a quem comentar a palavra."),
@@ -67,5 +68,5 @@ export interface PostDraft {
   audit: AuditResult;
   /** Apenas referências retornadas pela busca real; lista vazia quando nada foi encontrado. */
   evidence: ScientificPaper[];
-  generatedBy: { source: "claude" | "gemini" | "heuristica"; model?: string };
+  generatedBy: { source: "claude" | "gemini" | "heuristica"; model?: string; fallbackReason?: string };
 }

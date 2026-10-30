@@ -83,6 +83,8 @@ export function PostStudio({ draft, profile }: { draft: PostDraft; profile: Doct
   const total = draft.slides.length;
   const { audit } = draft;
   const council = councilLabel(profile);
+  const ctaAction = draft.cta.action ?? (/\b(comente|direct)\b/i.test(`${draft.caption} ${draft.slides.at(-1)?.headline ?? ""}`) ? "comment" : "save");
+  const ctaLabel = { comment: `Comente ${draft.cta.keyword}`, save: "Salvar", share: "Compartilhar", follow: "Acompanhar", none: "Fechamento" }[ctaAction];
 
   return (
     <section aria-labelledby="post-studio-title" className="-mx-4 sm:mx-0">
@@ -95,9 +97,14 @@ export function PostStudio({ draft, profile }: { draft: PostDraft; profile: Doct
         </div>
         <div className="mc-cell flex items-center gap-2 p-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:col-span-3 sm:justify-end">
           <Sparkles className="h-3.5 w-3.5" aria-hidden />
-          {draft.generatedBy.source !== "heuristica" ? (draft.generatedBy.model ?? "IA") : "Sem IA (reserva)"}
+          {draft.generatedBy.source !== "heuristica" ? (draft.generatedBy.model ?? "IA") : "Reserva editorial"}
         </div>
       </header>
+      {draft.generatedBy.source === "heuristica" && draft.generatedBy.fallbackReason ? (
+        <p className="border-x border-b border-[var(--border-subtle)] px-5 py-3 text-xs text-[var(--text-muted)]">
+          A IA não foi usada nesta geração: {draft.generatedBy.fallbackReason}
+        </p>
+      ) : null}
 
       <div className="mc-grid grid-cols-1 border-t-0 lg:grid-cols-[minmax(0,440px)_1fr]">
         {/* Slides */}
@@ -182,22 +189,28 @@ export function PostStudio({ draft, profile }: { draft: PostDraft; profile: Doct
             <p className="whitespace-pre-line text-sm">{draft.caption}</p>
           </Panel>
 
-          {/* Funil Comente PALAVRA */}
+          {/* Ação final coerente com o objetivo editorial. */}
           <Panel
             label={
               <span className="inline-flex items-center gap-1.5">
-                <MessageCircle className="h-3.5 w-3.5" aria-hidden /> Comente {draft.cta.keyword}
+                <MessageCircle className="h-3.5 w-3.5" aria-hidden /> {ctaLabel}
               </span>
             }
-            action={<CopyButton text={draft.cta.dmMessage} label="Copiar DM" />}
+            action={ctaAction === "comment" ? <CopyButton text={draft.cta.dmMessage} label="Copiar DM" /> : undefined}
           >
-            <p className="text-sm font-semibold">{draft.cta.leadMagnetTitle}</p>
-            <ul className="mt-1 list-disc pl-5 text-sm text-[var(--text-muted)]">
-              {draft.cta.leadMagnetOutline.map((t, i) => (
-                <li key={i}>{t}</li>
-              ))}
-            </ul>
-            <p className="mt-3 border-l-2 border-teal-600 pl-3 text-sm dark:border-lima">{draft.cta.dmMessage}</p>
+            {ctaAction === "comment" ? (
+              <>
+                <p className="text-sm font-semibold">{draft.cta.leadMagnetTitle}</p>
+                <ul className="mt-1 list-disc pl-5 text-sm text-[var(--text-muted)]">
+                  {draft.cta.leadMagnetOutline.map((t, i) => (
+                    <li key={i}>{t}</li>
+                  ))}
+                </ul>
+                <p className="mt-3 border-l-2 border-teal-600 pl-3 text-sm dark:border-lima">{draft.cta.dmMessage}</p>
+              </>
+            ) : (
+              <p className="text-sm">{draft.cta.promise}</p>
+            )}
           </Panel>
 
           {/* Evidências */}
